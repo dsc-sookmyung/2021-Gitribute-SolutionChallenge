@@ -1,7 +1,7 @@
 import React from 'react';
 import { Nav, NavLogo, NavLink, NavMenu, NavBtn, NavBtnLink } from './NavbarElements';
 import styled from 'styled-components';
-import MenuIcon from '@material-ui/icons/Menu';
+import Sidebar from './Sidebar';
 
 const NavBar = () => {
   return (
@@ -12,7 +12,7 @@ const NavBar = () => {
         LOGO
       </NavLogo>
       <BarWrapper>
-        <MenuIcon fontSize="large"/>
+        <Sidebar/>
       </BarWrapper>
       <NavMenu>
         <NavLink to='/' exact activeStyle>
