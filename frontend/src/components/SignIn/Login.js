@@ -9,10 +9,9 @@ import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles, createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+import { makeStyles, ThemeProvider } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import purple from '@material-ui/core/colors/purple';
-import green from '@material-ui/core/colors/green';
+import MyTheme from '../Common/MyTheme';
 
 function Copyright() {
   return (
@@ -39,33 +38,13 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.secondary.main,
   },
   form: {
-    width: '100%', // Fix IE 11 issue.
+    width: '100%',
     marginTop: theme.spacing(5),
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
 }));
-
-const customTheme = createMuiTheme({
-  typography: {
-    h1: {
-      fontSize: '2.5rem',
-      fontWeight: 'bold',
-      '@media (max-width:767px)': {
-        fontSize: '2rem',
-      },
-    }
-  },
-  palette: {
-    primary: {
-      main: purple[500],
-    },
-    secondary: {
-      main: green[500],
-    },
-  }
-});
 
 export default function Login() {
   const classes = useStyles();
@@ -79,7 +58,7 @@ export default function Login() {
           <LockOutlinedIcon />
         </Avatar>
         */}
-        <ThemeProvider theme={customTheme}>
+        <ThemeProvider theme={MyTheme}>
           <Typography variant="h1">
             Sign In
           </Typography>
@@ -107,14 +86,14 @@ export default function Login() {
               autoComplete="current-password"
             />
             <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
+              control={<Checkbox value="remember" color="secondary" />}
               label="Remember me"
             />
             <Button
               type="submit"
               fullWidth
               variant="contained"
-              color="primary"
+              color="secondary"
               className={classes.submit}
             >
               Sign In
