@@ -1,16 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles, ThemeProvider } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import TermPopup from './TermPopup';
-import MyTheme from '../Common/MyTheme';
+import CustomPopup from '../Common/CustomPopup';
+import IconButton from '@material-ui/core/IconButton';
+import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -21,25 +21,81 @@ const useStyles = makeStyles((theme) => ({
   },
   form: {
     width: '100%',
-    marginTop: theme.spacing(5),
+    marginTop: theme.spacing(3),
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  button: {
+    width: '100%',
+    marginTop: theme.spacing(2),
+  },
+  slogan: {
+    marginTop: theme.spacing(30),
+    display: 'flex',
+    justifyContent: 'center',
+    marginBottom: theme.spacing(12)
+  },
+  input: {
+    display: 'none'
+  }
 }));
 
 export default function Join() {
   const classes = useStyles();
+  const [role, setRole] = useState(0);
+
+  const joinRecipient = (e) => {
+    e.preventDefault();
+    setRole(1);
+  }
+
+  const joinDonor = (e) => {
+    e.preventDefault();
+    setRole(2);
+  }
 
   return (
     <Container component="main" maxWidth="xs">
-      <CssBaseline />
-      <div className={classes.paper}>
-        <ThemeProvider theme={MyTheme}>
-          <Typography variant="body1">
-            Join LOGO as a Recipient
-          </Typography>
-          <br />
+      { !role ? (
+        <>
+          <div className={classes.slogan}>
+            <Typography variant="h1">
+              Our Slogan ...
+            </Typography>
+          </div>
+          <div className={classes.button}>
+            <Button
+            fullWidth
+            variant="outlined"
+            color="secondary"
+            onClick={joinRecipient}
+            >
+              Register &nbsp; <strong>TODAY</strong> &nbsp; to be a &nbsp; <strong>recipient</strong>
+            </Button>
+          </div>
+          <div className={classes.button}>
+            <Button
+            fullWidth
+            variant="contained"
+            color="secondary"
+            onClick={joinDonor}
+            >
+              Register &nbsp; <strong>TODAY</strong> &nbsp; to be a &nbsp; <strong>donor</strong>
+            </Button>
+          </div>
+        </>
+      ) : (
+        <div className={classes.paper}>
+          { role === 1 ? (
+            <Typography variant="body1">
+              Join LOGO as a Recipient
+            </Typography>
+          ) : (
+            <Typography variant="body1">
+              Join LOGO as a Donor
+            </Typography>
+          )}
           <Typography variant="h1">
             Create Account
           </Typography>
@@ -75,9 +131,39 @@ export default function Join() {
               id="password"
               autoComplete="current-password"
             />
+            { role === 1 ? (
+              <div className={classes.button}>
+                <input
+                accept="image/*"
+                className={classes.input}
+                id="contained-button-file"
+                multiple
+                type="file"
+                />
+                <label htmlFor="contained-button-file">
+                  <Button variant="contained" color="primary" component="span">
+                    Upload Certificate
+                  </Button>
+                </label>
+                <CustomPopup 
+                  trigger={
+                    <IconButton color="primary" aria-label="help">
+                      <HelpOutlineIcon />
+                    </IconButton>} 
+                  title="help" 
+                  content="help ..." 
+                />
+              </div>
+            ) : ( null ) }
             <FormControlLabel
               control={<Checkbox value="agreeTerms" color="secondary" />}
-              label={<div>I Agree to &nbsp;<TermPopup/></div>}
+              label={<div>I Agree to &nbsp;
+                <CustomPopup 
+                  trigger="The Terms & Conditions"
+                  title="The Terms & Conditions"
+                  content="About terms and conditions"
+                />
+                </div>}
             />
             <Button
               type="submit"
@@ -96,8 +182,8 @@ export default function Join() {
               </Grid>
             </Grid>
           </form>
-        </ThemeProvider>
-      </div>
+        </div>
+      )}
     </Container>
   );
 }
