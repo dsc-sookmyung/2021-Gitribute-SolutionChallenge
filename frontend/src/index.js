@@ -3,10 +3,49 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { createMuiTheme, ThemeProvider } from '@material-ui/core';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import purple from '@material-ui/core/colors/purple';
+
+const theme = createMuiTheme({
+  palette: {
+    primary: { 
+      main: '#000',
+      // contrastText: '#fff',
+    },
+    secondary: { 
+      main: purple[500], 
+      // contrastText: '#fff', 
+    },
+  }, 
+  typography: {
+    h1: {
+      fontSize: '2.5rem',
+      fontWeight: 'bold',
+      '@media (max-width:767px)': {
+        fontSize: '2rem',
+      },
+    },
+    h2: {
+      fontSize: '1.5rem',
+      fontWeight: 'bold',
+    },
+    h3: {
+      fontSize: '1.25rem',
+      fontWeight: 'bold',
+    },
+    button: {
+      textTransform: 'none'
+    }
+  },
+});
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <App />
+    </ThemeProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );
