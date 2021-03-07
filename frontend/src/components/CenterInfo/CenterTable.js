@@ -10,10 +10,7 @@ import Collapse from '@material-ui/core/Collapse';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import IconButton from '@material-ui/core/IconButton';
-import StarBorderIcon from '@material-ui/icons/StarBorder';
-import StarIcon from '@material-ui/icons/Star';
+import Link from '@material-ui/core/Link';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -128,26 +125,16 @@ function Row({ id, center, favorite, setFavorite }) {
             </TableRow>
             <TableRow>
               <TableCell>
-                <FormControlLabel
-                control={
-                  <IconButton id={id} value="centerName" aria-label="star" onClick={(e) => {favorites(e, id, center.name, favorite, setFavorite)}}>
-                    { favorite === center.name ? <StarIcon/> : <StarBorderIcon /> }
-                  </IconButton>}
-                label={
-                  favorite === center.name ? 
-                  "My Primary Center" : "Save as Primary Center"
-                }
-                />
+                <Link href="#">
+                  { favorite === center.name ? 
+                    "⭐ My Primary Center" : "☆ Save as Primary Center" }
+                </Link>
               </TableCell>
             </TableRow>
             <TableRow>
               <TableCell>
+                <strong>❤ Number of Sanitary Pads</strong>
                 <Table className={classes.innerTable} aria-label="simple table">
-                  <TableHead>
-                    <TableRow>
-                      <TableCell><strong>Number of Sanitary Pads</strong></TableCell>
-                    </TableRow>
-                  </TableHead>
                   <TableBody>
                     {padNumber.map((pad) => {
                       return (
@@ -165,12 +152,13 @@ function Row({ id, center, favorite, setFavorite }) {
             </TableRow>
             <TableRow>
               <TableCell>
+                🔑 Password
+              </TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>
+                <strong>🕒 Hours of operation</strong>
                 <Table className={classes.innerTable} aria-label="simple table">
-                  <TableHead>
-                    <TableRow>
-                      <TableCell><strong>Hours of operation</strong></TableCell>
-                    </TableRow>
-                  </TableHead>
                   <TableBody>
                     {operationHours.map((row) => {
                       return (
@@ -186,6 +174,16 @@ function Row({ id, center, favorite, setFavorite }) {
                 </Table>
               </TableCell>
             </TableRow>
+            <TableRow>
+                <TableCell>
+                  📞 Phone Number
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell>
+                  📍 Location
+                </TableCell>
+              </TableRow>
           </Collapse>
         </TableCell>
       </TableRow>
@@ -237,16 +235,10 @@ export default function CenterTable() {
             <TableBody>
               <TableRow>
                 <TableCell>
-                  <FormControlLabel
-                  control={
-                    <IconButton value="centerName" onClick={Favorites(selectedCenter, favorite, setFavorite)} aria-label="star">
-                      { favorite === selectedCenter ? <StarIcon/> : <StarBorderIcon /> }
-                    </IconButton>}
-                  label={
-                    favorite === selectedCenter ? 
-                    "My Primary Center" : "Save as Primary Center"
-                  }
-                  />
+                  <Link href="#">
+                    { favorite === selectedCenter ? 
+                      "⭐ My Primary Center" : "☆ Save as Primary Center" }
+                  </Link>
                 </TableCell>
                 <TableCell rowSpan="5">
                 <Box component="span" m={1} px={25} py={30} className={classes.box}>
@@ -256,12 +248,8 @@ export default function CenterTable() {
               </TableRow>
               <TableRow>
                 <TableCell>
+                  <strong>❤ Number of Sanitary Pads</strong>
                   <Table className={classes.innerTable} aria-label="simple table">
-                    <TableHead>
-                      <TableRow>
-                        <TableCell><strong>Number of Sanitary Pads</strong></TableCell>
-                      </TableRow>
-                    </TableHead>
                     <TableBody>
                       {padNumber.map((pad) => {
                         return (
@@ -279,12 +267,13 @@ export default function CenterTable() {
               </TableRow>
               <TableRow>
                 <TableCell>
+                  🔑 Password
+                </TableCell>
+            </TableRow>
+              <TableRow>
+                <TableCell>
+                  <strong>🕒 Hours of operation</strong>
                   <Table className={classes.innerTable} aria-label="simple table">
-                    <TableHead>
-                      <TableRow>
-                        <TableCell><strong>Hours of operation</strong></TableCell>
-                      </TableRow>
-                    </TableHead>
                     <TableBody>
                       {operationHours.map((row) => (
                         <TableRow key={row.day}>
@@ -300,12 +289,12 @@ export default function CenterTable() {
               </TableRow>
               <TableRow>
                 <TableCell>
-                  Phone Number
+                  📞 Phone Number
                 </TableCell>
               </TableRow>
               <TableRow>
                 <TableCell>
-                  Location
+                  📍 Location
                 </TableCell>
               </TableRow>
             </TableBody>
