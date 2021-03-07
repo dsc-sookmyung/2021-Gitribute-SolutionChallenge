@@ -6,19 +6,9 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import Collapse from '@material-ui/core/Collapse';
-import Container from '@material-ui/core/Container';
+import styled from 'styled-components';
 
 const useStyles = makeStyles((theme) => ({
-  paper: {
-    padding: '2.5rem calc((100vw - 1193px) / 2 + 1rem)',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'flex-start',
-    justifyContent: 'flex-start',
-    '@media screen and (max-width: 1193px)': {
-      padding: '2.5rem 1rem'
-    },
-  },
   table: {
     [theme.breakpoints.up('md')]: {
       width: "1194px",
@@ -26,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
     width: "calc(100vw - 2rem)",
   },
   description: {
-    background: "#e9ecef",
+    background: "#f5f5f5"
   },
   hr: {
     [theme.breakpoints.up('md')]: {
@@ -53,7 +43,7 @@ const FAQ = () => {
     <div>
       image
     </div>
-    <Container component="main" className={classes.paper}>
+    <Container>
       <Typography variant="h3">
         FAQ
       </Typography>
@@ -116,7 +106,7 @@ const FAQ = () => {
       <Typography variant="h3" className={classes.title}>
         Please send your questions by email
       </Typography>
-      ✉ &nbsp; <strong>Email</strong> <br/ >
+      <strong>✉ Email</strong>
       sookmyung.ac.kr
     </Container>
     </>
@@ -124,3 +114,13 @@ const FAQ = () => {
 }
 
 export default FAQ;
+
+const Container = styled.div`
+  padding: 2.5rem calc((100vw - 1193px) / 2 + 1rem);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  @media screen and (max-width: 1193px) {
+    padding: 2.5rem 1rem;
+  }
+`;

@@ -1,24 +1,14 @@
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
 import Profile from './Profile';
+import styled from 'styled-components';
 
 import suhee from '../../Images/0hee0.jpg';
 import eunji from '../../Images/heleneunji.jpg';
 import jiyeon from '../../Images/hellouz818.png';
 
 const useStyles = makeStyles((theme) => ({
-  paper: {
-    padding: '2.5rem calc((100vw - 1193px) / 2 + 1rem)',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'flex-start',
-    justifyContent: 'flex-start',
-    '@media screen and (max-width: 1193px)': {
-      padding: '2.5rem 1rem'
-    },
-  },
   title: {
     paddingTop: theme.spacing(4),
     paddingBottom: theme.spacing(3)
@@ -48,7 +38,7 @@ const Contact = () => {
   const classes = useStyles();
 
   return (
-    <Container component="main" className={classes.paper}>
+    <Container>
       <Typography variant="h3" >
         Developers
       </Typography>
@@ -86,3 +76,13 @@ const Contact = () => {
 }
 
 export default Contact;
+
+const Container = styled.div`
+  padding: 2.5rem calc((100vw - 1193px) / 2 + 1rem);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  @media screen and (max-width: 1193px) {
+    padding: 2.5rem 1rem;
+  }
+`;

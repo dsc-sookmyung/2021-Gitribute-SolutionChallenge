@@ -4,19 +4,9 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import { Radio, RadioGroup, FormControl, FormControlLabel } from '@material-ui/core';
 import CenterTable from './CenterTable';
-import Container from '@material-ui/core/Container';
+import styled from 'styled-components';
 
 const useStyles = makeStyles((theme) => ({
-  paper: {
-    padding: '2.5rem calc((100vw - 1193px) / 2 + 1rem)',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'flex-start',
-    justifyContent: 'flex-start',
-    '@media screen and (max-width: 1193px)': {
-      padding: '2.5rem 1rem'
-    },
-  },
   select: {
     marginTop: theme.spacing(2),
     marginBottom: theme.spacing(6),
@@ -41,13 +31,14 @@ export default function CenterInfo() {
   }
 
   return (
-    <Container component="main" className={classes.paper}>
+    <Container>
       <Typography variant="h3">
         Search by location
       </Typography>
       <Grid container className={classes.select}>
         <FormControl component="fieldset">
         <RadioGroup 
+          defaultValue="전체"
           row aria-label="location" 
           onChange={changeLocation}
           className={classes.radio}  
@@ -114,3 +105,13 @@ export default function CenterInfo() {
     </Container>
   );
 }
+
+const Container = styled.div`
+  padding: 2.5rem calc((100vw - 1193px) / 2 + 1rem);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  @media screen and (max-width: 1193px) {
+    padding: 2.5rem 1rem;
+  }
+`;
