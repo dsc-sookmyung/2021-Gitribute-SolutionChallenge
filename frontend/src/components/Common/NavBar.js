@@ -1,15 +1,18 @@
-import React from 'react';
-import { Nav, NavLogo, NavLink, NavMenu, NavBtn, NavBtnLink } from './NavbarElements';
+import React, { useState } from 'react';
+import { Nav, NavLogo, NavLink, NavMenu, NavBtn, NavBtnLink, NavBtnUser } from './NavbarElements';
 import styled from 'styled-components';
 import Sidebar from './Sidebar';
+import UserInfo from './UserInfo';
 
 const NavBar = () => {
+  const [role, setRole] = useState(0);
+
   return (
     <Nav>
       {/* 로그인 전 메인 : about 
           로그인 후 메인 : center */}
       <NavLogo to='/'>
-        LOGO
+        Blooming
       </NavLogo>
       <BarWrapper>
         <Sidebar/>
@@ -29,7 +32,14 @@ const NavBar = () => {
         </NavLink>
       </NavMenu>
       <NavBtn>
-        <NavBtnLink to='/login'>Sign&nbsp;In</NavBtnLink>
+        { role === 0 ? (
+          <NavBtnLink to='/login'>Sign&nbsp;In</NavBtnLink>
+        ) : (
+          <UserInfo
+          trigger={ <NavBtnUser>User</NavBtnUser> }
+          role={0} 
+          userName="User" />
+        )}
       </NavBtn>
     </Nav>
   );

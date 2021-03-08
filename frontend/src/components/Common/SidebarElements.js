@@ -10,7 +10,7 @@ export const NavIcon = styled(Link)`
 `;
 
 export const SidebarNav = styled.nav`
-  background: #000;
+  background: #fff;
   width: 232px;
   height: 100vh;
   display: flex;
@@ -20,6 +20,7 @@ export const SidebarNav = styled.nav`
   left: ${({ sidebar }) => (sidebar ? '0' : '-100%')};
   transition: 350ms;
   z-index: 10;
+  box-shadow: 3px 3px 3px 1px rgba(0, 0, 0, 0.1);
 `;
 
 export const SidebarWrap = styled.div`
@@ -28,7 +29,7 @@ export const SidebarWrap = styled.div`
 
 export const SidebarLink = styled(Link)`
   display: flex;
-  color: #fff;
+  color: #000;
   justify-content: space-between;
   align-items: center;
   padding: 1.25rem;
@@ -37,7 +38,7 @@ export const SidebarLink = styled(Link)`
   text-decoration: none;
   font-size: 1rem;
   &:hover {
-    background: #252831;
+    background: #f3e5f5;
     border-left: 4px solid #9c27b0;    // purple[500]
     cursor: pointer;
   }

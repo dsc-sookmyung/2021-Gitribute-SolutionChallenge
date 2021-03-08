@@ -11,7 +11,7 @@ const Sidebar = () => {
 
   return (
     <>
-      <MenuIcon onClick={showSidebar} fontSize="large" />
+      <MenuIcon onClick={showSidebar} fontSize="large" style={{ color: "000" }} />
       <SidebarNav sidebar={sidebar}>
         <SidebarWrap>
           <NavIcon to='#'>
