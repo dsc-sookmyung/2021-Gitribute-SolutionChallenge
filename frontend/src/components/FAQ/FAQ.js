@@ -7,6 +7,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import Collapse from '@material-ui/core/Collapse';
 import styled from 'styled-components';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 const useStyles = makeStyles((theme) => ({
   table: {
@@ -16,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
     width: "calc(100vw - 2rem)",
   },
   description: {
-    background: "#f5f5f5"
+    background: "#f3e5f5"
   },
   hr: {
     [theme.breakpoints.up('md')]: {
@@ -104,10 +105,21 @@ const FAQ = () => {
         </TableBody>
       </Table>
       <Typography variant="h3" className={classes.title}>
-        Please send your questions by email
+        Contact Us
       </Typography>
-      <strong>✉ Email</strong>
-      sookmyung.ac.kr
+      <FormControlLabel
+        control={<a 
+          target="_blank" 
+          href="https://forms.gle/cXMVQLwAEEhsUoaf9"
+          style={{ 
+            backgroundImage: `url("https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Google_Forms_2020_Logo.svg/1200px-Google_Forms_2020_Logo.svg.png")`,
+            backgroundPosition: 'center',
+            backgroundSize: 'cover',
+            backgroundRepeat: 'no-repeat',
+            width: "4rem", height: "6rem" }} />}
+        label="🔗 Form"
+        labelPlacement="top"
+      />
     </Container>
     </>
   );

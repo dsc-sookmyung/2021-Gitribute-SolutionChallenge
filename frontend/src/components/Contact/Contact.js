@@ -3,6 +3,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Profile from './Profile';
 import styled from 'styled-components';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 import suhee from '../../Images/0hee0.jpg';
 import eunji from '../../Images/heleneunji.jpg';
@@ -44,22 +45,22 @@ const Contact = () => {
       </Typography>
       <div className={classes.profile}>
         <Profile
-          name={"서희"}
+          name={"Suh Hee"}
           email={"suhee0206@gmail.com"}
           image={suhee}
           github={"0hee0"}
           role={"front-end"}
         />
         <Profile 
-          name={"권은지"}
-          email={"email"}
+          name={"Kwon Eunji"}
+          email={"heleneunji@gmail.com"}
           image={eunji}
           github={"heleneunji"}
           role={"back-end"} 
         />
         <Profile 
-          name={"유지연"}
-          email={"email"}
+          name={"Yoo Jiyeon"}
+          email={"hellouz818@gmail.com"}
           image={jiyeon}
           github={"hellouz818"}
           role={"back-end"}
@@ -69,8 +70,19 @@ const Contact = () => {
       <Typography variant="h3" className={classes.title}>
         Contact Us
       </Typography>
-      ✉ &nbsp; <strong>Email</strong> <br/ >
-      sookmyung.ac.kr
+      <FormControlLabel
+        control={<a 
+          target="_blank" 
+          href="https://forms.gle/cXMVQLwAEEhsUoaf9"
+          style={{ 
+            backgroundImage: `url("https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Google_Forms_2020_Logo.svg/1200px-Google_Forms_2020_Logo.svg.png")`,
+            backgroundPosition: 'center',
+            backgroundSize: 'cover',
+            backgroundRepeat: 'no-repeat',
+            width: "4rem", height: "6rem" }} />}
+        label="🔗 Form"
+        labelPlacement="top"
+      />
     </Container>
   );
 }
