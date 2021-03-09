@@ -31,10 +31,10 @@ export const NavLink = styled(Link)`
   padding: 0 1rem;
   height: 100%;
   cursor: pointer;
-  &.active {
+  &:hover {
     color: #9c27b0;
   }
-  &: hover {
+  &:focus {
     color: #9c27b0;
   }
 `;
@@ -70,17 +70,16 @@ export const NavBtnLink = styled(Link)`
   text-decoration: none;
   &:hover {
     transition: all 0.2s ease-in-out;
-    // background: #fff;
     color: #9c27b0;
   }
-  &.active {
+  &:focus {
     color: #9c27b0;
   }
 `;
 
 export const NavBtnUser = styled.div`
   padding: 0rem 1rem;
-  color: #fff;
+  color: #000;
   outline: none;
   border: none;
   cursor: pointer;
@@ -88,10 +87,9 @@ export const NavBtnUser = styled.div`
   text-decoration: none;
   &:hover {
     transition: all 0.2s ease-in-out;
-    // background: #fff;
     color: #9c27b0;
   }
-  &.active {
+  &:focus {
     color: #9c27b0;
   }
 `;
