@@ -11,6 +11,7 @@ import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import Link from '@material-ui/core/Link';
+import CountInputForm from './CountInputForm';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -43,6 +44,9 @@ const useStyles = makeStyles((theme) => ({
   },
   box: {
     border: "1px solid #000"
+  },
+  maptr: {
+    height: "19.8rem"
   }
 }));
 
@@ -90,7 +94,7 @@ function Favorites(name, favorite, setFavorite) {
   }, [favorite]);
 }
 
-function Row({ id, center, favorite, setFavorite }) {
+function Row({ id, center, favorite, setFavorite, role }) {
   const [open, setOpen] = useState(false);
   const classes = useStyles();
 
@@ -118,17 +122,19 @@ function Row({ id, center, favorite, setFavorite }) {
           <Collapse in={open} timeout="auto" unmountOnExit>
             <TableRow>
               <TableCell>
-                <Box component="span" m={1} px={25} py={2} className={classes.box}>
+                <Box component="span" m={1} px={20} py={2} className={classes.box}>
                   map
                 </Box>
               </TableCell>
             </TableRow>
             <TableRow>
               <TableCell>
-                <Link href="#">
-                  { favorite === center.name ? 
-                    "⭐ My Primary Center" : "☆ Save as Primary Center" }
-                </Link>
+                <a 
+                  href="#" 
+                  style={{ textDecoration: "inherit", color: "inherit" }}>
+                    { favorite === center.name ? 
+                      "⭐ My Primary Center" : "☆ Save as Primary Center" }
+                </a>
               </TableCell>
             </TableRow>
             <TableRow>
@@ -150,11 +156,13 @@ function Row({ id, center, favorite, setFavorite }) {
                 </Table>
               </TableCell>
             </TableRow>
-            <TableRow>
-              <TableCell>
-                🔑 Password
-              </TableCell>
-            </TableRow>
+            { role === 1 ? (
+                <TableRow>
+                  <TableCell>
+                    🔑 Password
+                  </TableCell>
+                </TableRow>
+              ) : null }
             <TableRow>
               <TableCell>
                 <strong>🕒 Hours of operation</strong>
@@ -195,6 +203,7 @@ export default function CenterTable() {
   const classes = useStyles();
   const [favorite, setFavorite] = useState("Baengma");
   const [selectedCenter, setSelectedCenter] = useState("Baengma");
+  const [role, setRole] = useState(1);
 
   return (
     <Grid container className={classes.table}>
@@ -204,7 +213,7 @@ export default function CenterTable() {
         <Table className={classes.table} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell><strong>Center</strong></TableCell>          </TableRow>
+              <TableCell><strong>Center</strong></TableCell></TableRow>
           </TableHead>
           <TableBody>
             {centerName.map((center) => {
@@ -212,7 +221,7 @@ export default function CenterTable() {
                 <TableRow 
                   key={center.name} 
                   className="chooseitems" 
-                  hover 
+                  hover
                   onClick={ShowDetail(center.name, selectedCenter, setSelectedCenter)}>
                   <TableCell className="chooseItemActive">
                     {center.name} Center
@@ -224,26 +233,23 @@ export default function CenterTable() {
         </Table>
       </TableContainer>
       </Grid>
-      <Grid item md={9}>
+      <Grid item md={3}>
         <TableContainer className={classes.tablePCCenterInfo} component={Paper}>
           <Table className={classes.table} aria-label="simple table">
             <TableHead>
               <TableRow>
-                <TableCell colSpan={2}><strong>Center Information</strong></TableCell>
+                <TableCell style={{ borderRight: "none" }}><strong>Center Information</strong></TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               <TableRow>
                 <TableCell>
-                  <Link href="#">
-                    { favorite === selectedCenter ? 
-                      "⭐ My Primary Center" : "☆ Save as Primary Center" }
-                  </Link>
-                </TableCell>
-                <TableCell rowSpan="5">
-                <Box component="span" m={1} px={25} py={30} className={classes.box}>
-                  map
-                </Box>
+                  <a 
+                    href="#" 
+                    style={{ textDecoration: "inherit", color: "inherit" }}>
+                      { favorite === selectedCenter ? 
+                        "⭐ My Primary Center" : "☆ Save as Primary Center" }
+                  </a>
                 </TableCell>
               </TableRow>
               <TableRow>
@@ -265,11 +271,13 @@ export default function CenterTable() {
                   </Table>
                 </TableCell>
               </TableRow>
-              <TableRow>
-                <TableCell>
-                  🔑 Password
-                </TableCell>
-            </TableRow>
+              { role === 1 ? (
+                <TableRow>
+                  <TableCell>
+                    🔑 Password
+                  </TableCell>
+                </TableRow>
+              ) : null }
               <TableRow>
                 <TableCell>
                   <strong>🕒 Hours of operation</strong>
@@ -301,13 +309,38 @@ export default function CenterTable() {
           </Table>
         </TableContainer>
       </Grid>
+      <Grid item md={6}>
+        <TableContainer className={classes.tablePCCenterInfo} component={Paper}>
+          <Table className={classes.table} aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell style={{ borderLeft: "none" }}>&nbsp;</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              <TableRow className={classes.maptr}>
+                <TableCell>
+                  <Box component="span" m={1} px={20} py={15} className={classes.box}>
+                    map
+                  </Box>
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell style={{ paddingBottom: "0.4rem" }}>
+                  <CountInputForm />
+                </TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Grid>
       {/* Mobile */}
       <Grid item md={12}>
         <TableContainer className={classes.tableMobile} component={Paper}>
         <Table className={classes.table} aria-label="simple table">
           <TableBody>
             {centerName.map((center, index) => (
-              <Row key={center.name} id={index} className="chooseitmes" center={center} favorite={favorite} setFavorite={setFavorite} />
+              <Row key={center.name} id={index} className="chooseitmes" center={center} favorite={favorite} setFavorite={setFavorite} role={role}/>
             ))}
           </TableBody>
         </Table>
