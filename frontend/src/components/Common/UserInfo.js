@@ -1,7 +1,6 @@
 import React from "react";
 import styled from 'styled-components';
 import Popup from "reactjs-popup";
-import Button from '@material-ui/core/Button';
 
 const contentStyle = {
   position: "absolute",
