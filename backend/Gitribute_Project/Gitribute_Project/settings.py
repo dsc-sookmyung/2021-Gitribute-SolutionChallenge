@@ -42,10 +42,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework.authtoken',
-    'account',
+    'accounts',
+    
 ]
 
-AUTH_USER_MODEL = 'account.User'
+AUTH_USER_MODEL = 'accounts.User'
 
 ## DRF 
 REST_FRAMEWORK = {
@@ -77,8 +78,8 @@ JWT_AUTH = {
     'JWT_SECRET_KEY': SECRET_KEY,
     'JWT_ALGORITHM': 'HS256', # 암호화 알고리즘
     'JWT_ALLOW_REFRESH': True, # refresh 사용 여부
-    'JWT_EXPIRATION_DELTA': timedelta(days=30), # 유효기간 설정
-    'JWT_REFRESH_EXPIRATION_DELTA': timedelta(days=30), # JWT 토큰 갱신 유효기간
+    'JWT_EXPIRATION_DELTA': timedelta(days=7), # 유효기간 설정
+    'JWT_REFRESH_EXPIRATION_DELTA': timedelta(days=28), # JWT 토큰 갱신 유효기간
     # import datetime 상단에 import 하기
 }
 
@@ -172,3 +173,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+MEDIA_URL = '/media/'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

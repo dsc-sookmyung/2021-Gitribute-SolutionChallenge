@@ -1,3 +1,5 @@
 from django.contrib import admin
 
-# Register your models here.
+"""
+추후 수정 필요
+"""
