@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function PasswordReset() {
+export default function ForgotPassword() {
   
   const classes = useStyles();
 
@@ -32,11 +32,12 @@ export default function PasswordReset() {
     <Container component="main" maxWidth="xs">
       <div className={classes.paper}>
         <Typography variant="h1">
-          Reset your password
+          Forgot your password?
         </Typography>
         <div className={classes.description}>
           <Typography variant="body2">
-            Enter your new password
+            Enter your user account's verified email address 
+            and we will send you a password reset link.
           </Typography>
         </div>
         <form className={classes.form} noValidate>
@@ -45,21 +46,10 @@ export default function PasswordReset() {
             margin="normal"
             required
             fullWidth
-            id="newpassword"
-            label="New password"
-            name="newpassword"
-            autoComplete="newpw"
-            autoFocus
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="repassword"
-            label="Retype new password"
-            name="repassword"
-            autoComplete="renewpw"
+            id="email"
+            label="Email Address"
+            name="email"
+            autoComplete="email"
             autoFocus
           />
           <Button
@@ -69,7 +59,7 @@ export default function PasswordReset() {
             color="secondary"
             className={classes.submit}
           >
-            Reset your password
+            Send password reset email 
           </Button>
         </form>
       </div>
