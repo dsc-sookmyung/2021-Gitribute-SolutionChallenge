@@ -1,4 +1,11 @@
 import React, { useState } from 'react';
+import { Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { register } from '../../actions/Auth';
+import { createMessage } from '../../actions/Messages';
+
+import { useForm, Controller } from 'react-hook-form';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -41,9 +48,22 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function Join() {
+const Join = ({ isAuthenticated }) => {
+  const { handleSubmit, control, errors: fieldsErrors, reset } = useForm();
   const classes = useStyles();
   const [role, setRole] = useState(0);
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [password2, setPassword2] = useState("");
+  const [usernameCheck, setusernameCheck] = useState("");
+  const [emailCheck, setEmailCheck] = useState("");
+  const [passwordCheck, setPasswordCheck] = useState("");
+
+  const propTypes = {
+    register: PropTypes.func.isRequired,
+    isAuthenticated: PropTypes.bool,
+  };
 
   const joinRecipient = (e) => {
     e.preventDefault();
@@ -53,6 +73,37 @@ export default function Join() {
   const joinDonor = (e) => {
     e.preventDefault();
     setRole(2);
+  }
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    if (password !== password2) {
+      createMessage({ passwordNotMatch: 'Passwords do not match' });
+    } else {
+      const newUser = {
+        username,
+        email,
+        password,
+      };
+      register(newUser);
+    }
+  }
+
+  const handleEmail = (e) => {
+    setEmail(e.target.value);
+  }
+  
+  const handleUsername = (e) => {
+    alert(e.target.value);
+    setUsername(e.target.value);
+  };
+
+  const handlePassword = (e) => {
+    setPassword(e.target.value);
+  };
+
+  if (isAuthenticated) {
+    return <Redirect to="/" />;
   }
 
   return (
@@ -99,38 +150,95 @@ export default function Join() {
           <Typography variant="h1">
             Create Account
           </Typography>
-          <form className={classes.form} noValidate>
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              id="username"
-              label="Username"
+          <form className={classes.form} onSubmit={onSubmit}>
+            <Controller
               name="username"
-              autoComplete="uname"
+              as={
+                <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                id="username"
+                label="Username"
+                autoComplete="uname"
+                helperText={fieldsErrors.username ? fieldsErrors.username.message : null}
+                error={fieldsErrors.username}
+                value={username}
+                onChange={([ e ]) => {
+                  handleUsername(e);
+                  return e.target.value;
+                }}
+                />  
+              }
+              control={control}
+              defaultValue=""
+              rules={{
+                required: true,
+                pattern: {
+                  value: /^(?=[a-zA-Z0-9._]{2,16}$)(?!.*[_.]{2})[^_.].*[^_.]$/,
+                  message: 'invalid username'
+                }
+              }}
             />
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email Address"
+            <Controller
               name="email"
-              autoComplete="email"
+              as={
+                <TextField
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="email"
+                  label="Email Address"
+                  autoComplete="email"
+                  helperText={fieldsErrors.email ? fieldsErrors.email.message : null}
+                  error={fieldsErrors.email}
+                  value={email}
+                  onChange={([ e ]) => {
+                    handleEmail(e);
+                    return e.target.value;
+                  }}
+                />
+              }
+              control={control}
+              defaultValue=""
+              rules={{
+                required: 'Required',
+                pattern: {
+                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                  message: 'invalid email address'
+                }
+              }}
             />
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
+            <Controller
               name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
+              as={                
+                <TextField
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  label="Password"
+                  type="password"
+                  id="password"
+                  autoComplete="current-password"
+                  helperText={fieldsErrors.password ? fieldsErrors.password.message : null}
+                  error={fieldsErrors.password}
+                  value={password}
+                  onChange={([ e ]) => {
+                    handlePassword(e);
+                    return e.target.value;
+                  }}
+                />
+              }
+              control={control}
+              defaultValue=""
+              rules={{
+                required: 'Required'
+              }}
             />
+
             { role === 1 ? (
               <div className={classes.button}>
                 <input
@@ -187,3 +295,9 @@ export default function Join() {
     </Container>
   );
 }
+
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+});
+
+export default connect(mapStateToProps, { register, createMessage })(Join);
