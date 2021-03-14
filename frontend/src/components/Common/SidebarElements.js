@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 export const NavIcon = styled(Link)`
   display: flex;
-  justify-content: flex-start;
+  justify-content: flex-end;
   align-items: center;
   padding: 0 1rem;
   height: 5rem;
@@ -17,7 +17,7 @@ export const SidebarNav = styled.nav`
   justify-content: center;
   position: fixed;
   top: 0;
-  left: ${({ sidebar }) => (sidebar ? '0' : '-100%')};
+  right: ${({ sidebar }) => (sidebar ? '0' : '-100%')};
   transition: 350ms;
   z-index: 10;
   box-shadow: 3px 3px 3px 1px rgba(0, 0, 0, 0.1);
