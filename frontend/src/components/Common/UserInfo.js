@@ -13,8 +13,8 @@ const contentStyle = {
   borderRadius: "4px",
 };
 
-const UserInfo = ({ trigger, role, userName }) => (
-  <>
+const UserInfo = ({ trigger, currentUser, logout }) => {
+  return (
     <Popup
       trigger={<a href="#">{trigger}</a>}
       modal
@@ -22,33 +22,33 @@ const UserInfo = ({ trigger, role, userName }) => (
     >
       {close => (
         <>
-        { role === 1 ? (
+        { currentUser.role === 1 ? (
           <div className="modal">
             <Title>Available</Title>
-            <Content>Total &nbsp;&nbsp; 8</Content>
+            <Content>Total &nbsp;&nbsp; {currentUser.total}</Content>
             <hr style={{border: "solid 0.1px #e9ecef", transform: "scaleY(0.5)", width: "90%"}} />
-            <Title>Sign Out</Title>
+            <a href="#" onClick={logout}><Title>Sign Out</Title></a>
           </div>           
         ) : (
-          role === 2 ? (
+          currentUser.role === 2 ? (
             <div className="modal">
               <Title>Level</Title>
-              <Content>🌱 7</Content>
+              <Content>🌱 {currentUser.level}</Content>
               <hr style={{border: "solid 0.1px #e9ecef", transform: "scaleY(0.5)", width: "90%"}} />
               <Title>Donation</Title>
-              <Content>Panty Liner 3</Content>
-              <Content>Medium 1</Content>
-              <Content>Large 2</Content>
-              <Content>Overnight 1</Content>
+              <Content>Panty Liner {currentUser.liner}</Content>
+              <Content>Medium {currentUser.medium}</Content>
+              <Content>Large {currentUser.large}</Content>
+              <Content>Overnight {currentUser.overnight}</Content>
               <hr style={{border: "solid 0.1px #e9ecef", transform: "scaleY(0.5)", width: "90%"}} />
-              <Title>Sign Out</Title>
+              <a href="#" onClick={logout}><Title>Sign Out</Title></a>
             </div>           
           ) : null )}
         </>
       )}
     </Popup>
-  </>
-);
+  );
+};
 
 export default UserInfo;
 
