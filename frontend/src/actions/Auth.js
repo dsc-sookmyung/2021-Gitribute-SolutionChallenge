@@ -18,7 +18,7 @@ export const loadUser = () => (dispatch, getState) => {
   dispatch({ type: USER_LOADING });
 
   axios
-    .get('/api/auth/user', tokenConfig(getState))
+    .get('http://localhost:8000/users/signup/', tokenConfig(getState))
     .then((res) => {
       dispatch({
         type: USER_LOADED,
@@ -43,17 +43,19 @@ export const login = (email, password) => (dispatch) => {
   };
 
   // Request Body
-  const body = JSON.stringify({ email, password });
+  const body = JSON.stringify({ email: email.toString(), password: password.toString() });
 
   axios
-    .post('/api/auth/login', body, config)
+    .post('http://localhost:8000/users/login/', body, config)
     .then((res) => {
+      dispatch(alert("RESPONSE: "+res.success));
       dispatch({
         type: LOGIN_SUCCESS,
         payload: res.data,
       });
     })
     .catch((err) => {
+      dispatch(alert("Error: "+err));
       dispatch(returnErrors(err.response.data, err.response.status));
       dispatch({
         type: LOGIN_FAIL,
@@ -62,19 +64,18 @@ export const login = (email, password) => (dispatch) => {
 };
 
 // REGISTER USER
-export const register = ({ username, password, email }) => (dispatch) => {
+export const register = ({ username, email, password, role }) => (dispatch) => {
   // Headers
   const config = {
     headers: {
       'Content-Type': 'application/json',
     },
   };
-
   // Request Body
-  const body = JSON.stringify({ username, email, password });
+  const body = JSON.stringify({  email: email.toString(), username: username.toString(), password: password.toString(), role: role });
 
   axios
-    .post('/api/auth/register', body, config)
+    .post('http://localhost:8000/users/signup/', body, config)
     .then((res) => {
       dispatch({
         type: REGISTER_SUCCESS,
@@ -94,7 +95,6 @@ export const logout = () => (dispatch, getState) => {
   axios
     .post('/api/auth/logout/', null, tokenConfig(getState))
     .then((res) => {
-      dispatch({ type: 'CLEAR_LEADS' });
       dispatch({
         type: LOGOUT_SUCCESS,
       });
