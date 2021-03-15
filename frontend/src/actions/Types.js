@@ -1,3 +1,8 @@
+export const GET_STAR = 'GET_STAR';
+export const DELETE_STAR = 'DELETE_STAR';
+export const ADD_STAR = 'ADD_STAR';
+export const GET_CENTER = 'GET_CENTER';
+export const HANDLE_PAD = 'HANDLE_PAD';
 export const GET_ERRORS = "GET_ERRORS";
 export const CREATE_MESSAGE = "CREATE_MESSAGE";
 export const USER_LOADING = "USER_LOADING";
