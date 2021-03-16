@@ -1,9 +1,5 @@
 import React, { useState } from 'react';
-import { Redirect } from 'react-router-dom';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { register } from '../../actions/Auth';
-import { createMessage } from '../../actions/Messages';
+import AuthService from '../../services/auth.service';
 
 import { useForm, Controller } from 'react-hook-form';
 import Button from '@material-ui/core/Button';
@@ -48,22 +44,16 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const Join = ({ isAuthenticated }) => {
-  const { handleSubmit, control, errors: fieldsErrors, reset } = useForm();
+const Join = (props) => {
+  const { handleSubmit, control, errors: fieldsErrors } = useForm();
   const classes = useStyles();
   const [role, setRole] = useState(0);
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [password2, setPassword2] = useState("");
-  const [usernameCheck, setusernameCheck] = useState("");
-  const [emailCheck, setEmailCheck] = useState("");
-  const [passwordCheck, setPasswordCheck] = useState("");
-
-  const propTypes = {
-    register: PropTypes.func.isRequired,
-    isAuthenticated: PropTypes.bool,
-  };
+  const [image, setImage] = useState("");
+  const [successful, setSuccessful] = useState(false);
+  const [message, setMessage] = useState("");
 
   const joinRecipient = (e) => {
     e.preventDefault();
@@ -75,26 +65,11 @@ const Join = ({ isAuthenticated }) => {
     setRole(2);
   }
 
-  const onSubmit = (e) => {
-    e.preventDefault();
-    if (password !== password2) {
-      createMessage({ passwordNotMatch: 'Passwords do not match' });
-    } else {
-      const newUser = {
-        username,
-        email,
-        password,
-      };
-      register(newUser);
-    }
-  }
-
   const handleEmail = (e) => {
     setEmail(e.target.value);
   }
   
   const handleUsername = (e) => {
-    alert(e.target.value);
     setUsername(e.target.value);
   };
 
@@ -102,8 +77,43 @@ const Join = ({ isAuthenticated }) => {
     setPassword(e.target.value);
   };
 
-  if (isAuthenticated) {
-    return <Redirect to="/" />;
+  /* NEED FIX */
+  const handleUpload = (e) => {
+    e.preventDefault();
+    if (e.target.files[0]) {
+      const reader = new FileReader();
+      const file = e.target.files[0];
+      reader.onload = () => {
+        setImage(reader.result);
+        console.log(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+
+    setMessage("");
+    setSuccessful(false);
+
+    AuthService.register(username, email, password, role, image).then(
+      (response) => {
+        setMessage(response.data.message);
+        setSuccessful(true);
+      },
+      (error) => {
+        const resMessage =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+
+        setMessage(resMessage);
+        setSuccessful(false);
+      }
+    );
   }
 
   return (
@@ -151,102 +161,57 @@ const Join = ({ isAuthenticated }) => {
             Create Account
           </Typography>
           <form className={classes.form} onSubmit={onSubmit}>
-            <Controller
-              name="username"
-              as={
-                <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                id="username"
-                label="Username"
-                autoComplete="uname"
-                helperText={fieldsErrors.username ? fieldsErrors.username.message : null}
-                error={fieldsErrors.username}
-                value={username}
-                onChange={([ e ]) => {
-                  handleUsername(e);
-                  return e.target.value;
-                }}
-                />  
-              }
-              control={control}
-              defaultValue=""
-              rules={{
-                required: true,
-                pattern: {
-                  value: /^(?=[a-zA-Z0-9._]{2,16}$)(?!.*[_.]{2})[^_.].*[^_.]$/,
-                  message: 'invalid username'
-                }
-              }}
-            />
-            <Controller
+            <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            id="username"
+            name="username"
+            label="Username"
+            autoComplete="uname"
+            helperText={fieldsErrors.username ? fieldsErrors.username.message : null}
+            error={fieldsErrors.username}
+            value={username}
+            onChange={handleUsername}
+            />  
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              id="email"
               name="email"
-              as={
-                <TextField
-                  variant="outlined"
-                  margin="normal"
-                  required
-                  fullWidth
-                  id="email"
-                  label="Email Address"
-                  autoComplete="email"
-                  helperText={fieldsErrors.email ? fieldsErrors.email.message : null}
-                  error={fieldsErrors.email}
-                  value={email}
-                  onChange={([ e ]) => {
-                    handleEmail(e);
-                    return e.target.value;
-                  }}
-                />
-              }
-              control={control}
-              defaultValue=""
-              rules={{
-                required: 'Required',
-                pattern: {
-                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-                  message: 'invalid email address'
-                }
-              }}
+              label="Email Address"
+              autoComplete="email"
+              helperText={fieldsErrors.email ? fieldsErrors.email.message : null}
+              error={fieldsErrors.email}
+              value={email}
+              onChange={handleEmail}
             />
-            <Controller
-              name="password"
-              as={                
-                <TextField
-                  variant="outlined"
-                  margin="normal"
-                  required
-                  fullWidth
-                  label="Password"
-                  type="password"
-                  id="password"
-                  autoComplete="current-password"
-                  helperText={fieldsErrors.password ? fieldsErrors.password.message : null}
-                  error={fieldsErrors.password}
-                  value={password}
-                  onChange={([ e ]) => {
-                    handlePassword(e);
-                    return e.target.value;
-                  }}
-                />
-              }
-              control={control}
-              defaultValue=""
-              rules={{
-                required: 'Required'
-              }}
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              label="Password"
+              type="password"
+              id="password"
+              autoComplete="current-password"
+              helperText={fieldsErrors.password ? fieldsErrors.password.message : null}
+              error={fieldsErrors.password}
+              value={password}
+              onChange={handlePassword}
             />
-
             { role === 1 ? (
               <div className={classes.button}>
                 <input
-                accept="image/*"
-                className={classes.input}
-                id="contained-button-file"
-                multiple
-                type="file"
+                  accept="image/*"
+                  className={classes.input}
+                  id="contained-button-file"
+                  multiple
+                  type="file"
+                  onChange={handleUpload}
                 />
                 <label htmlFor="contained-button-file">
                   <Button variant="contained" color="primary" component="span">
@@ -289,6 +254,16 @@ const Join = ({ isAuthenticated }) => {
                 </Link>
               </Grid>
             </Grid>
+            {message && (
+              <div className="form-group">
+                <div
+                  className={ successful ? "alert alert-success" : "alert alert-danger" }
+                  role="alert"
+                >
+                  {message}
+                </div>
+              </div>
+            )}
           </form>
         </div>
       )}
@@ -296,8 +271,4 @@ const Join = ({ isAuthenticated }) => {
   );
 }
 
-const mapStateToProps = (state) => ({
-  isAuthenticated: state.auth.isAuthenticated,
-});
-
-export default connect(mapStateToProps, { register, createMessage })(Join);
+export default Join;

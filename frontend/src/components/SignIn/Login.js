@@ -1,33 +1,15 @@
 import React, { useState } from 'react';
-import { Redirect } from 'react-router-dom';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { login } from '../../actions/Auth'; 
+import AuthService from '../../services/auth.service';
 
-import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -49,20 +31,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Login = ({ isAuthenticated }) => {
+const Login = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");  
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
   const classes = useStyles();
-
-  const propTypes = {
-    login: PropTypes.func.isRequired,
-    isAuthenticated: PropTypes.bool,
-  };
-
-  const onSubmit = (e) => {
-    e.preventDefault();
-    login(email, password);
-  }
 
   const handleEmail = (e) => {
     setEmail(e.target.value);
@@ -72,8 +46,29 @@ const Login = ({ isAuthenticated }) => {
     setPassword(e.target.value);
   }
 
-  if (isAuthenticated) {
-    return <Redirect to="/" />;
+  const handleLogin = (e) => {
+    e.preventDefault();
+
+    setMessage("");
+    setLoading(true);
+
+    AuthService.login(email, password).then(
+      () => {
+        props.history.push("/center");
+        window.location.reload();
+      },
+      (error) => {
+        const resMessage =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+
+        setLoading(false);
+        setMessage(resMessage);
+      }
+    );
   }
 
   return (
@@ -87,7 +82,7 @@ const Login = ({ isAuthenticated }) => {
         <Typography variant="h1">
           Sign In
         </Typography>
-        <form className={classes.form} onSubmit={onSubmit}>
+        <form className={classes.form} onSubmit={handleLogin}>
           <TextField
             variant="outlined"
             margin="normal"
@@ -139,17 +134,8 @@ const Login = ({ isAuthenticated }) => {
           </Grid>
         </form>
       </div>
-      {/*
-      <Box mt={8}>
-        <Copyright />
-      </Box>
-      */}
     </Container>
   );
 }
 
-const mapStateToProps = (state) => ({
-  isAuthenticated: state.auth.isAuthenticated,
-});
-
-export default connect(mapStateToProps, { login })(Login);
+export default Login;
