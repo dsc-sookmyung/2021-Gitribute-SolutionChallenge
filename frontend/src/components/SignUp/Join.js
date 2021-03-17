@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+/* eslint-disable */
+import React, { useEffect, useState } from 'react';
 import AuthService from '../../services/auth.service';
 
 import { useForm, Controller } from 'react-hook-form';
@@ -14,6 +15,9 @@ import Container from '@material-ui/core/Container';
 import CustomPopup from '../Common/CustomPopup';
 import IconButton from '@material-ui/core/IconButton';
 import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -51,9 +55,31 @@ const Join = (props) => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [image, setImage] = useState("");
+  const [isChecked, setIsChecked] = useState(false);
+  const [usernameError, setUsernameError] = useState(false);
+  const [emailError, setEmailError] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
   const [successful, setSuccessful] = useState(false);
   const [message, setMessage] = useState("");
+
+  useEffect(() => {
+    username.length > 8 ? setUsernameError(true) : setUsernameError(false);
+  }, [username])
+
+  useEffect(() => {
+    if (email.length !== 0) {
+      const re = /^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
+      setEmailError(!re.test(email));
+    }
+  }, [email])
+  
+  useEffect(() => {
+    if (password.length !== 0) {
+      password.length < 8 ? setPasswordError(true) : setPasswordError(false);
+    }
+  }, [password])
 
   const joinRecipient = (e) => {
     e.preventDefault();
@@ -64,18 +90,30 @@ const Join = (props) => {
     e.preventDefault();
     setRole(2);
   }
-
-  const handleEmail = (e) => {
-    setEmail(e.target.value);
-  }
   
   const handleUsername = (e) => {
     setUsername(e.target.value);
   };
 
+  const handleEmail = (e) => {
+    setEmail(e.target.value);
+  }
+
   const handlePassword = (e) => {
     setPassword(e.target.value);
   };
+
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword);
+  }
+
+  const handleMouseDownPassword = (e) => {
+    e.preventDefault();
+  };
+
+  const handleCheck = (e) => {
+    setIsChecked(e.target.checked);
+  }
 
   /* NEED FIX */
   const handleUpload = (e) => {
@@ -83,11 +121,15 @@ const Join = (props) => {
     if (e.target.files[0]) {
       const reader = new FileReader();
       const file = e.target.files[0];
+      /*
       reader.onload = () => {
         setImage(reader.result);
         console.log(reader.result);
       };
       reader.readAsDataURL(file);
+      */
+     console.log(file);
+     setImage(file);
     }
   }
 
@@ -97,23 +139,47 @@ const Join = (props) => {
     setMessage("");
     setSuccessful(false);
 
-    AuthService.register(username, email, password, role, image).then(
-      (response) => {
-        setMessage(response.data.message);
-        setSuccessful(true);
-      },
-      (error) => {
-        const resMessage =
-          (error.response &&
-            error.response.data &&
-            error.response.data.message) ||
-          error.message ||
-          error.toString();
+    if (usernameError || emailError || passwordError) {
+      return (
+        alert("Please enter in the correct format")
+      )
+    }
 
-        setMessage(resMessage);
-        setSuccessful(false);
+    if (role === 1) {
+      if (!image) {
+        return (
+          alert("Please upload certificate")
+        )
       }
-    );
+    }
+
+    if (!isChecked) {
+      return (
+        alert("You must agree to the terms and conditions")
+      )
+    }
+
+    AuthService.register(username, email, password, role, image)
+    .then((response) => {
+      setMessage(response.data.message);
+      setSuccessful(true);
+
+      alert("Sign up is complete!");
+
+      props.history.push("/login");
+    })
+    .catch((error) => {
+      const resMessage =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+
+      setMessage(resMessage);
+      alert(resMessage);
+      setSuccessful(false);
+    })
   }
 
   return (
@@ -170,8 +236,8 @@ const Join = (props) => {
             name="username"
             label="Username"
             autoComplete="uname"
-            helperText={fieldsErrors.username ? fieldsErrors.username.message : null}
-            error={fieldsErrors.username}
+            helperText={usernameError && ('Username length cannot exceed 8 characters')}
+            error={usernameError}
             value={username}
             onChange={handleUsername}
             />  
@@ -184,8 +250,8 @@ const Join = (props) => {
               name="email"
               label="Email Address"
               autoComplete="email"
-              helperText={fieldsErrors.email ? fieldsErrors.email.message : null}
-              error={fieldsErrors.email}
+              helperText={emailError && ('Invalid Email')}
+              error={emailError}
               value={email}
               onChange={handleEmail}
             />
@@ -197,11 +263,24 @@ const Join = (props) => {
               label="Password"
               type="password"
               id="password"
+              type={showPassword ? 'text' : 'password'}
               autoComplete="current-password"
-              helperText={fieldsErrors.password ? fieldsErrors.password.message : null}
-              error={fieldsErrors.password}
+              helperText={passwordError && ('Password must be at least 8 characters.')}
+              error={passwordError}
               value={password}
               onChange={handlePassword}
+              InputProps={{
+                endAdornment:
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                    >
+                      {showPassword ? <Visibility /> : <VisibilityOff />}
+                    </IconButton>
+                  </InputAdornment>
+              }}
             />
             { role === 1 ? (
               <div className={classes.button}>
@@ -229,7 +308,7 @@ const Join = (props) => {
               </div>
             ) : ( null ) }
             <FormControlLabel
-              control={<Checkbox value="agreeTerms" color="secondary" />}
+              control={<Checkbox value="agreeTerms" color="secondary" onChange={handleCheck} />}
               label={<div>I Agree to &nbsp;
                 <CustomPopup 
                   trigger="The Terms & Conditions"
@@ -254,16 +333,6 @@ const Join = (props) => {
                 </Link>
               </Grid>
             </Grid>
-            {message && (
-              <div className="form-group">
-                <div
-                  className={ successful ? "alert alert-success" : "alert alert-danger" }
-                  role="alert"
-                >
-                  {message}
-                </div>
-              </div>
-            )}
           </form>
         </div>
       )}
