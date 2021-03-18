@@ -89,6 +89,19 @@ class UserLoginSerializer(serializers.Serializer):
     def validate(self, data):
         email = data.get("email", None)
         password = data.get("password", None)
+        
+        #Email does not exist in User
+        try:
+            useremail = User.objects.get(email=email)
+        except User.DoesNotExist:
+            useremail = 'NoExist'
+
+        if useremail == 'NoExist':
+            return {
+                'email' : 'NoExist'
+            }
+
+        #Email and Password is not correct
         user = authenticate(email=email, password=password)
 
         if user is None:
