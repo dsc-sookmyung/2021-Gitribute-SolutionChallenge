@@ -14,13 +14,13 @@ def createUser(request):
         num = request.data["role"]
         print(num)
 
-        #num이 1이면 Donor, 2이면 Receiver
+        #num이 1이면 Receiver, 2이면 Donor
         if int(num) == 1:
-            print("donor시리얼라이저")
-            serializer = DonorCreateSerializer(data=request.data)
-        elif int(num) == 2:
             print("receiver시리얼라이저")
             serializer = ReceiverCreateSerializer(data=request.data)
+        elif int(num) == 2:
+            print("donor시리얼라이저")
+            serializer = DonorCreateSerializer(data=request.data)
         else:
             print("validated_serializer 오류")
 
@@ -47,7 +47,10 @@ def login(request):
         if not serializer.is_valid(raise_exception=True):
             return Response({"message": "Request Body Error."}, status=status.HTTP_409_CONFLICT)
         if serializer.validated_data['email'] == "None":
-            return Response({'message': 'fail'}, status=status.HTTP_200_OK)
+            return Response({'message': 'Password Error'}, status=status.HTTP_200_OK)
+        if serializer.validated_data['email'] == "NoExist":
+            return Response({'message': 'No Email'}, status=status.HTTP_200_OK)
+        #if serializer.validate_data['password']
 
         response = {
             'success': 'True',
