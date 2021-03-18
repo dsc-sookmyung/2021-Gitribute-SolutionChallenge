@@ -2,7 +2,7 @@ from django.shortcuts import render
 from rest_framework import status, viewsets
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 
 from .serializers import DonorCreateSerializer, ReceiverCreateSerializer, UserLoginSerializer
 from .models import User
@@ -86,3 +86,75 @@ def login(request):
             }
         
         return Response(response, status=status.HTTP_200_OK)
+
+
+@api_view(['GET', 'PUT'])
+@permission_classes([IsAuthenticated])
+def mypage(request):
+    if request.method == 'GET':
+        user = User.objects.get(username = request.user)
+        if user.role == 1:
+
+            response = {
+                'username' : user.username,
+                'role' : user.role,
+                'center': user.center,
+                'total' : user.total,
+            }
+
+        if user.role == 2:
+            
+            response = {
+                'username' : user.username,
+                'role': user.role,
+                'ceneter': user.center,
+                'level' : user.level,
+                'liner' : user.liner,
+                'medium' : user.medium,
+                'large' : user.large,
+                'overnight' : user.overnight,
+            }
+            
+
+        return Response(response, status=status.HTTP_200_OK)
+
+    if request.method == 'PUT':
+        user = User.objects.get(username = request.user)
+        print(user.role)
+        if user.role == 1:
+            print("Receiver")
+            num = int(request.data['liner']) + int(request.data['medium']) + int(request.data['large']) + int(request.data['overnight'])
+            user.total -= num
+
+            if user.total < 0:
+                user.total += num
+                return Response({'message': 'Availability limit exceeded. Please check again.'})
+
+            user.save()
+
+        if user.role == 2:
+            print("Donor")
+
+            #print(type(user.liner)) -> int
+            #print(type(request.data['liner'])) -> str
+            
+            user.liner += int(request.data['liner'])
+            user.medium += int(request.data['medium'])
+            user.large += int(request.data['large'])
+            user.overnight += int(request.data['overnight'])
+
+            total = user.liner + user.medium + user.large + user.overnight
+            print(total)
+            if total > 50:
+                user.level = 4
+            elif total > 30:
+                user.level = 3
+            elif total > 10:
+                user.level = 2
+            else:
+                user.level = 1
+
+            user.save()
+
+        return Response({'message':'put request'})
+    
