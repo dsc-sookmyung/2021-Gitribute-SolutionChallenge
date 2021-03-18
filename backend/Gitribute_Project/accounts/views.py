@@ -50,10 +50,39 @@ def login(request):
             return Response({'message': 'Password Error'}, status=status.HTTP_200_OK)
         if serializer.validated_data['email'] == "NoExist":
             return Response({'message': 'No Email'}, status=status.HTTP_200_OK)
-        #if serializer.validate_data['password']
 
-        response = {
-            'success': 'True',
-            'token': serializer.data['token']
-        }
+        #Login한 User에 따라 Front에 값 다른 response값(+token) 보내줌, LS에 저장
+        who = User.objects.get(email=serializer.data['email'])
+        print(who.role)
+        if who.role == 1:
+            print("Receiver입니다.")
+            response = {
+                'username' : who.username,
+                'role' : who.role,
+                'center': who.center,
+                'total' : who.total,
+                'success': 'True',
+                'token': serializer.data['token']
+
+            }
+        elif who.role == 2:
+            print("Donor입니다.")
+            response = {
+                'username' : who.username,
+                'role': who.role,
+                'ceneter': who.center,
+                'level' : who.level,
+                'liner' : who.liner,
+                'medium' : who.medium,
+                'large' : who.large,
+                'overnight' : who.overnight,
+                'success': 'True',
+                'token': serializer.data['token']
+            }
+        else:
+            print("Error")
+            response = {
+                'success' : 'False'
+            }
+        
         return Response(response, status=status.HTTP_200_OK)
