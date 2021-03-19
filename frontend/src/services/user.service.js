@@ -1,11 +1,20 @@
-import axios from "return axios";
+import axios from "axios";
 import authHeader from "./auth-header";
 
-const API_URL = "http://localhost:8000/users/";
+const API_URL_MYPAGE = "http://localhost:8000/users/mypage/";
+const API_URL_CENTER = "http://localhost:8000/center/";
+
+const getUserInfo = () => {
+  return axios
+    .get(API_URL_MYPAGE, { headers: authHeader() })
+    .then((response) => {
+      return JSON.parse(response.data);
+    })
+}
 
 const getDefaultCenter = (region) => {
   return axios
-    .post(API_URL + "center/", region)
+    .post(API_URL_CENTER, region, { headers: authHeader() })
     .then((response) => {
       return JSON.parse(response.data);  
     });
@@ -13,10 +22,10 @@ const getDefaultCenter = (region) => {
 
 const getCenter = (region, center) => {
   return axios
-    .post(API_URL + "center/", {
+    .post(API_URL_CENTER, {
       region, 
       center
-    })
+    }, { headers: authHeader() })
     .then((response) => {
       return JSON.parse(response.data);
     })
@@ -24,37 +33,29 @@ const getCenter = (region, center) => {
 
 const handlePad = (center, padCount) => {
   return axios
-    .post(API_URL + "center/", {
+    .post(API_URL_MYPAGE, {
       center, 
       padCount
-    })
+    }, { headers: authHeader() })
     .then((response) => {
       return JSON.parse(response.data);
     })
 };
 
-// ADD STAR
-const addStar = (star) => {
+// ADD DELETE STAR
+const handleStar = (star) => {
   return axios
-    .post(API_URL + "star/", star)
+    .post(API_URL_MYPAGE, star, { headers: authHeader() })
     .then((response) => {
-      return JSON.parse(response.data);
-    })
-};
-
-// DELETE STAR
-const deleteStar = (star) => {
-  return axios
-    .post(API_URL + "star/", star)
-    .then((response) => {
+      alert(response.data);
       return JSON.parse(response.data);
     })
 };
 
 export default {
+  getUserInfo,
   getDefaultCenter,
   getCenter,
   handlePad,
-  addStar,
-  deleteStar
+  handleStar
 };
