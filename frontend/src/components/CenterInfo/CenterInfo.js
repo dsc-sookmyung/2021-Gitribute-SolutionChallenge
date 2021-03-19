@@ -1,4 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import AuthService from '../../services/auth.service';
+import UserService from '../../services/user.service';
+
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
@@ -24,10 +27,38 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function CenterInfo() {
+  const [role, setRole] = useState(0);
+  const [currentUser, setCurrentUser] = useState(undefined);
+  const [star, setStar] = useState(undefined);
+  const [region, setRegion] = useState("전체");
+  const [centerNames, setCenterNames] = useState({});
   const classes = useStyles();
 
-  const changeLocation = (e) => {
-    e.preventDefault();
+  useEffect(() => {
+    const user = AuthService.getCurrentUser();
+
+    if (user) {
+      setCurrentUser(user);
+      setRole(user.role);
+      
+      if (user.center) {
+        setStar(user.center);
+      }
+    }
+
+    setCenterNames(UserService.getDefaultCenter(region));
+  }, []);
+
+  useEffect(() => {
+    console.log(JSON.stringify(currentUser));
+  }, [currentUser]);
+
+  useEffect(() => {
+    setCenterNames(UserService.getDefaultCenter(region));
+  }, [region]);
+
+  const changeRegion = (e) => {
+    setRegion(e.target.value);
   }
 
   return (
@@ -40,7 +71,7 @@ export default function CenterInfo() {
         <RadioGroup 
           defaultValue="전체"
           row aria-label="location" 
-          onChange={changeLocation}
+          onChange={changeRegion}
           className={classes.radio}  
         >
           <Grid item xs={6} sm={3}>
@@ -101,7 +132,7 @@ export default function CenterInfo() {
         </RadioGroup>
         </FormControl>
       </Grid>
-      <CenterTable className={classes.table} />
+      <CenterTable className={classes.table} role={role} region={region} star={star} centerNames={centerNames} />
     </Container>
   );
 }

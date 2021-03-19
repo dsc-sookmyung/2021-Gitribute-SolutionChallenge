@@ -1,11 +1,59 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Nav, NavLogo, NavLink, NavMenu, NavBtn, NavBtnLink, NavBtnUser } from './NavbarElements';
-import styled from 'styled-components';
+import styled, { StyleSheetManager } from 'styled-components';
 import Sidebar from './Sidebar';
 import UserInfo from './UserInfo';
 
+import AuthService from '../../services/auth.service';
+
 const NavBar = () => {
   const [role, setRole] = useState(0);
+  const [username, setUsername] = useState("USER");
+  const [currentUser, setCurrentUser] = useState(undefined);
+  const [levelIcon, setLevelIcon] = useState("🌱");
+  const [star, setStar] = useState(undefined);
+
+  useEffect(() => {
+    const user = AuthService.getCurrentUser();
+
+    if (user) {
+      setCurrentUser(user);
+      setRole(user.role);
+      setUsername(user.username);
+      
+      alert("Center:"+JSON.stringify(user));
+      if (user.ceneter) {
+        setStar(user.ceneter);
+      }
+
+      if (user.level) {
+        user.level <= 10 ? (
+          setLevelIcon("🌱")
+        ) : (
+          user.level < 30 ? (
+            setLevelIcon("☘")
+          ) : (
+            user.level < 50 ? (
+              setLevelIcon("🍀")
+            ) : (
+                setLevelIcon("🌼")
+            )
+          )
+        )
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    console.log(JSON.stringify(currentUser));
+  }, [currentUser]);
+
+  const logout = () => {
+    AuthService.logout();
+    setRole(0);
+    setUsername("USER");
+    setStar(undefined);
+  }
 
   return (
     <Nav>
@@ -15,14 +63,18 @@ const NavBar = () => {
         Blooming
       </NavLogo>
       <BarWrapper>
-        <Sidebar/>
+        <Sidebar role={role} currentUser={currentUser} logout={logout} levelIcon={levelIcon} star={star} />
       </BarWrapper>
       <NavMenu>
         <NavLink to='/' exact activeStyle>
           About
         </NavLink>
         <NavLink to='/center' activeStyle>
-          Choose your local LOGO Center
+          {!star ? (
+            "Choose your local LOGO Center"
+          ) : (
+            "Primary Center: 📍"+star
+          )}
         </NavLink>
         <NavLink to='/faq' activeStyle>
           FAQ
@@ -32,14 +84,15 @@ const NavBar = () => {
         </NavLink>
       </NavMenu>
       <NavBtn>
-        { role === 0 ? (
-          <NavBtnLink to='/login'>Sign&nbsp;In</NavBtnLink>
-        ) : (
-          <UserInfo
-          trigger={ <NavBtnUser>User</NavBtnUser> }
-          role={0} 
-          userName="User" />
-        )}
+      {role === 0 ? (
+        <NavBtnLink to='/login'>Sign&nbsp;In</NavBtnLink>
+      ) : (
+        <UserInfo
+        trigger={ <NavBtnUser>{username}</NavBtnUser> }
+        currentUser={currentUser}
+        logout={logout}
+        levelIcon={levelIcon} />
+      )}
       </NavBtn>
     </Nav>
   );

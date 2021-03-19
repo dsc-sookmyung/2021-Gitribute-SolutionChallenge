@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import AuthService from '../../services/auth.service';
+import UserService from '../../services/user.service';
 
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -10,6 +11,8 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import CustomPopup from '../Common/CustomPopup';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -52,10 +55,23 @@ const Login = (props) => {
     setMessage("");
     setLoading(true);
 
-    AuthService.login(email, password).then(
-      () => {
-        props.history.push("/center");
-        window.location.reload();
+    AuthService.login(email, password)
+    .then(
+      (data) => {
+      if (data.message === "No Email") {
+        setLoading(false);
+        return(
+          alert(data.message)
+        )
+      }
+      else if (data.message === "Password Error") {
+        setLoading(false);
+        return (
+          alert(data.message)
+        )
+      }
+      props.history.push("/center");
+      window.location.reload();
       },
       (error) => {
         const resMessage =
@@ -68,17 +84,12 @@ const Login = (props) => {
         setLoading(false);
         setMessage(resMessage);
       }
-    );
+    )
   }
 
   return (
     <Container component="main" maxWidth="xs">
       <div className={classes.paper}>
-        {/*
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
-        */}
         <Typography variant="h1">
           Sign In
         </Typography>
@@ -117,8 +128,13 @@ const Login = (props) => {
             variant="contained"
             color="secondary"
             className={classes.submit}
+            disabled={loading}
           >
-            Sign In
+            { loading ? (
+              <CircularProgress color="secondary" />
+            ) : (
+              <div>Sign In</div>
+            )}
           </Button>
           <Grid container>
             <Grid item xs>

@@ -13,7 +13,7 @@ const contentStyle = {
   borderRadius: "4px",
 };
 
-const UserInfo = ({ trigger, currentUser, logout }) => {
+const UserInfo = ({ trigger, currentUser, logout, levelIcon }) => {
   return (
     <Popup
       trigger={<a href="#">{trigger}</a>}
@@ -33,7 +33,7 @@ const UserInfo = ({ trigger, currentUser, logout }) => {
           currentUser.role === 2 ? (
             <div className="modal">
               <Title>Level</Title>
-              <Content>🌱 {currentUser.level}</Content>
+              <Content>{levelIcon} {currentUser.level}</Content>
               <hr style={{border: "solid 0.1px #e9ecef", transform: "scaleY(0.5)", width: "90%"}} />
               <Title>Donation</Title>
               <Content>Panty Liner {currentUser.liner}</Content>
