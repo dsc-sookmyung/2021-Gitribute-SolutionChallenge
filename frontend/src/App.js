@@ -11,31 +11,22 @@ import PasswordForgot from './components/PasswordReset/ForgotPassword';
 import PasswordReset from './components/PasswordReset/PasswordReset';
 import { Switch } from 'react-router-dom/cjs/react-router-dom.min';
 
-import { Provider } from 'react-redux';
-import store from './store';
-import { loadUser } from '../src/actions/Auth';
-
 function App() {
-  useEffect(() => {
-    store.dispatch(loadUser());
-  }, []);
 
   return (
-    <Provider store={store}>
-      <Router>
-        <Navbar />
-        <Switch>
-          <Route path='/' exact component={About} />
-          <Route path='/center' component={CenterInfo} />
-          <Route path='/join' component={Join} />
-          <Route path='/login' component={Login} />
-          <Route path='/faq' component={FAQ} />
-          <Route path='/contact' component={Contact} />
-          <Route path='/password_reset' component={PasswordReset} />
-          <Route path='/password_forgot' component={PasswordForgot} />
-        </Switch>
-      </Router>
-    </Provider>
+    <Router>
+      <Navbar />
+      <Switch>
+        <Route path='/' exact component={About} />
+        <Route path='/center' component={CenterInfo} />
+        <Route path='/join' component={Join} />
+        <Route path='/login' component={Login} />
+        <Route path='/faq' component={FAQ} />
+        <Route path='/contact' component={Contact} />
+        <Route path='/password_reset' component={PasswordReset} />
+        <Route path='/password_forgot' component={PasswordForgot} />
+      </Switch>
+    </Router>
   );
 }
 
