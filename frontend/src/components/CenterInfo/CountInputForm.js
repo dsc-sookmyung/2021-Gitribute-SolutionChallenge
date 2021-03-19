@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function CenterInfo() {
+export default function CenterInfo({ role, handlePad }) {
   const [checkedType, setCheckedType] = useState([]);
   const [linerCounter, setLinerCounter] = useState(0);
   const [mediumCounter, setMediumCounter] = useState(0);
@@ -75,7 +75,11 @@ export default function CenterInfo() {
 
   return (
     <Container>
-      <strong>❤ Choose the types of sanitary pad you want to take</strong>
+      { role === 2 ? (
+        <strong>❤ Choose the types of sanitary pad you brought</strong>
+      ) : (
+        <strong>❤ Choose the types of sanitary pad you want to take</strong>
+      )}
       <Grid container className={classes.select}>
         <Grid item xs={6}> 
           <FormControlLabel
@@ -102,23 +106,30 @@ export default function CenterInfo() {
           />
         </Grid>
       </Grid>
-      <strong>👀 Enter the original number and the number you want to take</strong>
+      { role === 2 ? (
+        <strong>👀 Enter the original number and the number you brought</strong>
+      ) : (
+        <strong>👀 Enter the original number and the number you want to take</strong>
+      )}
       <Grid container className={classes.select}>
-        <Grid item xs={6}> 
-          <Typography className={classes.label} variant="body2">Panty Liner</Typography>
-          <Input 
-            className={classes.input}
-            type="number" />
-          <ButtonGroup size="small">
-            { linerCounter > 0 ? (
-              <Button onClick={handleLinerDecrement}>-</Button>
-            ) : (
-              <Button disabled>-</Button>
-            )}
-            <Button disabled>{linerCounter}</Button>
-            <Button onClick={handleLinerIncrement}>+</Button>
-          </ButtonGroup>
-        </Grid>
+        { checkedType["liner"] ? (
+          <Grid item xs={6}> 
+            <Typography className={classes.label} variant="body2">Panty Liner</Typography>
+            <Input 
+              className={classes.input}
+              type="number" />
+            <ButtonGroup size="small">
+              { linerCounter > 0 ? (
+                <Button onClick={handleLinerDecrement}>-</Button>
+              ) : (
+                <Button disabled>-</Button>
+              )}
+              <Button disabled>{linerCounter}</Button>
+              <Button onClick={handleLinerIncrement}>+</Button>
+            </ButtonGroup>
+          </Grid>
+        ) : null }
+        { checkedType["medium"] ? (
         <Grid item xs={6}> 
           <Typography className={classes.label} variant="body2">Medium</Typography>
           <Input 
@@ -134,6 +145,8 @@ export default function CenterInfo() {
             <Button onClick={handleMediumIncrement}>+</Button>
           </ButtonGroup>
         </Grid>
+        ) : null }
+        { checkedType["large"] ? (
         <Grid item xs={6}> 
           <Typography className={classes.label} variant="body2">Large</Typography>
           <Input 
@@ -148,7 +161,10 @@ export default function CenterInfo() {
             <Button disabled>{largeCounter}</Button>
             <Button onClick={handleLargeIncrement}>+</Button>
           </ButtonGroup>
-        </Grid><Grid item xs={6}> 
+        </Grid>
+        ) : null }
+        { checkedType["overnight"] ? (
+        <Grid item xs={6}> 
           <Typography className={classes.label} variant="body2">Overnight</Typography>
           <Input 
             className={classes.input}
@@ -163,8 +179,8 @@ export default function CenterInfo() {
             <Button onClick={handleOvernightIncrement}>+</Button>
           </ButtonGroup>
         </Grid>
-      </Grid>
-      
+        ) : null }  
+        </Grid>    
       <Button
           onClick={handleSubmit}
           type="submit"
