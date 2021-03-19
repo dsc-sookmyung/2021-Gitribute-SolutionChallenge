@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import UserService from '../../services/user.service';
+
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -12,7 +14,7 @@ import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import Link from '@material-ui/core/Link';
 import CountInputForm from './CountInputForm';
-
+import MapContainer from './MapContainer';
 
 const useStyles = makeStyles((theme) => ({
   table: {
@@ -26,12 +28,14 @@ const useStyles = makeStyles((theme) => ({
   tablePCCenter: {
     [theme.breakpoints.down('sm')]: {
       display: "none"
-    },   
+    },
+    height: "28rem"
   },
   tablePCCenterInfo: {
     [theme.breakpoints.down('sm')]: {
       display: "none"
     },   
+    height: "28rem"
   },
   tableMobile: {
     [theme.breakpoints.up('md')]: {
@@ -42,12 +46,6 @@ const useStyles = makeStyles((theme) => ({
   innerTable: {
     minWidth: 200,
   },
-  box: {
-    border: "1px solid #000"
-  },
-  maptr: {
-    height: "19.8rem"
-  }
 }));
 
 function createCenterName(name, order) {
@@ -80,11 +78,13 @@ const operationHours = [
   createOperationData('Sat', '10am - 5pm'),
 ]
 
+/*
 function ShowDetail(name, selectedCenter, setSelectedCenter) {
   useEffect(() => {
     setSelectedCenter(name);
   }, [selectedCenter]);
 }
+*/
 
 function Favorites(name, favorite, setFavorite) {
   useEffect(() => {
@@ -94,21 +94,9 @@ function Favorites(name, favorite, setFavorite) {
   }, [favorite]);
 }
 
-function Row({ id, center, favorite, setFavorite, role }) {
+function Row({ id, center, role, star }) {
   const [open, setOpen] = useState(false);
   const classes = useStyles();
-
-  const favorites = (e, id, name, favorite, setFavorite) => {
-    e.preventDefault();
-    console.log(e.target.id);
-    console.log("id"+id);
-    if (id === e.target.id) {
-      console.log("SAME");
-      setFavorite(name);
-      console.log("FAV: "+favorite);
-      console.log("CENTER: "+name);  
-    }
-  }
 
   return (
     <>
@@ -122,9 +110,7 @@ function Row({ id, center, favorite, setFavorite, role }) {
           <Collapse in={open} timeout="auto" unmountOnExit>
             <TableRow>
               <TableCell>
-                <Box component="span" m={1} px={20} py={2} className={classes.box}>
-                  map
-                </Box>
+                <MapContainer lat={41.3797} lng={2.1682} />
               </TableCell>
             </TableRow>
             <TableRow>
@@ -132,7 +118,7 @@ function Row({ id, center, favorite, setFavorite, role }) {
                 <a 
                   href="#" 
                   style={{ textDecoration: "inherit", color: "inherit" }}>
-                    { favorite === center.name ? 
+                    { star === center.name ? 
                       "⭐ My Primary Center" : "☆ Save as Primary Center" }
                 </a>
               </TableCell>
@@ -165,33 +151,9 @@ function Row({ id, center, favorite, setFavorite, role }) {
               ) : null }
             <TableRow>
               <TableCell>
-                <strong>🕒 Hours of operation</strong>
-                <Table className={classes.innerTable} aria-label="simple table">
-                  <TableBody>
-                    {operationHours.map((row) => {
-                      return (
-                        <TableRow key={row.day}>
-                          <TableCell component="th" scope="row">
-                            {row.day}
-                          </TableCell>
-                          <TableCell align="right">{row.hour}</TableCell>
-                        </TableRow>
-                      );
-                    })}
-                  </TableBody>
-                </Table>
+                📍 Location
               </TableCell>
             </TableRow>
-            <TableRow>
-                <TableCell>
-                  📞 Phone Number
-                </TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell>
-                  📍 Location
-                </TableCell>
-              </TableRow>
           </Collapse>
         </TableCell>
       </TableRow>
@@ -199,11 +161,26 @@ function Row({ id, center, favorite, setFavorite, role }) {
   );
 }
 
-export default function CenterTable() {
+const CenterTable = ({ role, region, star, centerNames }) => {
   const classes = useStyles();
-  const [favorite, setFavorite] = useState("Baengma");
   const [selectedCenter, setSelectedCenter] = useState("Baengma");
-  const [role, setRole] = useState(1);
+  const [centerInfo, setCenterInfo] = useState({});
+  const [showForm, setShowForm] = useState(false);
+  
+  useEffect(() => {
+
+  }, [selectedCenter]);
+
+  const showDetail = (e, name) => {
+    e.preventDefault();
+    setCenterInfo(UserService.getCenter(region, name));
+    alert(UserService.getCenter(region, name));
+    // GET center info
+  }
+
+  const handleMarker = (e) => {
+    setShowForm(!showForm);
+  }
 
   return (
     <Grid container className={classes.table}>
@@ -222,7 +199,7 @@ export default function CenterTable() {
                   key={center.name} 
                   className="chooseitems" 
                   hover
-                  onClick={ShowDetail(center.name, selectedCenter, setSelectedCenter)}>
+                  onClick={(e) => {showDetail(e, center.name)}}>
                   <TableCell className="chooseItemActive">
                     {center.name} Center
                   </TableCell>
@@ -246,8 +223,9 @@ export default function CenterTable() {
                 <TableCell>
                   <a 
                     href="#" 
+                    onClick={() => UserService.handleStar(selectedCenter)}
                     style={{ textDecoration: "inherit", color: "inherit" }}>
-                      { favorite === selectedCenter ? 
+                      { star === selectedCenter ? 
                         "⭐ My Primary Center" : "☆ Save as Primary Center" }
                   </a>
                 </TableCell>
@@ -280,28 +258,6 @@ export default function CenterTable() {
               ) : null }
               <TableRow>
                 <TableCell>
-                  <strong>🕒 Hours of operation</strong>
-                  <Table className={classes.innerTable} aria-label="simple table">
-                    <TableBody>
-                      {operationHours.map((row) => (
-                        <TableRow key={row.day}>
-                          <TableCell component="th" scope="row">
-                            {row.day}
-                          </TableCell>
-                          <TableCell align="right">{row.hour}</TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell>
-                  📞 Phone Number
-                </TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell>
                   📍 Location
                 </TableCell>
               </TableRow>
@@ -318,18 +274,18 @@ export default function CenterTable() {
               </TableRow>
             </TableHead>
             <TableBody>
-              <TableRow className={classes.maptr}>
-                <TableCell>
-                  <Box component="span" m={1} px={20} py={15} className={classes.box}>
-                    map
-                  </Box>
-                </TableCell>
-              </TableRow>
               <TableRow>
-                <TableCell style={{ paddingBottom: "0.4rem" }}>
-                  <CountInputForm />
+                <TableCell>
+                  <MapContainer lat={41.3797} lng={2.1682} handleMarker={handleMarker} role={role} showForm={showForm} />
                 </TableCell>
               </TableRow>
+              {showForm ? (
+                <TableRow>
+                  <TableCell style={{ paddingBottom: "0.4rem" }}>
+                    <CountInputForm role={role} handlePad={UserService.handlePad}/>
+                  </TableCell>
+                </TableRow>
+              ) : (null)}
             </TableBody>
           </Table>
         </TableContainer>
@@ -340,7 +296,7 @@ export default function CenterTable() {
         <Table className={classes.table} aria-label="simple table">
           <TableBody>
             {centerName.map((center, index) => (
-              <Row key={center.name} id={index} className="chooseitmes" center={center} favorite={favorite} setFavorite={setFavorite} role={role}/>
+              <Row key={center.name} id={index} className="chooseitmes" center={center} role={role} star={star} />
             ))}
           </TableBody>
         </Table>
@@ -349,3 +305,5 @@ export default function CenterTable() {
     </Grid>
   );
 }
+
+export default CenterTable;
