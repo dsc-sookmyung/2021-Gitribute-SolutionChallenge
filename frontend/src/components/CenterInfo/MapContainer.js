@@ -1,5 +1,5 @@
 import React from 'react';
-import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
+import { GoogleMap, LoadScript, Marker, InfoWindow } from '@react-google-maps/api';
 
 const MapContainer = ({ lat, lng, handleMarker, role, showForm }) => {
   const mapStyles = {
@@ -48,7 +48,11 @@ const MapContainer = ({ lat, lng, handleMarker, role, showForm }) => {
           zoom={20}
           center={{lat: lat, lng: lng}}
         >
-          <Marker position={{lat: lat, lng: lng}} onClick={handleMarker} />
+          <Marker position={{lat: lat, lng: lng}} onClick={handleMarker}>
+            <InfoWindow position={{lat: lat+0.000045, lng: lng}}>
+              <p>Click on the pin <br /> to enter the number of sanitary pads</p>
+            </InfoWindow>
+          </Marker>
         </GoogleMap>
      </LoadScript>
   )
