@@ -28,7 +28,7 @@ SECRET_KEY = get_secret("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -43,8 +43,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'accounts',
-    'scrap',
     'corsheaders',
+    'center',
     
 ]
 
@@ -54,8 +54,8 @@ AUTH_USER_MODEL = 'accounts.User'
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated', # 인증된 사용자만 접근 가능
-        'rest_framework.permissions.IsAdminUser', # 관리자만 접근 가능
-        'rest_framework.permissions.AllowAny', # 누구나 접근 가능
+        #'rest_framework.permissions.IsAdminUser', # 관리자만 접근 가능
+        #'rest_framework.permissions.AllowAny', # 누구나 접근 가능
 
     ),
 
@@ -70,7 +70,7 @@ REST_FRAMEWORK = {
         'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
         'rest_framework.authentication.TokenAuthentication',
         'rest_framework.authentication.SessionAuthentication',
-        # 'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
     ),
 }
 
@@ -89,7 +89,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    #'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -126,7 +126,7 @@ DATABASES = {
         'NAME':'gitribute',
         'USER':'root',
         'PASSWORD':get_secret("DATABASE"),
-        'HOST':'34.123.113.216',
+        'HOST':'104.154.223.37',
         'PORT':'3306',
     }
 }
