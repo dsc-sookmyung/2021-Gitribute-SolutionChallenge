@@ -107,7 +107,7 @@ def mypage(request):
             response = {
                 'username' : user.username,
                 'role': user.role,
-                'ceneter': user.center,
+                'center': user.center,
                 'level' : user.level,
                 'liner' : user.liner,
                 'medium' : user.medium,
