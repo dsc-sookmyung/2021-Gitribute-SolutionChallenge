@@ -6,33 +6,51 @@ const API_URL_CENTER = "http://localhost:8000/center/";
 const API_URL_STAR = "http://localhost:8000/scrap/center/";
 
 const getUserInfo = () => {
-  return axios
-    .get(API_URL_MYPAGE, { headers: authHeader() })
-    .then((response) => {
-      return JSON.parse(response.data);
-    })
+  return axios({
+    method: 'get',
+    url: API_URL_MYPAGE,
+    headers: authHeader(),
+  })
+  .then((response) => {
+    if (response.data.token) {
+      console.log("USER:"+JSON.stringify(response.data));
+      localStorage.setItem("user", JSON.stringify(response.data));
+    }
+    return JSON.parse(response.data);
+  })
 }
 
 const getDefaultCenter = (region) => {
-  return axios
-    .put(API_URL_CENTER, region, { headers: authHeader() })
-    .then((response) => {
-      return JSON.parse(response.data);  
-    });
+  return axios({
+    method: 'post',
+    url: API_URL_CENTER+'defaultcenter/',
+    headers: authHeader(),
+    data: {
+      area: region
+    }
+  })
+  .then((response) => {
+    // console.log("de: "+JSON.stringify(response.data));
+    return JSON.parse(response.data);
+  })
 };
 
 const getCenter = (region, center) => {
-  return axios
-    .put(API_URL_CENTER, {
-      region, 
-      center
-    }, { headers: authHeader() })
-    .then((response) => {
-      return JSON.parse(response.data);
-    })
+  return axios({
+    method: 'post',
+    url: API_URL_CENTER+'defaultcenter/',
+    headers: authHeader(),
+    data: {
+      place: region,
+    }
+  })
+  .then((response) => {
+    console.log(JSON.stringify(response.data));
+    return JSON.parse(response.data);
+  })
 };
 
-const handlePad = (linerCounter, mediumCounter, largeCounter, overnightCounter) => {
+const padNumToMypage = (linerCounter, mediumCounter, largeCounter, overnightCounter) => {
   return axios({
     method: 'put',
     url: API_URL_MYPAGE,
@@ -49,6 +67,29 @@ const handlePad = (linerCounter, mediumCounter, largeCounter, overnightCounter) 
     return JSON.parse(response.data);
   })
 };
+
+const padNumToCenter = (center, originalLiner, originalMedium, originalLarge, originalOvernight, linerCounter, mediumCounter, largeCounter, overnightCounter) => {
+  return axios({
+    method: 'put',
+    url: API_URL_CENTER+'centerdef/',
+    headers: authHeader(),
+    data: {
+      place: center,
+      originalLiner: originalLiner, 
+      originalMedium: originalMedium, 
+      originalLarge: originalLarge, 
+      originalOvernight: originalOvernight,
+      linerCounter: linerCounter,
+      mediumCounter: mediumCounter,
+      largeCounter: largeCounter,
+      overnightCounter: overnightCounter
+    }
+  })
+  .then((response) => {
+    console.log(JSON.stringify(response.data));
+    return JSON.parse(response.data);
+  })
+}
 
 // ADD DELETE STAR
 const handleStar = (star) => {
@@ -70,6 +111,7 @@ export default {
   getUserInfo,
   getDefaultCenter,
   getCenter,
-  handlePad,
+  padNumToCenter,
+  padNumToMypage,
   handleStar
 };
