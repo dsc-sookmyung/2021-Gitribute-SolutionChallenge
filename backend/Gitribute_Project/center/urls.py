@@ -5,5 +5,7 @@ from . import views
 
 
 urlpatterns = [
+    path('defaultcenter/', views.getDefaultCenter),
+    path('getcenter/', views.getCenter),
     path('centerdef/', views.Centerdef),
 ]

@@ -16,4 +16,18 @@ class Center(models.Model):
     class Meta:
         db_table = 'center'
 
+class ErrorList(models.Model):
+    email = models.EmailField(max_length=64,unique=False)
+    centerpantyliner = models.IntegerField(null=True)
+    centermedium = models.IntegerField(null=True)
+    centerlarge = models.IntegerField(null=True)
+    centerovernight = models.IntegerField(null=True)
+    inputpantyliner = models.IntegerField(null=True)
+    inputmedium = models.IntegerField(null=True)
+    inputlarge = models.IntegerField(null=True)
+    inputovernight = models.IntegerField(null=True)
+
+    class Meta:
+        db_table = 'errorlist'
+
     
