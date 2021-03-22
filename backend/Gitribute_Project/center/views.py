@@ -15,10 +15,9 @@ from accounts.models import User
 @permission_classes([AllowAny])
 def getDefaultCenter(request):
     if request.method == 'POST':
-        num = request.data["area"]
-        print(num)
+        area = request.data["area"]
 
-        if int(num) == 2:
+        if int(area) == 2:
             print("gyeonggi 시리얼라이저")
             center = Center.objects.get(id = 1)
 
@@ -35,14 +34,15 @@ def getDefaultCenter(request):
                 'medium': center.medium,
                 'large': center.large,
                 'overnight': center.overnight,
+                'total' : total,
                 'password': center.password,
                 'phonenumber': center.phonenumber,
                 'location': center.location,
-                'total' : total,
             }
             
         else:
             print("validated_serializer 오류")
+            return Response({'message':"doesn't exist"})
 
         return Response(response, status=status.HTTP_200_OK)
 
@@ -50,10 +50,10 @@ def getDefaultCenter(request):
 @permission_classes([AllowAny])
 def getCenter(request):
     if request.method == 'POST':
-        num = request.data["place"]
-        print(num)
+        area = request.data["area"]
+        place = request.data["place"]
 
-        if num == "Baegma":
+        if (int(area) == 2 and place == "Baegma"):
             print("Baegma 시리얼라이저")
             center = Center.objects.get(id = 1)
 
@@ -68,13 +68,13 @@ def getCenter(request):
                 'medium': center.medium,
                 'large': center.large,
                 'overnight': center.overnight,
+                'total' : total,
                 'password': center.password,
                 'phonenumber': center.phonenumber,
                 'location': center.location,
-                'total' : total,
             }
 
-        elif num == "Madu":
+        elif (int(area) == 2 and place == "Madu"):
             print("Madu 시리얼라이저")
             center = Center.objects.get(id = 2)
 
@@ -89,14 +89,15 @@ def getCenter(request):
                 'medium': center.medium,
                 'large': center.large,
                 'overnight': center.overnight,
+                'total' : total,
                 'password': center.password,
                 'phonenumber': center.phonenumber,
                 'location': center.location,
-                'total' : total,
             }
             
         else:
             print("validated_serializer 오류")
+            return Response({'message':"doesn't exist"})
 
         return Response(response, status=status.HTTP_200_OK)
 
@@ -106,11 +107,12 @@ def Centerdef(request):
 
     global centercount
     if request.method == 'PUT':
+        area = request.data["area"]
         place = request.data["place"]
         print(place)
-        if place == "Baegma":
+        if (int(area) == 2 and place == "Baegma"):
             centercount = Center.objects.get(id = 1)
-        elif place == "Madu":
+        elif (int(area) == 2 and place == "Madu"):
             centercount = Center.objects.get(id = 2)
 
         user = User.objects.get(username = request.user)
@@ -143,7 +145,8 @@ def Centerdef(request):
             centercount.large = int(request.data['originalLarge'])
             centercount.overnight = int(request.data['originalOvernight'])
 
-            centercount.save()
+            if CenterSerializer.is_valid():
+                centercount.save()
 
         print(user.role)
         if user.role == 1:
@@ -165,6 +168,6 @@ def Centerdef(request):
             centercount.overnight += int(request.data['overnightCounter'])
 
             centercount.save()
-
+            
         return Response({'message':'center update'})
     
