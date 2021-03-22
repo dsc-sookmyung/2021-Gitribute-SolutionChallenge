@@ -91,6 +91,13 @@ def login(request):
 @api_view(['GET', 'PUT'])
 @permission_classes([IsAuthenticated])
 def mypage(request):
+    auth_token = request.headers.get("Authorization", None)
+
+    # 토큰 값이 아예 안 들어왔을 때 401 코드 처리 및 메시지 출력
+    if auth_token == None:
+      return JsonResponse({'message':'Enter the token.'}, status=401)
+
+    print(auth_token)
     if request.method == 'GET':
         user = User.objects.get(username = request.user)
         if user.role == 1:
@@ -100,6 +107,7 @@ def mypage(request):
                 'role' : user.role,
                 'center': user.center,
                 'total' : user.total,
+                'token' : auth_token,
             }
 
         if user.role == 2:
@@ -113,6 +121,7 @@ def mypage(request):
                 'medium' : user.medium,
                 'large' : user.large,
                 'overnight' : user.overnight,
+                'token' : auth_token,
             }
             
 
