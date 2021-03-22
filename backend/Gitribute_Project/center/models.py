@@ -2,6 +2,7 @@ from django.db import models
 from django.db.models import CharField, Model
 
 class Center(models.Model):
+    area = models.CharField(max_length=1000, null=True)
     name = models.CharField(max_length=1000)
     lat = models.FloatField()
     lng = models.FloatField()

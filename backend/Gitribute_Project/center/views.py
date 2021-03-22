@@ -18,7 +18,7 @@ def getDefaultCenter(request):
         num = request.data["area"]
         print(num)
 
-        if num == "gyeonggi":
+        if int(num) == 2:
             print("gyeonggi 시리얼라이저")
             center = Center.objects.get(id = 1)
 
@@ -26,6 +26,7 @@ def getDefaultCenter(request):
             print(total)
 
             response = {
+                'area' : center.area,
                 'center' : 'BaegmaStaion, MaduStaion',
                 'name' : center.name,
                 'lat' : center.lat,
@@ -165,5 +166,5 @@ def Centerdef(request):
 
             centercount.save()
 
-        return Response(data, status=status.HTTP_200_OK)
+        return Response({'message':'center update'})
     
