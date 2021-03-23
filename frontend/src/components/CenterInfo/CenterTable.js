@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import AuthService from '../../services/auth.service';
 import UserService from '../../services/user.service';
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -15,6 +16,7 @@ import Box from '@material-ui/core/Box';
 import Link from '@material-ui/core/Link';
 import CountInputForm from './CountInputForm';
 import MapContainer from './MapContainer';
+import CenterTableData from './CenterTableData';
 
 const useStyles = makeStyles((theme) => ({
   table: {
@@ -46,61 +48,35 @@ const useStyles = makeStyles((theme) => ({
   innerTable: {
     minWidth: 200,
   },
+  mobileMap: {
+    width: "98vw"
+  }
 }));
-
-function createCenterName(name, order) {
-  return { name, order };
-}
 
 function createPadData(type, number) {
   return { type, number };
 }
 
-function createOperationData(day, hour) {
-  return { day, hour }
-}
-
-const centerName = [
-  createCenterName('Baengma', 1),
-  createCenterName('Madu', 2),
-]
-
 const padNumber = [
   createPadData('Panty Liner', 5),
-  createPadData('Meidum', 12),
+  createPadData('Medium', 12),
   createPadData('Large', 7),
   createPadData('Overnight', 3),
 ];
 
-const operationHours = [
-  createOperationData('Mon-Thu', '9am - 7pm'),
-  createOperationData('Fri', '9am - 6pm'),
-  createOperationData('Sat', '10am - 5pm'),
-]
-
-/*
-function ShowDetail(name, selectedCenter, setSelectedCenter) {
-  useEffect(() => {
-    setSelectedCenter(name);
-  }, [selectedCenter]);
-}
-*/
-
-function Favorites(name, favorite, setFavorite) {
-  useEffect(() => {
-    setFavorite(name);
-    console.log("FAV: "+favorite);
-    console.log("CENTER: "+name);
-  }, [favorite]);
-}
-
-function Row({ id, center, role, star }) {
+function Row({ id, center, role, star, handleMarker, showForm }) {
   const [open, setOpen] = useState(false);
+  const [selectedCenter, setSelectedCenter] = useState("");
   const classes = useStyles();
+
+  const showDetail = () => {
+    setSelectedCenter(center);
+    setOpen(!open);
+  }
 
   return (
     <>
-      <TableRow className={classes.root} hover onClick={() => setOpen(!open)}>
+      <TableRow className={classes.root} hover onClick={showDetail}>
         <TableCell component="th" scope="row" align="left">
           {center.name} Center
         </TableCell>
@@ -109,10 +85,17 @@ function Row({ id, center, role, star }) {
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <TableRow>
-              <TableCell>
-                <MapContainer lat={41.3797} lng={2.1682} />
+              <TableCell className={classes.mobileMap}>
+                <MapContainer lat={41.3797} lng={2.1682} handleMarker={handleMarker} role={role} showForm={showForm} />
               </TableCell>
             </TableRow>
+            {showForm ? (
+              <TableRow>
+                <TableCell style={{ paddingBottom: "0.4rem" }}>
+                  <CountInputForm role={role} center={selectedCenter} />
+                </TableCell>
+              </TableRow>
+            ) : (null)}
             <TableRow>
               <TableCell>
                 <a 
@@ -161,25 +144,64 @@ function Row({ id, center, role, star }) {
   );
 }
 
-const CenterTable = ({ role, region, star, centerNames }) => {
+const CenterTable = ({ currentUser, role, region, star, centerNames, defaultCenter }) => {
   const classes = useStyles();
-  const [selectedCenter, setSelectedCenter] = useState("Baengma");
-  const [centerInfo, setCenterInfo] = useState({});
+  const [selectedCenter, setSelectedCenter] = useState(centerNames.name);
+  const [centerInfo, setCenterInfo] = useState(undefined);
   const [showForm, setShowForm] = useState(false);
+  const [opens, setOpens] = useState(false);
+  const [currentStar, setCurrentStar] = useState(star);
+  const [clickStar, setClickStar] = useState(false);
+  // const [centerName, setCenterName] = useState([]);
+  // alert(centerNames);
+  
+  const centerName = [
+    'Baengma',
+    'Madu',
+  ]
   
   useEffect(() => {
+    console.log("centerInfo: "+JSON.stringify(centerInfo));
+  }, [centerInfo]);
 
+  useEffect(() => {
+    console.log("selectedCenter: "+selectedCenter);
   }, [selectedCenter]);
 
-  const showDetail = (e, name) => {
+  useEffect(async () => {
+    await UserService.getUserInfo();
+    const user = await AuthService.getCurrentUser();
+    if (user) {
+      console.log("user: "+JSON.stringify(user));
+      setCurrentStar(user.center);
+      console.log("star: "+JSON.stringify(user.center));  
+    }
+  }, [clickStar])
+
+  useEffect(() => {
+    console.log("current star: "+currentStar);
+  }, [currentStar]);
+
+  const onClickStar = async () => {
+    await UserService.handleStar(selectedCenter);
+    setClickStar(!clickStar);
+  }
+
+  const showDetail = async (e, center) => {
     e.preventDefault();
-    setCenterInfo(UserService.getCenter(region, name));
-    alert(UserService.getCenter(region, name));
     // GET center info
+    setSelectedCenter(center);
+    const getCenterInfo = await UserService.getCenter(region, center)
+    setCenterInfo(getCenterInfo);
   }
 
   const handleMarker = (e) => {
-    setShowForm(!showForm);
+    if (currentUser) {
+      setShowForm(!showForm);
+    }
+    else {
+      alert("Available after login");
+    }
   }
 
   return (
@@ -193,19 +215,33 @@ const CenterTable = ({ role, region, star, centerNames }) => {
               <TableCell><strong>Center</strong></TableCell></TableRow>
           </TableHead>
           <TableBody>
-            {centerName.map((center) => {
-              return (
-                <TableRow 
-                  key={center.name} 
-                  className="chooseitems" 
-                  hover
-                  onClick={(e) => {showDetail(e, center.name)}}>
-                  <TableCell className="chooseItemActive">
-                    {center.name} Center
-                  </TableCell>
-                </TableRow>
-              );
-            })}
+            {centerName.length > 1 ? (
+              centerName.map((center) => {
+                return (
+                  <TableRow 
+                    key={center} 
+                    className="chooseitems" 
+                    hover
+                    onClick={(e) => {showDetail(e, center)}}>
+                    <TableCell className="chooseItemActive">
+                      {center} Station
+                    </TableCell>
+                  </TableRow>
+                );
+              })
+            ): (
+              <TableRow 
+                hover
+                onClick={(e) => {showDetail(e, centerName.center)}}>
+                <TableCell>
+                  {centerName.center}
+                  {centerName.location ? (
+                    " Station"
+                  ) : null}
+                  Station
+                </TableCell>
+              </TableRow>
+            )}
           </TableBody>
         </Table>
       </TableContainer>
@@ -223,9 +259,9 @@ const CenterTable = ({ role, region, star, centerNames }) => {
                 <TableCell>
                   <a 
                     href="#" 
-                    onClick={() => UserService.handleStar(selectedCenter)}
+                    onClick={onClickStar}
                     style={{ textDecoration: "inherit", color: "inherit" }}>
-                      { star === selectedCenter ? 
+                      { currentStar === selectedCenter ? 
                         "⭐ My Primary Center" : "☆ Save as Primary Center" }
                   </a>
                 </TableCell>
@@ -252,15 +288,24 @@ const CenterTable = ({ role, region, star, centerNames }) => {
               { role === 1 ? (
                 <TableRow>
                   <TableCell>
-                    🔑 Password
+                    {centerInfo ? (
+                      "🔑"+centerInfo.password
+                    ) : (
+                      "🔑"+defaultCenter.password
+                    )}
                   </TableCell>
                 </TableRow>
               ) : null }
               <TableRow>
                 <TableCell>
-                  📍 Location
+                  {centerInfo ? (
+                      "📍 "+centerInfo.location
+                    ) : (
+                      "📍 "+defaultCenter.location
+                    )}
                 </TableCell>
               </TableRow>
+              {/*<CenterTableData classes={classes} star={star} padNumber={padNumber} role={role} selectedCenter={selectedCenter} />*/}
             </TableBody>
           </Table>
         </TableContainer>
@@ -276,13 +321,17 @@ const CenterTable = ({ role, region, star, centerNames }) => {
             <TableBody>
               <TableRow>
                 <TableCell>
-                  <MapContainer lat={41.3797} lng={2.1682} handleMarker={handleMarker} role={role} showForm={showForm} />
+                  { centerInfo ? (
+                    <MapContainer lat={centerInfo.lat} lng={centerInfo.lng} handleMarker={handleMarker} role={role} showForm={showForm} />
+                  ) : (
+                    <MapContainer lat={defaultCenter.lat} lng={defaultCenter.lng} handleMarker={handleMarker} role={role} showForm={showForm} />
+                  )}
                 </TableCell>
               </TableRow>
               {showForm ? (
                 <TableRow>
                   <TableCell style={{ paddingBottom: "0.4rem" }}>
-                    <CountInputForm role={role} handlePad={UserService.handlePad}/>
+                    <CountInputForm role={role} region={region} center={selectedCenter} />
                   </TableCell>
                 </TableRow>
               ) : (null)}
@@ -296,7 +345,7 @@ const CenterTable = ({ role, region, star, centerNames }) => {
         <Table className={classes.table} aria-label="simple table">
           <TableBody>
             {centerName.map((center, index) => (
-              <Row key={center.name} id={index} className="chooseitmes" center={center} role={role} star={star} />
+              <Row key={center.name} id={index} className="chooseitmes" center={center} role={role} star={star} handleMarker={handleMarker} showForm={showForm} />
             ))}
           </TableBody>
         </Table>
