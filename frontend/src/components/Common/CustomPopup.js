@@ -1,7 +1,9 @@
 import React from "react";
 import styled from 'styled-components';
+import { makeStyles } from '@material-ui/core/styles';
 import Popup from "reactjs-popup";
 import Button from '@material-ui/core/Button';
+import { Typography } from "@material-ui/core";
 
 const contentStyle = {
   maxWidth: "90vw",
@@ -9,8 +11,42 @@ const contentStyle = {
   background: "#fff",
 };
 
-const CustomPopup = ({ trigger, title, content }) => (
-  <>
+const useStyles = makeStyles((theme) => ({
+  top: {
+    display: "flex",
+    justifyContent: "flex-start",
+    alignItems: "center",
+    position: "relative",
+    marginTop: theme.spacing(3)
+  },
+  title: {
+    flex: "0 1 auto",
+    position: "absolute",
+    marginRight: "auto",
+    marginLeft: "2rem"
+  },
+  close: {
+    flex: "0 1 auto",
+    marginLeft: "auto",
+  },
+  content: {
+    padding: "2rem"
+  },
+  button: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  ok: {
+    marginBottom: theme.spacing(3),
+    marginTop: theme.spacing(2),
+  },
+}))
+
+const CustomPopup = ({ trigger, title, content }) => {
+  const classes = useStyles();
+
+  return(
     <Popup
       trigger={<a href="#">{trigger}</a>}
       modal
@@ -20,9 +56,9 @@ const CustomPopup = ({ trigger, title, content }) => (
         <>
         <Background/>
         <div className="modal">
-          <Top>
-            <Title>{title}</Title>
-            <a className="close" onClick={close}>
+          <div className={classes.top}>
+            <Typography variant="h3" className={classes.title}>{title}</Typography>
+            <a className={classes.close} onClick={close}>
               <Button 
                 color="secondary" 
                 variant="text"
@@ -31,12 +67,13 @@ const CustomPopup = ({ trigger, title, content }) => (
                   &times;
               </Button>
             </a>
-          </Top>
+          </div>
           <hr style={{border: "solid 0.1px #e9ecef", transform: "scaleY(0.5)", width: "90%"}} />
-          <Content> {content} </Content>
+          <div className={classes.content}> {content} </div>
           <hr style={{border: "solid 0.1px #e9ecef", transform: "scaleY(0.5)", width: "90%"}} />
-          <OkButton>
+          <div className={classes.button}>
             <Button 
+              className={classes.ok}
               onClick={() => { close(); }}
               size="small"
               variant="contained"
@@ -44,13 +81,13 @@ const CustomPopup = ({ trigger, title, content }) => (
             >
               OK
             </Button>
-          </OkButton>
+          </div>
         </div>
         </>
       )}
     </Popup>
-  </>
-);
+  );
+};
 
 export default CustomPopup;
 
@@ -65,26 +102,4 @@ const Background = styled.div`
   bottom: 0;
   margin: auto;
   background-color: rgba(0,0,0,0.5);
-`;
-
-const Top = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-const Title = styled.div`
-  font-size: 1.25rem;
-  font-weight: bold;
-  padding-left: 1rem;
-`;
-
-const Content = styled.div`
-  padding: 1rem;
-`;
-
-const OkButton = styled.div`
-  display: flex;
-  justify-content: center;
-  margin-bottom: 0.75rem;
 `;
