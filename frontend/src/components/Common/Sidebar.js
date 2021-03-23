@@ -2,11 +2,19 @@ import React, { useState } from 'react';
 import { NavIcon, SidebarNav, SidebarWrap, SidebarLink, SidebarTitleLabel, SidebarLabel } from './SidebarElements';
 import MenuIcon from '@material-ui/icons/Menu';
 import CloseIcon from '@material-ui/icons/Close';
-import { BarData } from './BarData';
+import Backdrop from '@material-ui/core/Backdrop';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme) => ({
+  backdrop: {
+    color: '#fff',
+  },
+}));
 
 const Sidebar = ({ role, currentUser, logout, levelIcon, star }) => {
   const [sidebar, setSidebar] = useState(false);
   const [dropBox, setDropBox] = useState(false);
+  const classes = useStyles();
 
   const showSidebar = () => setSidebar(!sidebar);
   const showdropBox = () => setDropBox(!dropBox);
@@ -19,14 +27,14 @@ const Sidebar = ({ role, currentUser, logout, levelIcon, star }) => {
           <NavIcon to='#'>
             <CloseIcon onClick={showSidebar} color="secondary"/>
           </NavIcon>
-          <SidebarLink to='/' activeStyle>About</SidebarLink>
-          <SidebarLink to='/center' activeStyle>{!star ? ("Choose your local LOGO Center") : ("Primary Center: 📍"+star)}</SidebarLink>
-          <SidebarLink to='/faq' activeStyle>FAQ</SidebarLink>
-          <SidebarLink to='/contact' activeStyle>Contact</SidebarLink>
+          <SidebarLink to='/'>About</SidebarLink>
+          <SidebarLink to='/center'>{!star ? ("Choose your local LOGO Center") : ("Primary Center: 📍"+star)}</SidebarLink>
+          <SidebarLink to='/faq'>FAQ</SidebarLink>
+          <SidebarLink to='/contact'>Contact</SidebarLink>
           { role === 0 ? (
-            <SidebarLink to='/login' activeStyle>Sign&nbsp;In</SidebarLink>
+            <SidebarLink to='/login'>Sign&nbsp;In</SidebarLink>
           ) : (
-            <SidebarLink to='#' onClick={showdropBox} activeStyle>{currentUser.username}</SidebarLink>
+            <SidebarLink to='#' onClick={showdropBox}>{currentUser.username}</SidebarLink>
           )}
           { dropBox ? (
             role === 1 ? (
@@ -51,6 +59,7 @@ const Sidebar = ({ role, currentUser, logout, levelIcon, star }) => {
           ) : null }
         </SidebarWrap>
       </SidebarNav>
+      <Backdrop className={classes.backdrop} open={sidebar} />
     </>
   );
 };

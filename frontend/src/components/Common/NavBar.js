@@ -15,15 +15,13 @@ const NavBar = () => {
 
   useEffect(() => {
     const user = AuthService.getCurrentUser();
-
     if (user) {
       setCurrentUser(user);
       setRole(user.role);
       setUsername(user.username);
       
-      alert("Center:"+JSON.stringify(user));
-      if (user.ceneter) {
-        setStar(user.ceneter);
+      if (user.center) {
+        setStar(user.center);
       }
 
       if (user.level) {
@@ -66,20 +64,20 @@ const NavBar = () => {
         <Sidebar role={role} currentUser={currentUser} logout={logout} levelIcon={levelIcon} star={star} />
       </BarWrapper>
       <NavMenu>
-        <NavLink to='/' exact activeStyle>
+        <NavLink to='/' exact>
           About
         </NavLink>
-        <NavLink to='/center' activeStyle>
+        <NavLink to='/center'>
           {!star ? (
             "Choose your local LOGO Center"
           ) : (
             "Primary Center: 📍"+star
           )}
         </NavLink>
-        <NavLink to='/faq' activeStyle>
+        <NavLink to='/faq'>
           FAQ
         </NavLink>
-        <NavLink to='/contact' activeStyle>
+        <NavLink to='/contact'>
           Contact
         </NavLink>
       </NavMenu>

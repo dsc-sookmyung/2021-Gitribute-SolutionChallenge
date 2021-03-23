@@ -1,5 +1,6 @@
 import { NavLink as Link } from 'react-router-dom';
 import styled from 'styled-components';
+import '../../assets/fonts/fonts.css';
 
 export const Nav = styled.nav`
   background: #fff;
@@ -8,7 +9,6 @@ export const Nav = styled.nav`
   padding: 0rem calc((100vw - 1194px) / 2);
   z-index: 10;
   justify-content: flex-start;
-  box-shadow: 1px 3px 3px 1px rgba(0, 0, 0, 0.1);
 `;
 
 export const NavLogo = styled(Link)`
@@ -21,6 +21,7 @@ export const NavLogo = styled(Link)`
   padding: 0 1rem;
   height: 100%;
   cursor: pointer;
+  font-family: 'Lobster', cursive;
 `;
 
 export const NavLink = styled(Link)`
@@ -35,7 +36,7 @@ export const NavLink = styled(Link)`
     color: #9c27b0;
   }
   &:focus {
-    color: #9c27b0;
+    border-bottom: 3px solid #9c27b0;
   }
 `;
 

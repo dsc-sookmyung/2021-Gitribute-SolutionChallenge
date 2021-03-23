@@ -10,7 +10,7 @@ export const NavIcon = styled(Link)`
 `;
 
 export const SidebarNav = styled.nav`
-  background: #f3e5f5;
+  background: #fff;
   width: 232px;
   height: 100vh;
   display: flex;
@@ -20,7 +20,7 @@ export const SidebarNav = styled.nav`
   right: ${({ sidebar }) => (sidebar ? '0' : '-100%')};
   transition: 350ms;
   z-index: 10;
-  box-shadow: 3px 3px 3px 1px rgba(0, 0, 0, 0.1);
+  box-shadow: 3px 5px 5px 3px rgba(0, 0, 0, 0.1);
 
   overflow-y: scroll;
   ::-webkit-scrollbar {
@@ -51,12 +51,12 @@ export const SidebarLink = styled(Link)`
   text-decoration: none;
   font-size: 1rem;
   &:hover {
-    background: #fff;
     border-left: 4px solid #9c27b0;
     cursor: pointer;
   }
   &:focus {
-    background: #fff;
+    color: #fff;
+    background: #9c27b0;
     border-left: 4px solid #9c27b0;
   }
 
