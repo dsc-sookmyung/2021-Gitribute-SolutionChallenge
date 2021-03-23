@@ -9,6 +9,7 @@ import { Checkbox, FormControlLabel, Input, Button, ButtonGroup, Tab } from '@ma
 import { Table, TableHead, TableBody, TableRow } from '@material-ui/core';
 import MuiTableCell from "@material-ui/core/TableCell";
 import Popup from "reactjs-popup";
+import CustomPopup from '../Common/CustomPopup';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -42,24 +43,6 @@ const useStyles = makeStyles((theme) => ({
     left: "50%",
     transform: "translateX(-50%)"
   },
-  /*
-  popupTop: {
-  display: "flex",
-  justifyContent: "flex-start",   // adjustment
-  position: "relative",
-  alignItems: "center"
-  },
-  popupTitle: {
-    flex: "0 1 auto",
-    position: "absolute",
-    left: "50%",
-    transform: "translateX(-50%)"
-  },
-  popupClose: {
-    flex: "0 1 auto",
-    marginLeft: "auto"
-  },
-  */
   popupContent: {
     padding: "2rem"
   },
@@ -90,7 +73,7 @@ const contentStyle = {
   boxShadow: "3px 5px 5px 3px rgba(0, 0, 0, 0.1)"
 };
 
-export default function CountInputForm({ role, center }) {
+export default function CountInputForm({ role, region, center }) {
   const [currentUser, setCurrentUser] = useState(undefined);
   const [total, setTotal] = useState(0);
   const [checkedType, setCheckedType] = useState([]);
@@ -103,6 +86,7 @@ export default function CountInputForm({ role, center }) {
   const [largeCounter, setLargeCounter] = useState(0);
   const [overnightCounter, setOvernightCounter] = useState(0);
   const [limit, setLimit] = useState(false);
+  const [updateMypage, setUpdateMypage] = useState(false);
   const classes = useStyles();
 
   useEffect(() => {
@@ -132,18 +116,30 @@ export default function CountInputForm({ role, center }) {
   });
 
   const handleOriginalLiner = (e) => {
+    if (e.target.value < 0) {
+      e.target.value = 0;
+    }
     setOriginalLiner(e.target.value);
   }
 
   const handleOriginalMedium = (e) => {
+    if (e.target.value < 0) {
+      e.target.value = 0;
+    }
     setOriginalMedium(e.target.value);
   }
 
   const handleOriginalLarge = (e) => {
+    if (e.target.value < 0) {
+      e.target.value = 0;
+    }
     setOriginalLarge(e.target.value);
   }
 
   const handleOriginalOvernight = (e) => {
+    if (e.target.value < 0) {
+      e.target.value = 0;
+    }
     setOriginalOvernight(e.target.value);
   }
 
@@ -204,8 +200,18 @@ export default function CountInputForm({ role, center }) {
       largeCounter,
       overnightCounter
     };
-    UserService.handlePad(linerCounter, mediumCounter, largeCounter, overnightCounter);
+    setUpdateMypage(UserService.padNumToMypage(linerCounter, mediumCounter, largeCounter, overnightCounter));
+    UserService.padNumToCenter(region, center, 
+      originalLiner, originalMedium, originalLarge, originalOvernight, 
+      linerCounter, mediumCounter, largeCounter, overnightCounter);
   }
+
+  useEffect(() => {
+    if (updateMypage) {
+      UserService.getUserInfo();
+    }
+    setUpdateMypage(false);
+  }, [updateMypage])
 
   return (
     <div className={classes.container}>
@@ -247,7 +253,7 @@ export default function CountInputForm({ role, center }) {
       )}
       <Grid container className={classes.select}>
         { checkedType["liner"] ? (
-          <Grid item xs={6}> 
+          <Grid item xs={12} sm={6}> 
             <Typography className={classes.label} variant="body2">Panty Liner</Typography>
             <Input 
               className={classes.input}
@@ -266,7 +272,7 @@ export default function CountInputForm({ role, center }) {
           </Grid>
         ) : null }
         { checkedType["medium"] ? (
-        <Grid item xs={6}> 
+        <Grid item xs={12} sm={6}> 
           <Typography className={classes.label} variant="body2">Medium</Typography>
           <Input 
             className={classes.input}
@@ -285,7 +291,7 @@ export default function CountInputForm({ role, center }) {
         </Grid>
         ) : null }
         { checkedType["large"] ? (
-        <Grid item xs={6}> 
+        <Grid item xs={12} sm={6}> 
           <Typography className={classes.label} variant="body2">Large</Typography>
           <Input 
             className={classes.input}
@@ -304,7 +310,7 @@ export default function CountInputForm({ role, center }) {
         </Grid>
         ) : null }
         { checkedType["overnight"] ? (
-        <Grid item xs={6}> 
+        <Grid item xs={12} sm={6}> 
           <Typography className={classes.label} variant="body2">Overnight</Typography>
           <Input 
             className={classes.input}
