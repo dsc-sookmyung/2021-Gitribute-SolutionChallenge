@@ -16,7 +16,6 @@ import Box from '@material-ui/core/Box';
 import Link from '@material-ui/core/Link';
 import CountInputForm from './CountInputForm';
 import MapContainer from './MapContainer';
-import CenterTableData from './CenterTableData';
 
 const useStyles = makeStyles((theme) => ({
   table: {
