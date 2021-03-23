@@ -69,7 +69,7 @@ export default function CenterInfo() {
     }
     else {
       setCenterNames({ center: "Center is in preparation!" });
-      setDefaultCenter({"lat": 0, "lng": 0, "pads": {}, "password": null, "phonenumber": null, "location": null})
+      setDefaultCenter({"lat": 0.0, "lng": 0.0, "pads": {}, "password": null, "phonenumber": null, "location": null})
     }
   }, [region]);
 

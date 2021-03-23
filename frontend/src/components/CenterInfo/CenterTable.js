@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import AuthService from '../../services/auth.service';
 import UserService from '../../services/user.service';
 
@@ -146,14 +146,29 @@ function Row({ id, center, role, star, handleMarker, showForm }) {
 
 const CenterTable = ({ currentUser, role, region, star, centerNames, defaultCenter }) => {
   const classes = useStyles();
-  const [selectedCenter, setSelectedCenter] = useState(centerNames.name);
-  const [centerInfo, setCenterInfo] = useState(defaultCenter);
+  const [selectedCenter, setSelectedCenter] = useState("");
+  const [centerInfo, setCenterInfo] = useState(undefined);
   const [showForm, setShowForm] = useState(false);
   const [opens, setOpens] = useState(false);
   const [currentStar, setCurrentStar] = useState(star);
   const [clickStar, setClickStar] = useState(false);
   // const [centerName, setCenterName] = useState([]);
   const [showDetail, setShowDetail] = useState(false);
+  
+  console.log("default: "+JSON.stringify(defaultCenter));
+
+  const mounted = useRef(false);
+  useEffect(() => {
+    if (!mounted.current) {
+      mounted.current = true;
+    }
+    else {
+      if (!defaultCenter.location) {
+        setCenterInfo(undefined);
+        setShowForm(false);
+      }
+    }
+  }, [region]);
 
   useEffect(() => {
     console.log("centerInfo: "+JSON.stringify(centerInfo));
@@ -178,16 +193,21 @@ const CenterTable = ({ currentUser, role, region, star, centerNames, defaultCent
   }, [currentStar]);
 
   useEffect(async () => {
-    // GET center info
-    const getCenterInfo = await UserService.getCenter(region, selectedCenter)
-    setCenterInfo(getCenterInfo);
-    padNumber = [
-      createPadData('Panty Liner', getCenterInfo.pads.liner),
-      createPadData('Medium', getCenterInfo.pads.medium),
-      createPadData('Large', getCenterInfo.pads.large),
-      createPadData('Overnight', getCenterInfo.pads.overnight),
-    ];
-    setShowDetail(false);
+    if (showDetail) {
+      // GET center info
+      const getCenterInfo = await UserService.getCenter(region, selectedCenter)
+      setCenterInfo(getCenterInfo);
+      console.log("GET: "+JSON.stringify(getCenterInfo));
+      if (getCenterInfo.location) {
+        padNumber = [
+          createPadData('Panty Liner', getCenterInfo.pads.liner),
+          createPadData('Medium', getCenterInfo.pads.medium),
+          createPadData('Large', getCenterInfo.pads.large),
+          createPadData('Overnight', getCenterInfo.pads.overnight),
+        ];        
+      }
+      setShowDetail(false);
+    }
   }, [showDetail]);
 
   const onClickStar = async () => {
@@ -196,14 +216,19 @@ const CenterTable = ({ currentUser, role, region, star, centerNames, defaultCent
   }
 
   const handleDetail = (center) => {
-    alert(JSON.stringify(center));
+    console.log(JSON.stringify(center));
     setSelectedCenter(center);
     setShowDetail(true);
   }
 
   const handleMarker = (e) => {
     if (currentUser) {
-      setShowForm(!showForm);
+      if (centerInfo) {
+        setShowForm(!showForm);
+      }
+      else {
+        alert("Center is in preparation!");
+      }
     }
     else {
       alert("Available after login");
@@ -244,7 +269,6 @@ const CenterTable = ({ currentUser, role, region, star, centerNames, defaultCent
                   {centerNames.location ? (
                     " Station"
                   ) : null}
-                  Station
                 </TableCell>
               </TableRow>
             )}
@@ -328,9 +352,9 @@ const CenterTable = ({ currentUser, role, region, star, centerNames, defaultCent
               <TableRow>
                 <TableCell>
                   { centerInfo ? (
-                    <MapContainer lat={centerInfo.lat} lng={centerInfo.lng} handleMarker={handleMarker} role={role} showForm={showForm} />
+                    <MapContainer lat={parseFloat(centerInfo.lat)} lng={parseFloat(centerInfo.lng)} handleMarker={handleMarker} role={role} showForm={showForm} />
                   ) : (
-                    <MapContainer lat={defaultCenter.lat} lng={defaultCenter.lng} handleMarker={handleMarker} role={role} showForm={showForm} />
+                    <MapContainer lat={parseFloat(defaultCenter.lat)} lng={parseFloat(defaultCenter.lng)} handleMarker={handleMarker} role={role} showForm={showForm} />
                   )}
                 </TableCell>
               </TableRow>

@@ -48,11 +48,15 @@ const MapContainer = ({ lat, lng, handleMarker, role, showForm }) => {
     return <GoogleMap
       mapContainerStyle={mapStyle}
       zoom={18}
-      center={{lat: lat, lng: lng}}
+      center={{lat: +lat, lng: +lng}}
     >
-      <Marker position={{lat: lat, lng: lng}} onClick={handleMarker}>
-        <InfoWindow position={{lat: lat+0.00018, lng: lng-0.0000015}}>
-          <p>Click on the pin <br/> to enter the number of sanitary pads</p>
+      <Marker position={{lat: +lat, lng: +lng}} onClick={handleMarker}>
+        <InfoWindow position={{lat: +lat+0.00018, lng: +lng-0.0000015}}>
+          { lat !== 0.0 && lng !== 0 ? (
+            <p>Click on the pin <br/> to enter the number of sanitary pads</p>
+          ) : (
+            <p>Center is in preparation!</p>
+          )}
         </InfoWindow>
       </Marker>
     </GoogleMap>

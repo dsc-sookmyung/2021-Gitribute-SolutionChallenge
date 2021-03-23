@@ -73,7 +73,7 @@ const contentStyle = {
   boxShadow: "3px 5px 5px 3px rgba(0, 0, 0, 0.1)"
 };
 
-export default function CountInputForm({ role, region, center }) {
+export default function CountInputForm({ role, region, centerInfo }) {
   const [currentUser, setCurrentUser] = useState(undefined);
   const [total, setTotal] = useState(0);
   const [checkedType, setCheckedType] = useState([]);
@@ -85,7 +85,10 @@ export default function CountInputForm({ role, region, center }) {
   const [mediumCounter, setMediumCounter] = useState(0);
   const [largeCounter, setLargeCounter] = useState(0);
   const [overnightCounter, setOvernightCounter] = useState(0);
-  const [limit, setLimit] = useState(false);
+  const [limitLiner, setLimitLiner] = useState(false);
+  const [limitMedium, setLimitMedium] = useState(false);
+  const [limitLarge, setLimitLarge] = useState(false);
+  const [limitOvernight, setLimitOvernight] = useState(false);
   const [updateMypage, setUpdateMypage] = useState(false);
   const classes = useStyles();
 
@@ -105,11 +108,80 @@ export default function CountInputForm({ role, region, center }) {
     if (total) {
       const totalCounter = linerCounter + mediumCounter + largeCounter + overnightCounter;
       if (totalCounter > total) {
-        setLimit(true);
+        setLimitLiner(true);
+        setLimitMedium(true);
+        setLimitLarge(true);
+        setLimitOvernight(true);
         alert(`You have exceeded the number you can take!\nNumber of sanitary pads you can take: ${total}`);
       }  
+
+      if (linerCounter === centerInfo.liner) {
+        if (linerCounter <= originalLiner) setLimitLiner(true); 
+      } 
+      else if (linerCounter > centerInfo.liner) {
+        if (linerCounter > originalLiner) {
+          console.log(`You have exceeded the number in the center!`); 
+        }
+        else {
+          setLimitLiner(true); 
+        }
+      }
+      else {
+        setLimitLiner(false);
+      }
+  
+      if (mediumCounter === centerInfo.medium) {
+        if (mediumCounter > originalMedium) {
+          setLimitMedium(true); 
+        }
+      } 
+      else if (mediumCounter > centerInfo.medium) {
+        if (mediumCounter > originalMedium) {
+          console.log(`You have exceeded the number in the center!`); 
+        }
+        else {
+          setLimitMedium(true); 
+        }
+      }
+      else {
+        setLimitMedium(false);
+      }
+  
+      if (largeCounter === centerInfo.large) {
+        if (largeCounter <= originalLarge) setLimitLarge(true); 
+      } 
+      else if (largeCounter > centerInfo.large) {
+        if (largeCounter > originalLarge) {
+          console.log(`You have exceeded the number in the center!`); 
+        }
+        else {
+          setLimitLarge(true); 
+        }
+      }
+      else {
+        setLimitLarge(false);
+      }
+  
+      if (overnightCounter === centerInfo.overnight) {
+        if (overnightCounter <= originalOvernight) setLimitOvernight(true); 
+      } 
+      else if (overnightCounter > centerInfo.overnight) {
+        if (overnightCounter > originalOvernight) {
+          console.log(`You have exceeded the number in the center!`); 
+        }
+        else {
+          setLimitOvernight(true); 
+        }
+      }
+      else {
+        setLimitOvernight(false);
+      }
     }
   }, [linerCounter, mediumCounter, largeCounter, overnightCounter]);
+
+  useEffect(() => {
+    console.log("use effect");
+  }, [limitLiner, limitMedium, limitLarge, limitOvernight]);
 
   const handlePadType = ((e) => {
     setCheckedType({...checkedType, [e.target.name] : e.target.checked });
@@ -144,31 +216,39 @@ export default function CountInputForm({ role, region, center }) {
   }
 
   const handleLinerIncrement = () => {
-    if (!limit) {
+    if (!limitLiner) {
       setLinerCounter(prevLinerCounter => prevLinerCounter + 1);
     }
-    setLimit(false);
+    else {
+      alert("You have exceeded the number in the center!");
+    }
   }
 
   const handleMediumIncrement = () => {
-    if (!limit) {
+    if (!limitMedium) {
       setMediumCounter(prevMediumCounter => prevMediumCounter + 1);
     }
-    setLimit(false);
+    else {
+      alert("You have exceeded the number in the center!");
+    }
   }
 
   const handleLargeIncrement = () => {
-    if (!limit) {
+    if (!limitLarge) {
       setLargeCounter(prevLargeCounter => prevLargeCounter + 1);
     }
-    setLimit(false);
+    else {
+      alert("You have exceeded the number in the center!");
+    }
   }
 
   const handleOvernightIncrement = () => {
-    if (!limit) {
+    if (!limitOvernight) {
       setOvernightCounter(prevOvernightCounter => prevOvernightCounter + 1);
     }
-    setLimit(false);
+    else {
+      alert("You have exceeded the number in the center!");
+    }
   }
 
   const handleLinerDecrement = () => {
@@ -201,7 +281,7 @@ export default function CountInputForm({ role, region, center }) {
       overnightCounter
     };
     setUpdateMypage(UserService.padNumToMypage(linerCounter, mediumCounter, largeCounter, overnightCounter));
-    UserService.padNumToCenter(region, center, 
+    UserService.padNumToCenter(region, centerInfo.name, 
       originalLiner, originalMedium, originalLarge, originalOvernight, 
       linerCounter, mediumCounter, largeCounter, overnightCounter);
   }
