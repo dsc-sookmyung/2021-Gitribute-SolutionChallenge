@@ -7,9 +7,17 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import { Radio, RadioGroup, FormControl, FormControlLabel } from '@material-ui/core';
 import CenterTable from './CenterTable';
-import styled from 'styled-components';
 
 const useStyles = makeStyles((theme) => ({
+  container: {
+    padding: "2.5rem calc((100vw - 1193px) / 2 + 1rem)",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-start",
+    '@media screen and (max-width: 1193px)': {
+      padding: "2.5rem 1rem"
+    },
+  },
   select: {
     marginTop: theme.spacing(2),
     marginBottom: theme.spacing(6),
@@ -30,8 +38,9 @@ export default function CenterInfo() {
   const [role, setRole] = useState(0);
   const [currentUser, setCurrentUser] = useState(undefined);
   const [star, setStar] = useState(undefined);
-  const [region, setRegion] = useState("전체");
+  const [region, setRegion] = useState(0);
   const [centerNames, setCenterNames] = useState({});
+  const [defaultCenter, setDefaultCenter] = useState({});
   const classes = useStyles();
 
   useEffect(() => {
@@ -45,104 +54,108 @@ export default function CenterInfo() {
         setStar(user.center);
       }
     }
-
-    setCenterNames(UserService.getDefaultCenter(region));
   }, []);
 
   useEffect(() => {
     console.log(JSON.stringify(currentUser));
   }, [currentUser]);
 
-  useEffect(() => {
-    setCenterNames(UserService.getDefaultCenter(region));
+  useEffect(async () => {
+    const defaultCenterInfo = await UserService.getDefaultCenter(region)
+    if (defaultCenterInfo.center) {
+      console.log("defaultCenter: "+JSON.stringify(defaultCenterInfo));
+      setCenterNames(defaultCenterInfo.center);
+      setDefaultCenter(defaultCenterInfo);
+    }
+    else {
+      setCenterNames({ center: "Center is in preparation!" });
+      setDefaultCenter({"lat": 0, "lng": 0, "pads": {}, "password": null, "phonenumber": null, "location": null})
+    }
   }, [region]);
 
+  useEffect(() => {
+    console.log("Centernames: "+JSON.stringify(centerNames));
+  }, [centerNames]);
+
   const changeRegion = (e) => {
-    setRegion(e.target.value);
+    setRegion(parseInt(e.target.value, 10));
   }
 
   return (
-    <Container>
+    <div className={classes.container}>
       <Typography variant="h3">
         Search by location
       </Typography>
       <Grid container className={classes.select}>
         <FormControl component="fieldset">
         <RadioGroup 
-          defaultValue="전체"
+          defaultValue="0"
           row aria-label="location" 
           onChange={changeRegion}
           className={classes.radio}  
         >
           <Grid item xs={6} sm={3}>
           <FormControlLabel
-            value="전체"
+            value="0"
             control={<Radio />}
-            label="전체"
+            label="All"
           />
           </Grid>
           <Grid item xs={6} sm={3}>
           <FormControlLabel
-            value="서울" 
+            value="1" 
             control={<Radio />}
-            label="서울"
+            label="Seoul"
           />
           </Grid>
           <Grid item xs={6} sm={3}>
           <FormControlLabel
-            value="경기/인천" 
+            value="2"
             control={<Radio />}
-            label="경기/인천"
+            label="Gyeonggi/Incheon"
           />
           </Grid>
           <Grid item xs={6} sm={3}>
           <FormControlLabel
-            value="충남/세종/대전/강원" 
+            value="3"
             control={<Radio />}
-            label="충남/세종/대전/강원"
+            label={"Chungnam/Sejong/\nDaejeon/Gangwon"}
           />
           </Grid>
           <Grid item xs={6} sm={3}>
           <FormControlLabel
-            value="전라/광주" 
+            value="4" 
             control={<Radio />}
-            label="전라/광주"
+            label="Jeolla/Gwangju"
           />
           </Grid>
           <Grid item xs={6} sm={3}>
           <FormControlLabel
-            value="경상/대구/부산/울산" 
+            value="5" 
             control={<Radio />}
-            label="경상/대구/부산/울산"
+            label={"Gyeongsang/Daegu/\nBusan/Ulsan"}
           />
           </Grid>
           <Grid item xs={6} sm={3}>
           <FormControlLabel
-            value="제주" 
+            value="6" 
             control={<Radio />}
-            label="제주"
+            label="Jeju"
           />
           </Grid>
+          {/*
           <Grid item xs={6} sm={3}>
           <FormControlLabel 
-            value="disabled" 
+            value="7" 
             disabled control={<Radio />} 
             label="지원하지 않는 지역" />
           </Grid>
+          */}
         </RadioGroup>
         </FormControl>
       </Grid>
-      <CenterTable className={classes.table} role={role} region={region} star={star} centerNames={centerNames} />
-    </Container>
+      <CenterTable className={classes.table} currentUser={currentUser} role={role} 
+      region={region} star={star} centerNames={centerNames} defaultCenter={defaultCenter} />
+    </div>
   );
 }
-
-const Container = styled.div`
-  padding: 2.5rem calc((100vw - 1193px) / 2 + 1rem);
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  @media screen and (max-width: 1193px) {
-    padding: 2.5rem 1rem;
-  }
-`;

@@ -57,11 +57,11 @@ function createPadData(type, number) {
   return { type, number };
 }
 
-const padNumber = [
-  createPadData('Panty Liner', 5),
-  createPadData('Medium', 12),
-  createPadData('Large', 7),
-  createPadData('Overnight', 3),
+let padNumber = [
+  createPadData('Panty Liner', 0),
+  createPadData('Medium', 0),
+  createPadData('Large', 0),
+  createPadData('Overnight', 0),
 ];
 
 function Row({ id, center, role, star, handleMarker, showForm }) {
@@ -86,7 +86,7 @@ function Row({ id, center, role, star, handleMarker, showForm }) {
           <Collapse in={open} timeout="auto" unmountOnExit>
             <TableRow>
               <TableCell className={classes.mobileMap}>
-                <MapContainer lat={41.3797} lng={2.1682} handleMarker={handleMarker} role={role} showForm={showForm} />
+                <MapContainer lat={center.lat} lng={center.lng} handleMarker={handleMarker} role={role} showForm={showForm} />
               </TableCell>
             </TableRow>
             {showForm ? (
@@ -147,19 +147,14 @@ function Row({ id, center, role, star, handleMarker, showForm }) {
 const CenterTable = ({ currentUser, role, region, star, centerNames, defaultCenter }) => {
   const classes = useStyles();
   const [selectedCenter, setSelectedCenter] = useState(centerNames.name);
-  const [centerInfo, setCenterInfo] = useState(undefined);
+  const [centerInfo, setCenterInfo] = useState(defaultCenter);
   const [showForm, setShowForm] = useState(false);
   const [opens, setOpens] = useState(false);
   const [currentStar, setCurrentStar] = useState(star);
   const [clickStar, setClickStar] = useState(false);
   // const [centerName, setCenterName] = useState([]);
-  // alert(centerNames);
-  
-  const centerName = [
-    'Baengma',
-    'Madu',
-  ]
-  
+  const [showDetail, setShowDetail] = useState(false);
+
   useEffect(() => {
     console.log("centerInfo: "+JSON.stringify(centerInfo));
   }, [centerInfo]);
@@ -182,17 +177,28 @@ const CenterTable = ({ currentUser, role, region, star, centerNames, defaultCent
     console.log("current star: "+currentStar);
   }, [currentStar]);
 
+  useEffect(async () => {
+    // GET center info
+    const getCenterInfo = await UserService.getCenter(region, selectedCenter)
+    setCenterInfo(getCenterInfo);
+    padNumber = [
+      createPadData('Panty Liner', getCenterInfo.pads.liner),
+      createPadData('Medium', getCenterInfo.pads.medium),
+      createPadData('Large', getCenterInfo.pads.large),
+      createPadData('Overnight', getCenterInfo.pads.overnight),
+    ];
+    setShowDetail(false);
+  }, [showDetail]);
+
   const onClickStar = async () => {
     await UserService.handleStar(selectedCenter);
     setClickStar(!clickStar);
   }
 
-  const showDetail = async (e, center) => {
-    e.preventDefault();
-    // GET center info
+  const handleDetail = (center) => {
+    alert(JSON.stringify(center));
     setSelectedCenter(center);
-    const getCenterInfo = await UserService.getCenter(region, center)
-    setCenterInfo(getCenterInfo);
+    setShowDetail(true);
   }
 
   const handleMarker = (e) => {
@@ -215,27 +221,27 @@ const CenterTable = ({ currentUser, role, region, star, centerNames, defaultCent
               <TableCell><strong>Center</strong></TableCell></TableRow>
           </TableHead>
           <TableBody>
-            {centerName.length > 1 ? (
-              centerName.map((center) => {
+            {centerNames.length >= 1 ? (
+              centerNames.map((center) => {
                 return (
                   <TableRow 
                     key={center} 
                     className="chooseitems" 
                     hover
-                    onClick={(e) => {showDetail(e, center)}}>
+                    onClick={() => {handleDetail(center)}}>
                     <TableCell className="chooseItemActive">
                       {center} Station
                     </TableCell>
                   </TableRow>
                 );
               })
-            ): (
+            ) : (
               <TableRow 
                 hover
-                onClick={(e) => {showDetail(e, centerName.center)}}>
+                onClick={() => {handleDetail(defaultCenter)}}>
                 <TableCell>
-                  {centerName.center}
-                  {centerName.location ? (
+                  {centerNames.center}
+                  {centerNames.location ? (
                     " Station"
                   ) : null}
                   Station
@@ -344,9 +350,13 @@ const CenterTable = ({ currentUser, role, region, star, centerNames, defaultCent
         <TableContainer className={classes.tableMobile} component={Paper}>
         <Table className={classes.table} aria-label="simple table">
           <TableBody>
-            {centerName.map((center, index) => (
-              <Row key={center.name} id={index} className="chooseitmes" center={center} role={role} star={star} handleMarker={handleMarker} showForm={showForm} />
-            ))}
+            {centerNames.length >= 1 ? (
+              centerNames.map((center, index) => (
+                <Row key={center.name} id={index} className="chooseitmes" center={center} role={role} star={star} handleMarker={handleMarker} showForm={showForm} />
+              ))
+            ) : (
+              <Row center={defaultCenter} role={role} star={star} handleMarker={handleMarker} showForm={showForm} />
+            )}
           </TableBody>
         </Table>
       </TableContainer>
