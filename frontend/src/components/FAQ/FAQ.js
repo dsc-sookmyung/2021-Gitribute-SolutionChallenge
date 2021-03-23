@@ -6,10 +6,19 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import Collapse from '@material-ui/core/Collapse';
-import styled from 'styled-components';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 const useStyles = makeStyles((theme) => ({
+  container: {
+    background: "#fff",
+    padding: "2.5rem calc((100vw - 1193px) / 2 + 1rem)",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-start",
+    '@media screen and (max-width: 1193px)': {
+      padding: "2.5rem 1rem"
+    },
+  },
   table: {
     [theme.breakpoints.up('md')]: {
       width: "1194px",
@@ -41,10 +50,7 @@ const FAQ = () => {
 
   return (
     <>
-    <div>
-      image
-    </div>
-    <Container>
+    <div className={classes.container}>
       <Typography variant="h3">
         FAQ
       </Typography>
@@ -120,19 +126,9 @@ const FAQ = () => {
         label="🔗 Form"
         labelPlacement="top"
       />
-    </Container>
+    </div>
     </>
   );
 }
 
 export default FAQ;
-
-const Container = styled.div`
-  padding: 2.5rem calc((100vw - 1193px) / 2 + 1rem);
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  @media screen and (max-width: 1193px) {
-    padding: 2.5rem 1rem;
-  }
-`;

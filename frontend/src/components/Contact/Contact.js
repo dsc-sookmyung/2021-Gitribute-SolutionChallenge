@@ -5,11 +5,21 @@ import Profile from './Profile';
 import styled from 'styled-components';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 
-import suhee from '../../Images/0hee0.jpg';
-import eunji from '../../Images/heleneunji.jpg';
-import jiyeon from '../../Images/hellouz818.png';
+import suhee from '../../assets/images/0hee0.jpg';
+import eunji from '../../assets/images/heleneunji.jpg';
+import jiyeon from '../../assets/images/hellouz818.png';
 
 const useStyles = makeStyles((theme) => ({
+  container: {
+    background: "#fff",
+    padding: "2.5rem calc((100vw - 1193px) / 2 + 1rem)",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-start",
+    '@media screen and (max-width: 1193px)': {
+      padding: "2.5rem 1rem"
+    },
+  },
   title: {
     paddingTop: theme.spacing(4),
     paddingBottom: theme.spacing(3)
@@ -39,7 +49,7 @@ const Contact = () => {
   const classes = useStyles();
 
   return (
-    <Container>
+    <div className={classes.container}>
       <Typography variant="h3" >
         Developers
       </Typography>
@@ -83,18 +93,8 @@ const Contact = () => {
         label="🔗 Form"
         labelPlacement="top"
       />
-    </Container>
+    </div>
   );
 }
 
 export default Contact;
-
-const Container = styled.div`
-  padding: 2.5rem calc((100vw - 1193px) / 2 + 1rem);
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  @media screen and (max-width: 1193px) {
-    padding: 2.5rem 1rem;
-  }
-`;
