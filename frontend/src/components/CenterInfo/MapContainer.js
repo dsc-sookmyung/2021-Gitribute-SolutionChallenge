@@ -1,5 +1,6 @@
 import React from 'react';
-import { GoogleMap, LoadScript, Marker, InfoWindow } from '@react-google-maps/api';
+import { GoogleMap, LoadScript, Marker, InfoWindow, useJsApiLoader } from '@react-google-maps/api';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const MapContainer = ({ lat, lng, handleMarker, role, showForm }) => {
   const mapStyles = {
@@ -39,23 +40,29 @@ const MapContainer = ({ lat, lng, handleMarker, role, showForm }) => {
     }
   }
 
+  const { isLoaded, loadError } = useJsApiLoader({
+    googleMapsApiKey: 'AIzaSyCIYlorAfLUWWY5gyB47xPjZ1lclWZwHWQ'
+  })
 
-  return (
-     <LoadScript
-       googleMapsApiKey='AIzaSyCIYlorAfLUWWY5gyB47xPjZ1lclWZwHWQ'>
-        <GoogleMap
-          mapContainerStyle={mapStyle}
-          zoom={20}
-          center={{lat: lat, lng: lng}}
-        >
-          <Marker position={{lat: lat, lng: lng}} onClick={handleMarker}>
-            <InfoWindow position={{lat: lat+0.000045, lng: lng}}>
-              <p>Click on the pin <br /> to enter the number of sanitary pads</p>
-            </InfoWindow>
-          </Marker>
-        </GoogleMap>
-     </LoadScript>
-  )
+  const renderMap = () => {
+    return <GoogleMap
+      mapContainerStyle={mapStyle}
+      zoom={18}
+      center={{lat: lat, lng: lng}}
+    >
+      <Marker position={{lat: lat, lng: lng}} onClick={handleMarker}>
+        <InfoWindow position={{lat: lat+0.00018, lng: lng-0.0000015}}>
+          <p>Click on the pin <br/> to enter the number of sanitary pads</p>
+        </InfoWindow>
+      </Marker>
+    </GoogleMap>
+  }
+
+  if (loadError) {
+    return <div>Map cannot be loaded right now, sorry.</div>
+  }
+
+  return isLoaded ? renderMap() : <CircularProgress />
 }
 
 export default MapContainer;
