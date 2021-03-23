@@ -70,7 +70,7 @@ def login(request):
             response = {
                 'username' : who.username,
                 'role': who.role,
-                'ceneter': who.center,
+                'center': who.center,
                 'level' : who.level,
                 'liner' : who.liner,
                 'medium' : who.medium,
