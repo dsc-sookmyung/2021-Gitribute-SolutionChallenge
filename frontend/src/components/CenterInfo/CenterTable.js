@@ -331,7 +331,7 @@ const CenterTable = ({ currentUser, role, region, star, centerNames, defaultCent
               {showForm ? (
                 <TableRow>
                   <TableCell style={{ paddingBottom: "0.4rem" }}>
-                    <CountInputForm role={role} region={region} center={selectedCenter} />
+                    <CountInputForm role={role} region={region} centerInfo={centerInfo} />
                   </TableCell>
                 </TableRow>
               ) : (null)}
