@@ -13,8 +13,9 @@ const getUserInfo = () => {
   })
   .then((response) => {
     if (response.data.token) {
-      console.log("USER:"+JSON.stringify(response.data));
+      alert("USER:"+JSON.stringify(response.data));
       localStorage.setItem("user", JSON.stringify(response.data));
+      window.location.reload();
     }
     return JSON.parse(response.data);
   })
@@ -102,7 +103,7 @@ const handleStar = (star) => {
     }
   })
   .then((response) => {
-    console.log(JSON.stringify(response.data));
+    alert(JSON.stringify(response.data));
     return JSON.parse(response.data);
   })
 };
