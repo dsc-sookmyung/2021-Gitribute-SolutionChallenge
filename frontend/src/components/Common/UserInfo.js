@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from 'styled-components';
 import Popup from "reactjs-popup";
+import AuthService from '../../services/auth.service';
 
 const contentStyle = {
   position: "absolute",
@@ -14,6 +15,13 @@ const contentStyle = {
 };
 
 const UserInfo = ({ trigger, currentUser, logout, levelIcon }) => {
+  const [userInfo, setUserInfo] = useState(currentUser);
+  
+  useEffect(() => {
+    const user = AuthService.getCurrentUser();
+    setUserInfo(user);
+  }, []);
+
   return (
     <Popup
       trigger={<a href="#">{trigger}</a>}
@@ -22,24 +30,24 @@ const UserInfo = ({ trigger, currentUser, logout, levelIcon }) => {
     >
       {close => (
         <>
-        { currentUser.role === 1 ? (
+        { userInfo.role === 1 ? (
           <div className="modal">
             <Title>Available</Title>
-            <Content>Total &nbsp;&nbsp; {currentUser.total}</Content>
+            <Content>Total &nbsp;&nbsp; {userInfo.total}</Content>
             <hr style={{border: "solid 0.1px #e9ecef", transform: "scaleY(0.5)", width: "90%"}} />
             <a href="#" onClick={logout}><Title>Sign Out</Title></a>
           </div>           
         ) : (
-          currentUser.role === 2 ? (
+          userInfo.role === 2 ? (
             <div className="modal">
               <Title>Level</Title>
-              <Content>{levelIcon} {currentUser.level}</Content>
+              <Content>{levelIcon} {userInfo.level}</Content>
               <hr style={{border: "solid 0.1px #e9ecef", transform: "scaleY(0.5)", width: "90%"}} />
               <Title>Donation</Title>
-              <Content>Panty Liner {currentUser.liner}</Content>
-              <Content>Medium {currentUser.medium}</Content>
-              <Content>Large {currentUser.large}</Content>
-              <Content>Overnight {currentUser.overnight}</Content>
+              <Content>Panty Liner {userInfo.liner}</Content>
+              <Content>Medium {userInfo.medium}</Content>
+              <Content>Large {userInfo.large}</Content>
+              <Content>Overnight {userInfo.overnight}</Content>
               <hr style={{border: "solid 0.1px #e9ecef", transform: "scaleY(0.5)", width: "90%"}} />
               <a href="#" onClick={logout}><Title>Sign Out</Title></a>
             </div>           
