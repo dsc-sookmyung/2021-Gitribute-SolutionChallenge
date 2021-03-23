@@ -26,15 +26,15 @@ def getDefaultCenter(request):
 
             response = {
                 'area' : center.area,
-                'center' : 'Baengma, Madu',
+                'center' : {'Baengma', 'Madu'},
                 'name' : center.name,
                 'lat' : center.lat,
                 'lng': center.lng,
-                'liner' : center.pantyliner,
+                'pads' : {'liner' : center.pantyliner,
                 'medium': center.medium,
                 'large': center.large,
                 'overnight': center.overnight,
-                'total' : total,
+                'total' : total},
                 'password': center.password,
                 'phonenumber': center.phonenumber,
                 'location': center.location,
@@ -49,15 +49,15 @@ def getDefaultCenter(request):
 
             response = {
                 'area' : center.area,
-                'center' : 'Baengma, Madu',
+                'center' : {'Baengma', 'Madu'},
                 'name' : center.name,
                 'lat' : center.lat,
                 'lng': center.lng,
-                'liner' : center.pantyliner,
+                'pads' : {'liner' : center.pantyliner,
                 'medium': center.medium,
                 'large': center.large,
                 'overnight': center.overnight,
-                'total' : total,
+                'total' : total},
                 'password': center.password,
                 'phonenumber': center.phonenumber,
                 'location': center.location,
@@ -76,7 +76,7 @@ def getCenter(request):
         area = request.data["area"]
         place = request.data["place"]
 
-        if (int(area) == 2 and place == "Baengma"):
+        if (int(area) == 0 and place == "Baengma") or (int(area) == 2 and place == "Baengma"):
             print("Baengma 시리얼라이저")
             center = Center.objects.get(id = 1)
 
@@ -87,17 +87,17 @@ def getCenter(request):
                 'name' : center.name,
                 'lat' : center.lat,
                 'lng': center.lng,
-                'liner' : center.pantyliner,
+                'pads' : {'liner' : center.pantyliner,
                 'medium': center.medium,
                 'large': center.large,
                 'overnight': center.overnight,
-                'total' : total,
+                'total' : total},
                 'password': center.password,
                 'phonenumber': center.phonenumber,
                 'location': center.location,
             }
 
-        elif (int(area) == 2 and place == "Madu"):
+        elif (int(area) == 0 and place == "Madu") or (int(area) == 2 and place == "Madu"):
             print("Madu 시리얼라이저")
             center = Center.objects.get(id = 2)
 
@@ -108,11 +108,11 @@ def getCenter(request):
                 'name' : center.name,
                 'lat' : center.lat,
                 'lng': center.lng,
-                'liner' : center.pantyliner,
+                'pads' : {'liner' : center.pantyliner,
                 'medium': center.medium,
                 'large': center.large,
                 'overnight': center.overnight,
-                'total' : total,
+                'total' : total},
                 'password': center.password,
                 'phonenumber': center.phonenumber,
                 'location': center.location,
@@ -133,9 +133,9 @@ def Centerdef(request):
         area = request.data["area"]
         place = request.data["place"]
         print(place)
-        if (int(area) == 2 and place == "Baengma"):
+        if (int(area) == 0 and place == "Baengma") or (int(area) == 2 and place == "Baengma"):
             centercount = Center.objects.get(id = 1)
-        elif (int(area) == 2 and place == "Madu"):
+        elif (int(area) == 0 and place == "Madu") or (int(area) == 2 and place == "Madu"):
             centercount = Center.objects.get(id = 2)
 
         user = User.objects.get(username = request.user)
