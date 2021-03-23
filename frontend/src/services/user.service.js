@@ -13,42 +13,52 @@ const getUserInfo = () => {
   })
   .then((response) => {
     if (response.data.token) {
-      alert("USER:"+JSON.stringify(response.data));
+      console.log("USER:"+JSON.stringify(response.data));
       localStorage.setItem("user", JSON.stringify(response.data));
-      window.location.reload();
     }
-    return JSON.parse(response.data);
+    return response.data;
   })
 }
 
 const getDefaultCenter = (region) => {
-  return axios({
-    method: 'post',
-    url: API_URL_CENTER+'defaultcenter/',
-    headers: authHeader(),
-    data: {
-      area: region
-    }
-  })
-  .then((response) => {
-    // console.log("de: "+JSON.stringify(response.data));
-    return JSON.parse(response.data);
-  })
+  try {
+    return axios({
+      method: 'post',
+      url: API_URL_CENTER+'defaultcenter/',
+      headers: authHeader(),
+      data: {
+        area: region
+      }
+    })
+    .then((response) => {
+      console.log(JSON.stringify(response.data));
+      return response.data;  
+    })
+  } 
+  catch (error) {
+    console.log(error);
+  }
 };
 
 const getCenter = (region, center) => {
-  return axios({
-    method: 'post',
-    url: API_URL_CENTER+'defaultcenter/',
-    headers: authHeader(),
-    data: {
-      place: region,
-    }
-  })
-  .then((response) => {
-    console.log(JSON.stringify(response.data));
-    return JSON.parse(response.data);
-  })
+  try {
+    return axios({
+      method: 'post',
+      url: API_URL_CENTER+'getcenter/',
+      headers: authHeader(),
+      data: {
+        area: region,
+        place: center
+      }
+    })
+    .then((response) => {
+      console.log(JSON.stringify(response.data));
+      return response.data;
+    })
+  }
+  catch (error) {
+    console.log(error);
+  }
 };
 
 const padNumToMypage = (linerCounter, mediumCounter, largeCounter, overnightCounter) => {
@@ -65,16 +75,17 @@ const padNumToMypage = (linerCounter, mediumCounter, largeCounter, overnightCoun
   })
   .then((response) => {
     console.log(JSON.stringify(response.data));
-    return JSON.parse(response.data);
+    return response.data;
   })
 };
 
-const padNumToCenter = (center, originalLiner, originalMedium, originalLarge, originalOvernight, linerCounter, mediumCounter, largeCounter, overnightCounter) => {
+const padNumToCenter = (region, center, originalLiner, originalMedium, originalLarge, originalOvernight, linerCounter, mediumCounter, largeCounter, overnightCounter) => {
   return axios({
     method: 'put',
     url: API_URL_CENTER+'centerdef/',
     headers: authHeader(),
     data: {
+      area: region,
       place: center,
       originalLiner: originalLiner, 
       originalMedium: originalMedium, 
@@ -88,7 +99,7 @@ const padNumToCenter = (center, originalLiner, originalMedium, originalLarge, or
   })
   .then((response) => {
     console.log(JSON.stringify(response.data));
-    return JSON.parse(response.data);
+    return response.data;
   })
 }
 
@@ -103,8 +114,8 @@ const handleStar = (star) => {
     }
   })
   .then((response) => {
-    alert(JSON.stringify(response.data));
-    return JSON.parse(response.data);
+    console.log(JSON.stringify(response.data));
+    return response.data;
   })
 };
 
