@@ -17,7 +17,30 @@ def getDefaultCenter(request):
     if request.method == 'POST':
         area = request.data["area"]
 
-        if int(area) == 2:
+        if int(area) == 0:
+            print("total 시리얼라이저")
+            center = Center.objects.get(id = 1)
+
+            total = center.pantyliner + center.medium + center.large + center.overnight
+            print(total)
+
+            response = {
+                'area' : center.area,
+                'center' : 'BaengmaStaion, MaduStaion',
+                'name' : center.name,
+                'lat' : center.lat,
+                'lng': center.lng,
+                'liner' : center.pantyliner,
+                'medium': center.medium,
+                'large': center.large,
+                'overnight': center.overnight,
+                'total' : total,
+                'password': center.password,
+                'phonenumber': center.phonenumber,
+                'location': center.location,
+            }
+
+        elif int(area) == 2:
             print("gyeonggi 시리얼라이저")
             center = Center.objects.get(id = 1)
 
@@ -26,7 +49,7 @@ def getDefaultCenter(request):
 
             response = {
                 'area' : center.area,
-                'center' : 'BaegmaStaion, MaduStaion',
+                'center' : 'BaengmaStaion, MaduStaion',
                 'name' : center.name,
                 'lat' : center.lat,
                 'lng': center.lng,
@@ -53,8 +76,8 @@ def getCenter(request):
         area = request.data["area"]
         place = request.data["place"]
 
-        if (int(area) == 2 and place == "Baegma"):
-            print("Baegma 시리얼라이저")
+        if (int(area) == 2 and place == "Baengma"):
+            print("Baengma 시리얼라이저")
             center = Center.objects.get(id = 1)
 
             total = center.pantyliner + center.medium + center.large + center.overnight
@@ -110,7 +133,7 @@ def Centerdef(request):
         area = request.data["area"]
         place = request.data["place"]
         print(place)
-        if (int(area) == 2 and place == "Baegma"):
+        if (int(area) == 2 and place == "Baengma"):
             centercount = Center.objects.get(id = 1)
         elif (int(area) == 2 and place == "Madu"):
             centercount = Center.objects.get(id = 2)
