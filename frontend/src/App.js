@@ -12,7 +12,6 @@ import PasswordReset from './components/PasswordReset/PasswordReset';
 import { Switch } from 'react-router-dom/cjs/react-router-dom.min';
 
 function App() {
-
   return (
     <Router>
       <Navbar />
