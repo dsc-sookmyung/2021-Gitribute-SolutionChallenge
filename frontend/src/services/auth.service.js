@@ -12,11 +12,12 @@ const register = (username, email, password, role, image) => {
   });
 };
 
-const login = (email, password) => {
+const login = (email, password, remember) => {
   return axios
     .post(API_URL + "login/", {
       email,
       password,
+      remember
     })
     .then((response) => {
       if (response.data.token) {
