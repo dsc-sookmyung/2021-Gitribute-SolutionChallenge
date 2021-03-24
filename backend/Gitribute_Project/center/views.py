@@ -75,7 +75,7 @@ def getCenter(request):
     if request.method == 'POST':
         area = request.data["area"]
         place = request.data["place"]
-
+        
         if (int(area) == 0 and place == "Baengma") or (int(area) == 2 and place == "Baengma"):
             print("Baengma 시리얼라이저")
             center = Center.objects.get(id = 1)
@@ -130,6 +130,9 @@ def Centerdef(request):
 
     global centercount
     if request.method == 'PUT':
+        centerserializer = CenterSerializer(data=request.data)
+
+        centercount = Center.objects.get(id = 1)
         area = request.data["area"]
         place = request.data["place"]
         print(place)
@@ -140,36 +143,37 @@ def Centerdef(request):
 
         user = User.objects.get(username = request.user)
 
-        if (centercount.pantyliner != int(request.data['originalLiner']) or centercount.medium != int(request.data['originalMedium']) or centercount.large != int(request.data['originalLarge']) or centercount.overnight != int(request.data['originalOvernight'])):
+        if (int(request.data['originalLiner']) != 0 and int(request.data['originalMedium']) != 0 and int(request.data['originalLarge']) != 0 and int(request.data['originalOvernight'] != 0)):
+            if (centercount.pantyliner != int(request.data['originalLiner']) or centercount.medium != int(request.data['originalMedium']) or centercount.large != int(request.data['originalLarge']) or centercount.overnight != int(request.data['originalOvernight'])):
             
-            print("개수 다름")
+                print("개수 다름")
 
-            data = {
-                "email" : user.email,
-                "centerpantyliner" : centercount.pantyliner,
-                "centermedium" : centercount.medium,
-                "centerlarge" : centercount.large,
-                "centerovernight" : centercount.overnight,
-                "inputpantyliner" : int(request.data['originalLiner']),
-                "inputmedium" : int(request.data['originalMedium']),
-                "inputlarge" : int(request.data['originalLarge']),
-                "inputovernight" : int(request.data['originalOvernight']),
-            }
-        
-            errorlistserializer = ErrorListSerializer(data=data)
-            print(errorlistserializer.is_valid())
-            print(errorlistserializer.errors)
-            if errorlistserializer.is_valid():
-                print("errorlistserializer.save()")
-                errorlistserializer.save()
+                data = {
+                    "email" : user.email,
+                    "centerpantyliner" : centercount.pantyliner,
+                    "centermedium" : centercount.medium,
+                    "centerlarge" : centercount.large,
+                    "centerovernight" : centercount.overnight,
+                    "inputpantyliner" : int(request.data['originalLiner']),
+                    "inputmedium" : int(request.data['originalMedium']),
+                    "inputlarge" : int(request.data['originalLarge']),
+                    "inputovernight" : int(request.data['originalOvernight']),
+                }
 
-            centercount.pantyliner = int(request.data['originalLiner'])
-            centercount.medium = int(request.data['originalMedium'])
-            centercount.large = int(request.data['originalLarge'])
-            centercount.overnight = int(request.data['originalOvernight'])
+                errorlistserializer = ErrorListSerializer(data=data)
+                print(errorlistserializer.is_valid())
+                print(errorlistserializer.errors)
+                if errorlistserializer.is_valid():
+                    print("errorlistserializer.save()")
+                    errorlistserializer.save()
 
-            if CenterSerializer.is_valid():
-                centercount.save()
+                centercount.pantyliner = int(request.data['originalLiner'])
+                centercount.medium = int(request.data['originalMedium'])
+                centercount.large = int(request.data['originalLarge'])
+                centercount.overnight = int(request.data['originalOvernight'])
+
+                if centerserializer.is_valid():
+                    centercount.save()
 
         print(user.role)
         if user.role == 1:
