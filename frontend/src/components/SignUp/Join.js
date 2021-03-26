@@ -81,6 +81,9 @@ const Join = (props) => {
     }
   }, [password])
 
+  useEffect(() => {
+  }, [image])
+
   const joinRecipient = (e) => {
     e.preventDefault();
     setRole(1);
@@ -135,6 +138,14 @@ const Join = (props) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
+
+    alert(JSON.stringify({
+      username: username,
+      email: email,
+      password: password,
+      role: role,
+      image: image
+    }));
 
     setMessage("");
     setSuccessful(false);
