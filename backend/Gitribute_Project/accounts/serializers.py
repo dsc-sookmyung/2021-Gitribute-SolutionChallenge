@@ -61,16 +61,15 @@ class ReceiverCreateSerializer(serializers.Serializer):
     #overnight = serializers.IntegerField(required=False)
     
     #Receiver
-    image_profile = serializers.ImageField(required=True)
+    image = serializers.ImageField(use_url=True)
     total = serializers.IntegerField(required=False)
-    
 
     def create(self, validated_data):
         receiver = User.objects.create(
             email=validated_data['email'],
             username=validated_data['username'],
             role=validated_data['role'],
-            image_profile=validated_data['image_profile'],
+            image=validated_data['image'],
             center=None,
             total=10,
         )

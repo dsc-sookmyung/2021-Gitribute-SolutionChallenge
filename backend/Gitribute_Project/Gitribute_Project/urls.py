@@ -16,4 +16,4 @@ urlpatterns = [
     path('center/', include('center.urls')),
     path('scrap/', include('scrap.urls')),
    
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
