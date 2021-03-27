@@ -46,6 +46,10 @@ const NavBar = () => {
     console.log(JSON.stringify(currentUser));
   }, [currentUser]);
 
+  useEffect(() => {
+    console.log(star);
+  }, [star]);
+
   const logout = () => {
     AuthService.logout();
     setRole(0);
@@ -69,9 +73,9 @@ const NavBar = () => {
         </NavLink>
         <NavLink to='/center'>
           {!star ? (
-            "Choose your local LOGO Center"
+            "Choose your local Blooming Center"
           ) : (
-            "Primary Center: 📍"+star
+            "Primary Center: 📍 "+star
           )}
         </NavLink>
         <NavLink to='/faq'>
