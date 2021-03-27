@@ -10,6 +10,8 @@ import CenterTable from './CenterTable';
 
 const useStyles = makeStyles((theme) => ({
   container: {
+    backgroundColor: "#fff",
+    height: "100vh",
     padding: "2.5rem calc((100vw - 1193px) / 2 + 1rem)",
     display: "flex",
     flexDirection: "column",
@@ -17,9 +19,13 @@ const useStyles = makeStyles((theme) => ({
     '@media screen and (max-width: 1193px)': {
       padding: "2.5rem 1rem"
     },
+    '@media screen and (max-width:767px)': {
+      padding: "2.5rem 2rem",
+      flexDirection: "column"
+    },
   },
   select: {
-    marginTop: theme.spacing(2),
+    marginTop: theme.spacing(3),
     marginBottom: theme.spacing(6),
   },
   table: {

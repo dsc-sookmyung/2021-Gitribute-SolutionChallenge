@@ -10,7 +10,8 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 const useStyles = makeStyles((theme) => ({
   container: {
-    background: "#fff",
+    backgroundColor: "#fff",
+    height: "100vh",
     padding: "2.5rem calc((100vw - 1193px) / 2 + 1rem)",
     display: "flex",
     flexDirection: "column",
@@ -18,19 +19,24 @@ const useStyles = makeStyles((theme) => ({
     '@media screen and (max-width: 1193px)': {
       padding: "2.5rem 1rem"
     },
+    '@media screen and (max-width:767px)': {
+      padding: "2.5rem 2rem",
+      flexDirection: "column"
+    },
   },
   table: {
     [theme.breakpoints.up('md')]: {
-      width: "1194px",
+      maxWidth: "1194px",
     }, 
-    width: "calc(100vw - 2rem)",
+    marginTop: theme.spacing(3),
+    width: "calc(100% - 2rem)",
   },
   description: {
-    background: "#f3e5f5"
+    background: "#f5f5f5"
   },
   hr: {
     [theme.breakpoints.up('md')]: {
-      width: "1194px",
+      maxWidth: "1194px",
     }, 
     width: "calc(100vw - 2rem)",
     border: "solid 0.1px #e9ecef", 
@@ -52,9 +58,8 @@ const FAQ = () => {
     <>
     <div className={classes.container}>
       <Typography variant="h3">
-        FAQ
+        Frequently Asked Questions
       </Typography>
-      <hr className={classes.hr} />
       <Table className={classes.table} aria-label="simple table">
         <TableBody>
           {/* First Question */}

@@ -9,12 +9,15 @@ export const Nav = styled.nav`
   padding: 0rem calc((100vw - 1194px) / 2);
   z-index: 10;
   justify-content: flex-start;
+  @media screen and (max-width: 768px) {
+    padding-top: 1rem
+  }
 `;
 
 export const NavLogo = styled(Link)`
   font-size: 1.5rem;
   font-weight : bold;
-  color: #000;
+  color: #9c27b0;
   display: flex;
   align-items: center;
   text-decoration: none;
@@ -22,6 +25,9 @@ export const NavLogo = styled(Link)`
   height: 100%;
   cursor: pointer;
   font-family: 'Lobster', cursive;
+  @media screen and (max-width: 768px) {
+    padding: 0rem 2rem
+  }
 `;
 
 export const NavLink = styled(Link)`
