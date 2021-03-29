@@ -9,6 +9,9 @@ const useStyles = makeStyles((theme) => ({
   backdrop: {
     color: '#fff',
   },
+  menu: {
+    // margin: "0.5rem"
+  }
 }));
 
 const Sidebar = ({ role, currentUser, logout, levelIcon, star }) => {
@@ -21,7 +24,7 @@ const Sidebar = ({ role, currentUser, logout, levelIcon, star }) => {
 
   return (
     <>
-      <MenuIcon onClick={showSidebar} fontSize="large" style={{ color: "000" }} />
+      <MenuIcon className={classes.menu} onClick={showSidebar} fontSize="large" style={{ color: "000", marginRight: "0rem 2rem" }} />
       <SidebarNav sidebar={sidebar}>
         <SidebarWrap>
           <NavIcon to='#'>
@@ -29,8 +32,6 @@ const Sidebar = ({ role, currentUser, logout, levelIcon, star }) => {
           </NavIcon>
           <SidebarLink to='/'>About</SidebarLink>
           <SidebarLink to='/center'>{!star ? ("Choose your local LOGO Center") : ("Primary Center: 📍"+star)}</SidebarLink>
-          <SidebarLink to='/faq'>FAQ</SidebarLink>
-          <SidebarLink to='/contact'>Contact</SidebarLink>
           { role === 0 ? (
             <SidebarLink to='/login'>Sign&nbsp;In</SidebarLink>
           ) : (

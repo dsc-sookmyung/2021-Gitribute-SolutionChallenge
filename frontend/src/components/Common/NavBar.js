@@ -78,12 +78,6 @@ const NavBar = () => {
             "Primary Center: 📍 "+star
           )}
         </NavLink>
-        <NavLink to='/faq'>
-          FAQ
-        </NavLink>
-        <NavLink to='/contact'>
-          Contact
-        </NavLink>
       </NavMenu>
       <NavBtn>
       {role === 0 ? (
