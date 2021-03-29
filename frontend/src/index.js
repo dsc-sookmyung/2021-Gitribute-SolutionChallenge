@@ -20,15 +20,15 @@ const theme = createMuiTheme({
   }, 
   typography: {
     h1: {
-      fontSize: '2.5rem',
-      fontWeight: 'bold',
+      fontSize: '3rem',
+      fontWeight: 700,
       '@media (max-width:767px)': {
-        fontSize: '2rem',
+        // fontSize: '2rem',
       },
     },
     h2: {
       fontSize: '1.5rem',
-      fontWeight: 'bold',
+      fontWeight: 700,
     },
     h3: {
       fontSize: '1.25rem',

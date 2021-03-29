@@ -6,6 +6,10 @@ export const Nav = styled.nav`
   background: #fff;
   height: 4rem;
   display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
   padding: 0rem calc((100vw - 1194px) / 2);
   z-index: 10;
   justify-content: flex-start;
@@ -25,9 +29,6 @@ export const NavLogo = styled(Link)`
   height: 100%;
   cursor: pointer;
   font-family: 'Lobster', cursive;
-  @media screen and (max-width: 768px) {
-    padding: 0rem 2rem
-  }
 `;
 
 export const NavLink = styled(Link)`
@@ -50,7 +51,8 @@ export const NavMenu = styled.div`
   display: flex;
   align-items: center;
   margin-left: 4rem;
-  width: 100vw;
+  // width: 100vw;
+  margin-right: auto;
   white-space: nowrap;
   @media screen and (max-width: 768px) {
     display: none;
@@ -60,15 +62,14 @@ export const NavMenu = styled.div`
 export const NavBtn = styled.nav`
   display: flex;
   align-items: center;
-  justify-content: flex-end;
-  width: 100vw;
+  padding: 0rem 1rem;
+  margin-right: 1rem;
   @media screen and (max-width: 768px) {
-    display: none;
+    padding: 0rem 2rem;
   }
 `;
 
 export const NavBtnLink = styled(Link)`
-  padding: 0rem 1rem;
   color: #000;
   outline: none;
   border: none;
@@ -85,7 +86,6 @@ export const NavBtnLink = styled(Link)`
 `;
 
 export const NavBtnUser = styled.div`
-  padding: 0rem 1rem;
   color: #000;
   outline: none;
   border: none;
@@ -98,5 +98,8 @@ export const NavBtnUser = styled.div`
   }
   &:focus {
     color: #9c27b0;
+  }
+  @media screen and (max-width: 768px) {
+    display: none
   }
 `;
