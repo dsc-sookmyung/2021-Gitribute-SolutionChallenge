@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import AuthService from '../../services/auth.service';
-import UserService from '../../services/user.service';
 
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -15,7 +14,12 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import CustomPopup from '../Common/CustomPopup';
 
 const useStyles = makeStyles((theme) => ({
+  container: {
+    background: "#fff",
+    paddingTop: '2.5rem'
+  },
   paper: {
+    //background: "#fff",
     marginTop: theme.spacing(8),
     display: 'flex',
     flexDirection: 'column',
@@ -39,6 +43,7 @@ const Login = (props) => {
   const [password, setPassword] = useState("");  
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
+  const [remember, setRemember] = useState(false); 
   const classes = useStyles();
 
   const handleEmail = (e) => {
@@ -49,13 +54,17 @@ const Login = (props) => {
     setPassword(e.target.value);
   }
 
+  const handleRemember = (e) => {
+    setRemember(!remember);
+  }
+
   const handleLogin = (e) => {
     e.preventDefault();
 
     setMessage("");
     setLoading(true);
 
-    AuthService.login(email, password)
+    AuthService.login(email, password, remember)
     .then(
       (data) => {
       if (data.message === "No Email") {
@@ -88,7 +97,7 @@ const Login = (props) => {
   }
 
   return (
-    <Container component="main" maxWidth="xs">
+    <Container className={classes.container} component="main" maxWidth="xs">
       <div className={classes.paper}>
         <Typography variant="h1">
           Sign In
@@ -119,7 +128,7 @@ const Login = (props) => {
             onChange={handlePassword}
           />
           <FormControlLabel
-            control={<Checkbox value="remember" color="secondary" />}
+            control={<Checkbox value="remember" color="secondary" onChange={handleRemember} />}
             label="Remember me"
           />
           <Button
