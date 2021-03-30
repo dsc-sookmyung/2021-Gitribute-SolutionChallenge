@@ -26,7 +26,7 @@ def getDefaultCenter(request):
 
             response = {
                 'area' : center.area,
-                'center' : {'Baengma', 'Madu'},
+                'center' : {'Madu', 'Baengma'},
                 'name' : center.name,
                 'lat' : center.lat,
                 'lng': center.lng,
@@ -49,7 +49,7 @@ def getDefaultCenter(request):
 
             response = {
                 'area' : center.area,
-                'center' : {'Baengma', 'Madu'},
+                'center' : {'Madu', 'Baengma'},
                 'name' : center.name,
                 'lat' : center.lat,
                 'lng': center.lng,
