@@ -1,8 +1,9 @@
-# 2021 Solution Challeng : 🌼Blooming🌼
+# 2021 Solution Challenge : 🌼Blooming🌼
 
 
-> DSC Sookmyung Team Gitribute(권은지, 서희, 유지연)
-개발기간 : 2021.03.01 ~ 2021.03.31
+> DSC Sookmyung Team Gitribute 
+> Team Member : Kwon Eunji(heleneunji), Suh Hee(0hee0), Yoo Jiyeon(hellouz818)
+> Duration of development : 2021.03.01 ~ 2021.03.31
 
 
 ### WEB Developer
@@ -22,6 +23,7 @@
 
 ### Project introduction
 블루밍은 소외계층 여성 청소년을 위한 지역 비대면 생리대 기부 플랫폼이다.
+Blooming is a local non-face-to-face sanitary pad donation platform for underprivileged women.
 
 The Blooming Box is located in the women's restroom of a subway station for good accessibility, so that donors can donate or beneficiaries can take sanitary pads non-face-to-face.
 There is a hole in the upper part of the box, so anyone can donate at any time, and in order to take a sanitary pad, you must sign up the Blooming site and get a password after being recognized as a beneficiary.
