@@ -1,9 +1,9 @@
 # 2021 Solution Challenge : 🌼Blooming🌼
 
 
-> DSC Sookmyung Team Gitribute 
-> Team Member : Kwon Eunji(heleneunji), Suh Hee(0hee0), Yoo Jiyeon(hellouz818)
-> Duration of development : 2021.03.01 ~ 2021.03.31
+> DSC Sookmyung Team Gitribute <br />
+> Team Member : Kwon Eunji(heleneunji), Suh Hee(0hee0), Yoo Jiyeon(hellouz818) <br />
+> Duration of development : 2021.03.01-2021.03.31
 
 
 ### WEB Developer
