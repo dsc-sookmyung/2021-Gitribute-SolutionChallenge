@@ -99,7 +99,7 @@ def mypage(request):
 
     print(auth_token)
     if request.method == 'GET':
-        user = User.objects.get(username = request.user)
+        user = User.objects.get(email = request.user.email)
         if user.role == 1:
 
             response = {
