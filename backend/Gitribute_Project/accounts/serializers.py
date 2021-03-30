@@ -61,7 +61,7 @@ class ReceiverCreateSerializer(serializers.Serializer):
     #overnight = serializers.IntegerField(required=False)
     
     #Receiver
-    image = serializers.ImageField(use_url=True)
+    image = serializers.ImageField(use_url=True, required=False)
     total = serializers.IntegerField(required=False)
 
     def create(self, validated_data):

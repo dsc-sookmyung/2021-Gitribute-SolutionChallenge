@@ -41,7 +41,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     #처음 사용자에게 공통으로 입력받는 값
     email = models.EmailField(max_length=64,unique=True,)
     username = models.CharField(max_length=30)
-    image = models.ImageField(default='media/yam.jpg')
+    image = models.ImageField(null=True, blank=True)
     role = models.IntegerField(null=True, blank=True)
 
     #나중에 추가적으로 받을 값
