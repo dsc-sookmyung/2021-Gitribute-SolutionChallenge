@@ -125,8 +125,8 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME':'gitribute',
         'USER':'root',
-        'PASSWORD':get_secret("DATABASE"),
-        'HOST':'104.154.223.37',
+        #'PASSWORD':get_secret("DATABASE"),
+        'HOST':'35.223.122.159',
         'PORT':'3306',
     }
 }
