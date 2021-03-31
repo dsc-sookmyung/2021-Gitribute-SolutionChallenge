@@ -38,7 +38,7 @@
 ### Project introduction
 블루밍은 소외계층 여성 청소년을 위한 지역 비대면 생리대 기부 플랫폼이다.
 
-Blooming is a local non-face-to-face sanitary pad donation platform for underprivileged women.
+Blooming is a local non-face-to-face sanitary pad donation platform for underprivileged female teenagers.
 
 The Blooming Box is located in the women's restroom of a subway station for good accessibility, so that donors can donate or beneficiaries can take sanitary pads non-face-to-face.
 There is a hole in the upper part of the box, so anyone can donate at any time, and in order to take a sanitary pad, you must sign up the Blooming site and get a password after being recognized as a beneficiary.
