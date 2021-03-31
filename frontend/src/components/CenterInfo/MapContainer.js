@@ -1,25 +1,20 @@
 import React from 'react';
-import { GoogleMap, LoadScript, Marker, InfoWindow, useJsApiLoader } from '@react-google-maps/api';
+import { GoogleMap, Marker, InfoWindow, useJsApiLoader } from '@react-google-maps/api';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 const MapContainer = ({ lat, lng, handleMarker, role, showForm }) => {
   const mapStyles = {
-    height: "22.4rem",
+    height: "20.4rem",
     width: "100%"
   }
   
   const recipientMapStyles = {   
-    height: "24.4rem",
+    height: "22.4rem",
     width: "100%"
   }
 
   const showFormStyles = {
     height: "8.8rem",
-    width: "100%"
-  }
-
-  const reShowFormStyles = {
-    height: "20rem",
     width: "100%"
   }
 
@@ -29,9 +24,6 @@ const MapContainer = ({ lat, lng, handleMarker, role, showForm }) => {
   
   if (showForm) {
     var mapStyle = showFormStyles
-    if (role === 1) {
-      mapStyle = reShowFormStyles
-    }
   }
   else {
     var mapStyle = mapStyles

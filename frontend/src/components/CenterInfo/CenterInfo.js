@@ -10,6 +10,8 @@ import CenterTable from './CenterTable';
 
 const useStyles = makeStyles((theme) => ({
   container: {
+    height: "100vh",
+    backgroudnColor: "#fff",
     padding: "6.5rem calc((100vw - 1193px) / 2 + 1rem)",
     display: "flex",
     flexDirection: "column",
@@ -151,14 +153,6 @@ export default function CenterInfo() {
             label="Jeju"
           />
           </Grid>
-          {/*
-          <Grid item sm={6} md={3}>
-          <FormControlLabel 
-            value="7" 
-            disabled control={<Radio />} 
-            label="지원하지 않는 지역" />
-          </Grid>
-          */}
         </RadioGroup>
         </FormControl>
       </Grid>
