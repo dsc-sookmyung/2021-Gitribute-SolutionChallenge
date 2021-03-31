@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import AuthService from '../../services/auth.service';
 import UserService from '../../services/user.service';
 
@@ -9,11 +9,8 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import Collapse from '@material-ui/core/Collapse';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
-import Link from '@material-ui/core/Link';
 import CountInputForm from './CountInputForm';
 import MapContainer from './MapContainer';
 
@@ -21,34 +18,45 @@ const useStyles = makeStyles((theme) => ({
   table: {
     minWidth: 100,
   },
-  tablePC: {
+  tableCenter: {
+    height: "28rem",
     [theme.breakpoints.down('sm')]: {
-      display: "none"
+      width: "36rem",
+      height: "100%"
+    },
+    [theme.breakpoints.down('xs')]: {
+      width: "20rem"
     },
   },
-  tablePCCenter: {
+  tableCenterInfo: {
     [theme.breakpoints.down('sm')]: {
-      display: "none"
+      width: "36rem",
+      height: "100%"
+    },
+    [theme.breakpoints.down('xs')]: {
+      width: "20rem"
     },
     height: "28rem"
-  },
-  tablePCCenterInfo: {
-    [theme.breakpoints.down('sm')]: {
-      display: "none"
-    },   
-    height: "28rem"
-  },
-  tableMobile: {
-    [theme.breakpoints.up('md')]: {
-      display: "none"
-    }, 
-    width: "calc(100vw - 2rem)",
   },
   innerTable: {
     minWidth: 200,
   },
-  mobileMap: {
-    width: "98vw"
+  map: {
+    [theme.breakpoints.down('sm')]: {
+      width: "36rem",
+      height: "100%"
+    },
+    [theme.breakpoints.down('xs')]: {
+      width: "20rem"
+    },
+  },
+  tableRow: {
+    "&.Mui-selected, &.Mui-selected:hover": {
+      backgroundColor: "#9c27b0",
+      "& > .MuiTableCell-root": {
+        color: "#fff"
+      }
+    }
   }
 }));
 
@@ -63,118 +71,77 @@ let padNumber = [
   createPadData('Overnight', 0),
 ];
 
-function Row({ id, center, role, star, handleMarker, showForm }) {
-  const [open, setOpen] = useState(false);
-  const [selectedCenter, setSelectedCenter] = useState("");
-  const classes = useStyles();
-
-  const showDetail = () => {
-    setSelectedCenter(center);
-    setOpen(!open);
-  }
-
-  return (
-    <>
-      <TableRow className={classes.root} hover onClick={showDetail}>
-        <TableCell component="th" scope="row" align="left">
-          {center.name} Center
-        </TableCell>
-      </TableRow>
-      <TableRow>
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }}>
-          <Collapse in={open} timeout="auto" unmountOnExit>
-            <TableRow>
-              <TableCell className={classes.mobileMap}>
-                <MapContainer lat={center.lat} lng={center.lng} handleMarker={handleMarker} role={role} showForm={showForm} />
-              </TableCell>
-            </TableRow>
-            {showForm ? (
-              <TableRow>
-                <TableCell style={{ paddingBottom: "0.4rem" }}>
-                  <CountInputForm role={role} center={selectedCenter} />
-                </TableCell>
-              </TableRow>
-            ) : (null)}
-            <TableRow>
-              <TableCell>
-                <a 
-                  href="#" 
-                  style={{ textDecoration: "inherit", color: "inherit" }}>
-                    { star === center.name ? 
-                      "⭐ My Primary Center" : "☆ Save as Primary Center" }
-                </a>
-              </TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell>
-                <strong>❤ Number of Sanitary Pads</strong>
-                <Table className={classes.innerTable} aria-label="simple table">
-                  <TableBody>
-                    {padNumber.map((pad) => {
-                      return (
-                        <TableRow key={pad.type}>
-                          <TableCell component="th" scope="row">
-                            {pad.type}
-                          </TableCell>
-                          <TableCell align="right">{pad.number}</TableCell>
-                        </TableRow>
-                      );
-                    })}
-                  </TableBody>
-                </Table>
-              </TableCell>
-            </TableRow>
-            { role === 1 ? (
-                <TableRow>
-                  <TableCell>
-                    🔑 Password
-                  </TableCell>
-                </TableRow>
-              ) : null }
-            <TableRow>
-              <TableCell>
-                📍 Location
-              </TableCell>
-            </TableRow>
-          </Collapse>
-        </TableCell>
-      </TableRow>
-    </>
-  );
-}
-
 const CenterTable = ({ currentUser, role, region, star, centerNames, defaultCenter }) => {
   const classes = useStyles();
-  const [selectedCenter, setSelectedCenter] = useState("");
+  const [selectedCenter, setSelectedCenter] = useState(star);
   const [centerInfo, setCenterInfo] = useState(undefined);
   const [showForm, setShowForm] = useState(false);
-  const [opens, setOpens] = useState(false);
   const [currentStar, setCurrentStar] = useState(star);
   const [clickStar, setClickStar] = useState(false);
-  // const [centerName, setCenterName] = useState([]);
   const [showDetail, setShowDetail] = useState(false);
-  
-  console.log("default: "+JSON.stringify(defaultCenter));
 
-  const mounted = useRef(false);
   useEffect(() => {
-    if (!mounted.current) {
-      mounted.current = true;
+    if (star) {
+      setSelectedCenter(star);
+    }
+    else if (centerNames.center === "Center is in preparation!") {
+      setCenterInfo(defaultCenter);
+      setShowForm(false);
+      padNumber = [
+        createPadData('Panty Liner', 0),
+        createPadData('Medium', 0),
+        createPadData('Large', 0),
+        createPadData('Overnight', 0),
+      ];
     }
     else {
-      if (!defaultCenter.location) {
-        setCenterInfo(undefined);
-        setShowForm(false);
-      }
+      setSelectedCenter(defaultCenter.name);
     }
-  }, [region]);
+  }, [defaultCenter]);
+
+  useEffect(() => {
+    if (star) {
+      setSelectedCenter(star);
+    }
+  }, [star]);
+
+  useEffect(() => {
+    if (!star && !centerInfo && defaultCenter.pads) {
+      console.log("Default PadNumber"+JSON.stringify(defaultCenter.pads));
+      padNumber = [
+        createPadData('Panty Liner', defaultCenter.pads.liner),
+        createPadData('Medium', defaultCenter.pads.medium),
+        createPadData('Large', defaultCenter.pads.large),
+        createPadData('Overnight', defaultCenter.pads.overnight),
+      ]; 
+    }
+    else if (centerInfo) {
+      console.log(JSON.stringify(centerInfo));
+      padNumber = [
+        createPadData('Panty Liner', centerInfo.pads.liner),
+        createPadData('Medium', centerInfo.pads.medium),
+        createPadData('Large', centerInfo.pads.large),
+        createPadData('Overnight', centerInfo.pads.overnight),
+      ]; 
+    }
+  });
 
   useEffect(() => {
     console.log("centerInfo: "+JSON.stringify(centerInfo));
+    if (centerInfo) {
+      padNumber = [
+        createPadData('Panty Liner', centerInfo.pads.liner),
+        createPadData('Medium', centerInfo.pads.medium),
+        createPadData('Large', centerInfo.pads.large),
+        createPadData('Overnight', centerInfo.pads.overnight),
+      ];        
+    }
   }, [centerInfo]);
 
-  useEffect(() => {
+  useEffect(async () => {
     console.log("selectedCenter: "+selectedCenter);
+    const getCenterInfo = await UserService.getCenter(region, selectedCenter)
+    setCenterInfo(getCenterInfo);
   }, [selectedCenter]);
 
   useEffect(async () => {
@@ -222,7 +189,7 @@ const CenterTable = ({ currentUser, role, region, star, centerNames, defaultCent
 
   const handleMarker = (e) => {
     if (currentUser) {
-      if (centerInfo) {
+      if (centerInfo || defaultCenter.location) {
         setShowForm(!showForm);
       }
       else {
@@ -236,10 +203,9 @@ const CenterTable = ({ currentUser, role, region, star, centerNames, defaultCent
 
   return (
     <Grid container className={classes.table}>
-      {/* PC */}
       <Grid item md={3}>
-        <TableContainer className={classes.tablePCCenter} component={Paper}>
-        <Table className={classes.table} aria-label="simple table">
+        <TableContainer component={Paper}>
+        <Table className={classes.tableCenter} aria-label="simple table">
           <TableHead>
             <TableRow>
               <TableCell><strong>Center</strong></TableCell></TableRow>
@@ -252,7 +218,11 @@ const CenterTable = ({ currentUser, role, region, star, centerNames, defaultCent
                     key={center} 
                     className="chooseitems" 
                     hover
-                    onClick={() => {handleDetail(center)}}>
+                    onClick={() => {handleDetail(center)}}
+                    selected={selectedCenter === center}
+                    classes={{ selected: classes.selected }}
+                    className={classes.tableRow}
+                  >
                     <TableCell className="chooseItemActive">
                       {center} Station
                     </TableCell>
@@ -276,7 +246,7 @@ const CenterTable = ({ currentUser, role, region, star, centerNames, defaultCent
       </TableContainer>
       </Grid>
       <Grid item md={3}>
-        <TableContainer className={classes.tablePCCenterInfo} component={Paper}>
+        <TableContainer className={classes.tableCenterInfo} component={Paper}>
           <Table className={classes.table} aria-label="simple table">
             <TableHead>
               <TableRow>
@@ -300,16 +270,17 @@ const CenterTable = ({ currentUser, role, region, star, centerNames, defaultCent
                   <strong>❤ Number of Sanitary Pads</strong>
                   <Table className={classes.innerTable} aria-label="simple table">
                     <TableBody>
-                      {padNumber.map((pad) => {
-                        return (
-                        <TableRow key={pad.type}>
-                          <TableCell component="th" scope="row">
-                            {pad.type}
-                          </TableCell>
-                          <TableCell align="right">{pad.number}</TableCell>
-                        </TableRow>
-                        );
-                      })}
+                      {
+                        padNumber.map((pad) => {
+                          return (
+                          <TableRow key={pad.type}>
+                            <TableCell component="th" scope="row">
+                              {pad.type}
+                            </TableCell>
+                            <TableCell align="right">{pad.number}</TableCell>
+                          </TableRow>
+                          );
+                        })}
                     </TableBody>
                   </Table>
                 </TableCell>
@@ -349,7 +320,7 @@ const CenterTable = ({ currentUser, role, region, star, centerNames, defaultCent
             </TableHead>
             <TableBody>
               <TableRow>
-                <TableCell>
+                <TableCell className={classes.map}>
                   { centerInfo ? (
                     <MapContainer lat={parseFloat(centerInfo.lat)} lng={parseFloat(centerInfo.lng)} handleMarker={handleMarker} role={role} showForm={showForm} />
                   ) : (
@@ -367,22 +338,6 @@ const CenterTable = ({ currentUser, role, region, star, centerNames, defaultCent
             </TableBody>
           </Table>
         </TableContainer>
-      </Grid>
-      {/* Mobile */}
-      <Grid item md={12}>
-        <TableContainer className={classes.tableMobile} component={Paper}>
-        <Table className={classes.table} aria-label="simple table">
-          <TableBody>
-            {centerNames.length >= 1 ? (
-              centerNames.map((center, index) => (
-                <Row key={center.name} id={index} className="chooseitmes" center={center} role={role} star={star} handleMarker={handleMarker} showForm={showForm} />
-              ))
-            ) : (
-              <Row center={defaultCenter} role={role} star={star} handleMarker={handleMarker} showForm={showForm} />
-            )}
-          </TableBody>
-        </Table>
-      </TableContainer>
       </Grid>
     </Grid>
   );
