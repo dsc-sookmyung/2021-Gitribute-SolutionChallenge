@@ -24,7 +24,9 @@ const Sidebar = ({ role, currentUser, logout, levelIcon, star }) => {
 
   return (
     <>
-      <MenuIcon className={classes.menu} onClick={showSidebar} fontSize="large" style={{ color: "000", marginRight: "0rem 2rem" }} />
+      <NavIcon>
+        <MenuIcon className={classes.menu} onClick={showSidebar} fontSize="large" style={{ color: "000" }} />
+      </NavIcon>
       <SidebarNav sidebar={sidebar}>
         <SidebarWrap>
           <NavIcon to='#'>

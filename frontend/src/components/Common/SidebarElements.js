@@ -5,7 +5,7 @@ export const NavIcon = styled(Link)`
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  padding: 0 1.5rem;
+  padding: 0 1rem;
   height: 5rem;
 `;
 
