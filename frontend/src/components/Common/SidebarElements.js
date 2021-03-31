@@ -7,6 +7,9 @@ export const NavIcon = styled(Link)`
   align-items: center;
   padding: 0 1rem;
   height: 5rem;
+  @media screen and (min-width: 601px) {
+    display: none;
+  }
 `;
 
 export const SidebarNav = styled.nav`
@@ -59,7 +62,6 @@ export const SidebarLink = styled(Link)`
     background: #9c27b0;
     border-left: 4px solid #9c27b0;
   }
-
 `;
 
 export const SidebarTitleLabel = styled.div`

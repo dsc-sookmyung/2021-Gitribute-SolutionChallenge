@@ -16,19 +16,18 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     justifyContent: "flex-start",
-    // justifyContent: "space-around",
-    '@media screen and (max-width:767px)': {
-      flexDirection: "column"
+    [theme.breakpoints.down('xs')]: {
+      overflow: "scroll"
     },
   },
   about: {
     padding: "2.5rem calc((100vw - 1193px) / 2 + 1rem)",
     margin: theme.spacing(8, 0),
     display: "flex",
-    '@media screen and (max-width: 1193px)': {
+    [theme.breakpoints.down('md')]: {
       padding: "2.5rem 1rem"
     },
-    '@media screen and (max-width:767px)': {
+    [theme.breakpoints.down('xs')]: {
       padding: "2.5rem 2rem",
       flexDirection: "column",
       alignSelf: "flex-start",
@@ -39,24 +38,34 @@ const useStyles = makeStyles((theme) => ({
     alignSelf: "flex-end"
   },
   imageContainer: {
-    marginLeft: "auto",
+    [theme.breakpoints.up('md')]: {
+      marginLeft: "auto"
+    },
     alignSelf: "flex-start",
     width: "360px",
-    '@media (max-width:767px)': {
+    [theme.breakpoints.down('xs')]: {
+      display: "flex",
+      alignSelf: "center",
       width: "260px",
       marginTop: "2.5rem"
-    }
+    },
   },
   featureTop: {
     width: "100vw",
     height: "100vh",
     background: "#9c27b0",
+    [theme.breakpoints.down('xs')]: {
+      marginTop: "4rem"
+    },
   }, 
   purpleContainer: {
     background: "#9c27b0",
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
+    [theme.breakpoints.down('xs')]: {
+      overflow: "scroll"
+    },
   },
   columnContainer: {
     padding: "2.5rem calc((100vw - 1193px) / 2 + 1rem)",
@@ -64,11 +73,8 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: "1rem",
     display: "flex",
     flexDirection: "column",
-    '@media screen and (max-width: 1193px)': {
-      padding: "2.5rem 1rem"
-    },
-    '@media screen and (max-width:767px)': {
-      padding: "2.5rem 2rem",
+    [theme.breakpoints.down('md')]: {
+      padding: "2rem 1rem"
     },
   },
   featureTitle: {
