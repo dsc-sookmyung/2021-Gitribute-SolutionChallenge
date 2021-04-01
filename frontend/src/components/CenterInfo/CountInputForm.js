@@ -9,7 +9,6 @@ import { Checkbox, FormControlLabel, Input, Button, ButtonGroup, Tab } from '@ma
 import { Table, TableHead, TableBody, TableRow } from '@material-ui/core';
 import MuiTableCell from "@material-ui/core/TableCell";
 import Popup from "reactjs-popup";
-import CustomPopup from '../Common/CustomPopup';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -46,6 +45,10 @@ const useStyles = makeStyles((theme) => ({
   popupContent: {
     padding: "2rem"
   },
+  popupNotice: {
+    paddingTop: "2rem",
+    color: "f5f5f5",
+  },
   popupButton: {
     display: "flex",
     alignItems: "center",
@@ -76,6 +79,10 @@ const contentStyle = {
 export default function CountInputForm({ role, region, centerInfo }) {
   const [currentUser, setCurrentUser] = useState(undefined);
   const [total, setTotal] = useState(0);
+  const [checkedLiner, setCheckedLiner] = useState(false);
+  const [checkedMedium, setCheckedMedium] = useState(false);
+  const [checkedLarge, setCheckedLarge] = useState(false);
+  const [checkedOvernight, setCheckedOvernight] = useState(false);
   const [checkedType, setCheckedType] = useState([]);
   const [originalLiner, setOriginalLiner] = useState(0);
   const [originalMedium, setOriginalMedium] = useState(0);
@@ -92,6 +99,7 @@ export default function CountInputForm({ role, region, centerInfo }) {
   const [updateMypage, setUpdateMypage] = useState(false);
   const classes = useStyles();
 
+  // alert("M:"+mediumCounter+"O:"+originalMedium+"C:"+centerInfo.pads.medium);
   useEffect(() => {
     const user = AuthService.getCurrentUser();
 
@@ -107,36 +115,39 @@ export default function CountInputForm({ role, region, centerInfo }) {
   useEffect(() => {
     if (total) {
       const totalCounter = linerCounter + mediumCounter + largeCounter + overnightCounter;
-      if (totalCounter > total) {
+      if (totalCounter === total) {
         setLimitLiner(true);
         setLimitMedium(true);
         setLimitLarge(true);
         setLimitOvernight(true);
-        alert(`You have exceeded the number you can take!\nNumber of sanitary pads you can take: ${total}`);
       }  
+      else if (totalCounter > total) {
+        // alert(`You have exceeded the number you can take!\nNumber of sanitary pads you can take: ${total}`);
+      }
 
-      if (linerCounter === centerInfo.liner) {
-        if (linerCounter <= originalLiner) setLimitLiner(true); 
-      } 
-      else if (linerCounter > centerInfo.liner) {
+      if (linerCounter === centerInfo.pads.liner) {
         if (linerCounter > originalLiner) {
-          console.log(`You have exceeded the number in the center!`); 
-        }
-        else {
           setLimitLiner(true); 
+        }
+      } 
+      else if (linerCounter > centerInfo.pads.liner) {
+        if (linerCounter > originalLiner) {
+          setLimitLiner(true); 
+          console.log(`You have exceeded the number in the center!`); 
         }
       }
       else {
         setLimitLiner(false);
       }
   
-      if (mediumCounter === centerInfo.medium) {
+      if (mediumCounter === centerInfo.pads.medium) {
         if (mediumCounter > originalMedium) {
           setLimitMedium(true); 
         }
       } 
-      else if (mediumCounter > centerInfo.medium) {
+      else if (mediumCounter > centerInfo.pads.medium) {
         if (mediumCounter > originalMedium) {
+          setLimitLiner(true); 
           console.log(`You have exceeded the number in the center!`); 
         }
         else {
@@ -147,11 +158,12 @@ export default function CountInputForm({ role, region, centerInfo }) {
         setLimitMedium(false);
       }
   
-      if (largeCounter === centerInfo.large) {
+      if (largeCounter === centerInfo.pads.large) {
         if (largeCounter <= originalLarge) setLimitLarge(true); 
       } 
-      else if (largeCounter > centerInfo.large) {
+      else if (largeCounter > centerInfo.pads.large) {
         if (largeCounter > originalLarge) {
+          setLimitLiner(true); 
           console.log(`You have exceeded the number in the center!`); 
         }
         else {
@@ -162,11 +174,12 @@ export default function CountInputForm({ role, region, centerInfo }) {
         setLimitLarge(false);
       }
   
-      if (overnightCounter === centerInfo.overnight) {
+      if (overnightCounter === centerInfo.pads.overnight) {
         if (overnightCounter <= originalOvernight) setLimitOvernight(true); 
       } 
-      else if (overnightCounter > centerInfo.overnight) {
+      else if (overnightCounter > centerInfo.pads.overnight) {
         if (overnightCounter > originalOvernight) {
+          setLimitLiner(true); 
           console.log(`You have exceeded the number in the center!`); 
         }
         else {
@@ -182,6 +195,34 @@ export default function CountInputForm({ role, region, centerInfo }) {
   useEffect(() => {
     console.log("use effect");
   }, [limitLiner, limitMedium, limitLarge, limitOvernight]);
+
+  useEffect(() => {
+    if (checkedLiner === false) {
+      setLinerCounter(0);
+      setOriginalLiner(0);
+    }
+  }, [checkedLiner]);
+
+  useEffect(() => {
+    if (checkedMedium === false) {
+      setMediumCounter(0);
+      setOriginalMedium(0);
+    }
+  }, [checkedMedium]);
+
+  useEffect(() => {
+    if (checkedLarge === false) {
+      setLargeCounter(0);
+      setOriginalLarge(0);
+    }
+  }, [checkedLarge]);
+
+  useEffect(() => {
+    if (checkedOvernight === false) {
+      setOvernightCounter(0);
+      setOriginalOvernight(0);
+    }
+  }, [checkedOvernight]);
 
   const handlePadType = ((e) => {
     setCheckedType({...checkedType, [e.target.name] : e.target.checked });
@@ -220,7 +261,12 @@ export default function CountInputForm({ role, region, centerInfo }) {
       setLinerCounter(prevLinerCounter => prevLinerCounter + 1);
     }
     else {
-      alert("You have exceeded the number in the center!");
+      if (total === linerCounter) {
+        alert(`You have exceeded the number you can take!\nNumber of sanitary pads you can take: ${total}`);
+      }
+      else {
+        alert("You have exceeded the number in the center!");
+      }    
     }
   }
 
@@ -229,8 +275,12 @@ export default function CountInputForm({ role, region, centerInfo }) {
       setMediumCounter(prevMediumCounter => prevMediumCounter + 1);
     }
     else {
-      alert("You have exceeded the number in the center!");
-    }
+      if (total === mediumCounter) {
+        alert(`You have exceeded the number you can take!\nNumber of sanitary pads you can take: ${total}`);
+      }
+      else {
+        alert("You have exceeded the number in the center!");
+      }    }
   }
 
   const handleLargeIncrement = () => {
@@ -238,8 +288,12 @@ export default function CountInputForm({ role, region, centerInfo }) {
       setLargeCounter(prevLargeCounter => prevLargeCounter + 1);
     }
     else {
-      alert("You have exceeded the number in the center!");
-    }
+      if (total === largeCounter) {
+        alert(`You have exceeded the number you can take!\nNumber of sanitary pads you can take: ${total}`);
+      }
+      else {
+        alert("You have exceeded the number in the center!");
+      }    }
   }
 
   const handleOvernightIncrement = () => {
@@ -247,7 +301,12 @@ export default function CountInputForm({ role, region, centerInfo }) {
       setOvernightCounter(prevOvernightCounter => prevOvernightCounter + 1);
     }
     else {
-      alert("You have exceeded the number in the center!");
+      if (total === overnightCounter) {
+        alert(`You have exceeded the number you can take!\nNumber of sanitary pads you can take: ${total}`);
+      }
+      else {
+        alert("You have exceeded the number in the center!");
+      }
     }
   }
 
@@ -283,7 +342,29 @@ export default function CountInputForm({ role, region, centerInfo }) {
     setUpdateMypage(UserService.padNumToMypage(linerCounter, mediumCounter, largeCounter, overnightCounter));
     UserService.padNumToCenter(region, centerInfo.name, 
       originalLiner, originalMedium, originalLarge, originalOvernight, 
-      linerCounter, mediumCounter, largeCounter, overnightCounter);
+      linerCounter, mediumCounter, largeCounter, overnightCounter)
+      .then(() => {
+        setOriginalLiner(0);
+        setOriginalMedium(0);
+        setOriginalLarge(0);
+        setOriginalOvernight(0);
+        setLinerCounter(0);
+        setMediumCounter(0);
+        setLargeCounter(0);
+        setOvernightCounter(0);
+        setCheckedLiner(false);
+        setCheckedMedium(false);
+        setCheckedLarge(false);
+        setCheckedOvernight(false);
+
+        alert("Thank you! Your submission has been sent.");
+        /*
+        <CustomAlert 
+        title="Thank you!"
+        content="Your submission has been sent." 
+        close={close} />
+        */
+      })
   }
 
   useEffect(() => {
@@ -303,25 +384,25 @@ export default function CountInputForm({ role, region, centerInfo }) {
       <Grid container className={classes.select}>
         <Grid item xs={6}> 
           <FormControlLabel
-            control={<Checkbox name="liner" onChange={handlePadType} color="secondary" />}
+            control={<Checkbox name="liner" checked={checkedLiner} onChange={() => setCheckedLiner(!checkedLiner)} color="secondary" />}
             label={<Typography variant="body2">Panty Liner</Typography>}
           />
         </Grid>
         <Grid item xs={6}> 
           <FormControlLabel
-            control={<Checkbox name="medium" onChange={handlePadType} color="secondary" />}
+            control={<Checkbox name="medium" checked={checkedMedium} onChange={() => setCheckedMedium(!checkedMedium)} color="secondary" />}
             label={<Typography variant="body2">Medium</Typography>}
           />
         </Grid>
         <Grid item xs={6}> 
           <FormControlLabel
-            control={<Checkbox name="large" onChange={handlePadType} color="secondary" />}
+            control={<Checkbox name="large" checked={checkedLarge} onChange={() => setCheckedLarge(!checkedLarge)} color="secondary" />}
             label={<Typography variant="body2">Large</Typography>}
           />
         </Grid>
         <Grid item xs={6}> 
           <FormControlLabel
-            control={<Checkbox name="overnight" onChange={handlePadType} color="secondary" />}
+            control={<Checkbox name="overnight" checked={checkedOvernight} onChange={() => setCheckedOvernight(!checkedOvernight)} color="secondary" />}
             label={<Typography variant="body2">Overnight</Typography>}
           />
         </Grid>
@@ -332,7 +413,7 @@ export default function CountInputForm({ role, region, centerInfo }) {
         <strong>👀 Enter the original number and the number you want to take</strong>
       )}
       <Grid container className={classes.select}>
-        { checkedType["liner"] ? (
+        { checkedLiner ? (
           <Grid item xs={12} sm={6}> 
             <Typography className={classes.label} variant="body2">Panty Liner</Typography>
             <Input 
@@ -351,7 +432,7 @@ export default function CountInputForm({ role, region, centerInfo }) {
             </ButtonGroup>
           </Grid>
         ) : null }
-        { checkedType["medium"] ? (
+        { checkedMedium ? (
         <Grid item xs={12} sm={6}> 
           <Typography className={classes.label} variant="body2">Medium</Typography>
           <Input 
@@ -370,7 +451,7 @@ export default function CountInputForm({ role, region, centerInfo }) {
           </ButtonGroup>
         </Grid>
         ) : null }
-        { checkedType["large"] ? (
+        { checkedLarge ? (
         <Grid item xs={12} sm={6}> 
           <Typography className={classes.label} variant="body2">Large</Typography>
           <Input 
@@ -389,7 +470,7 @@ export default function CountInputForm({ role, region, centerInfo }) {
           </ButtonGroup>
         </Grid>
         ) : null }
-        { checkedType["overnight"] ? (
+        { checkedOvernight ? (
         <Grid item xs={12} sm={6}> 
           <Typography className={classes.label} variant="body2">Overnight</Typography>
           <Input 
@@ -440,28 +521,28 @@ export default function CountInputForm({ role, region, centerInfo }) {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {checkedType["liner"] ? (
+                  {checkedLiner ? (
                     <TableRow>
                       <TableCell>Panty Liner</TableCell>
                       <TableCell>{originalLiner}</TableCell>
                       <TableCell>{linerCounter}</TableCell>
                     </TableRow>
                   ) : null}
-                  {checkedType["medium"] ? (
+                  {checkedMedium ? (
                     <TableRow>
                       <TableCell>Medium</TableCell>
                       <TableCell>{originalMedium}</TableCell>
                       <TableCell>{mediumCounter}</TableCell>
                     </TableRow>
                   ) : null}
-                  {checkedType["large"] ? (
+                  {checkedLarge ? (
                     <TableRow>
                       <TableCell>Large</TableCell>
                       <TableCell>{originalLarge}</TableCell>
                       <TableCell>{largeCounter}</TableCell>
                     </TableRow>
                   ) : null}
-                  {checkedType["overnight"] ? (
+                  {checkedOvernight ? (
                     <TableRow>
                       <TableCell>Overnight</TableCell>
                       <TableCell>{originalOvernight}</TableCell>
@@ -470,6 +551,7 @@ export default function CountInputForm({ role, region, centerInfo }) {
                   ) : null}
                 </TableBody>
               </Table>
+              <div className={classes.popupNotice}>⚠ There may be disadvantages in case of false information.</div>
             </div>
             <div className={classes.popupButton}>
               <Button 

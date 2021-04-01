@@ -2,6 +2,8 @@
 import React, { useEffect, useState } from 'react';
 import AuthService from '../../services/auth.service';
 
+import { makeStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
 import { useForm, Controller } from 'react-hook-form';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -9,8 +11,6 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import CustomPopup from '../Common/CustomPopup';
 import IconButton from '@material-ui/core/IconButton';
@@ -18,8 +18,13 @@ import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import CustomAlert from '../Common/CustomAlert';
 
 const useStyles = makeStyles((theme) => ({
+  container: {
+    background: "#fff",
+    paddingTop: '2.5rem'
+  },
   paper: {
     marginTop: theme.spacing(8),
     display: 'flex',
@@ -41,7 +46,8 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(30),
     display: 'flex',
     justifyContent: 'center',
-    marginBottom: theme.spacing(12)
+    marginBottom: theme.spacing(12),
+    textAlign: "center"
   },
   input: {
     display: 'none'
@@ -63,6 +69,7 @@ const Join = (props) => {
   const [passwordError, setPasswordError] = useState(false);
   const [successful, setSuccessful] = useState(false);
   const [message, setMessage] = useState("");
+  const [showAlert, setShowAlert] = useState(false);
 
   useEffect(() => {
     username.length > 8 ? setUsernameError(true) : setUsernameError(false);
@@ -82,6 +89,7 @@ const Join = (props) => {
   }, [password])
 
   useEffect(() => {
+    console.log("image: "+image);
   }, [image])
 
   const joinRecipient = (e) => {
@@ -118,34 +126,23 @@ const Join = (props) => {
     setIsChecked(e.target.checked);
   }
 
-  /* NEED FIX */
   const handleUpload = (e) => {
     e.preventDefault();
     if (e.target.files[0]) {
       const reader = new FileReader();
       const file = e.target.files[0];
-      /*
-      reader.onload = () => {
-        setImage(reader.result);
-        console.log(reader.result);
-      };
-      reader.readAsDataURL(file);
-      */
-     console.log(file);
-     setImage(file);
+      console.log(file);
+      setImage(file);
+      setShowAlert(true);
     }
+  }
+
+  const close = () => {
+    setShowAlert(false);
   }
 
   const onSubmit = (e) => {
     e.preventDefault();
-
-    alert(JSON.stringify({
-      username: username,
-      email: email,
-      password: password,
-      role: role,
-      image: image
-    }));
 
     setMessage("");
     setSuccessful(false);
@@ -194,12 +191,12 @@ const Join = (props) => {
   }
 
   return (
-    <Container component="main" maxWidth="xs">
+    <Container className={classes.container} component="main" maxWidth="xs">
       { !role ? (
         <>
           <div className={classes.slogan}>
             <Typography variant="h1">
-              Our Slogan ...
+            Until the day you <span style={{color: "#9c27b0"}}>bloom</span>
             </Typography>
           </div>
           <div className={classes.button}>
@@ -227,11 +224,11 @@ const Join = (props) => {
         <div className={classes.paper}>
           { role === 1 ? (
             <Typography variant="body1">
-              Join LOGO as a Recipient
+              Join Blooming as a Recipient
             </Typography>
           ) : (
             <Typography variant="body1">
-              Join LOGO as a Donor
+              Join Blooming as a Donor
             </Typography>
           )}
           <Typography variant="h1">
@@ -308,13 +305,22 @@ const Join = (props) => {
                     Upload Certificate
                   </Button>
                 </label>
+                {showAlert ? (
+                <CustomAlert 
+                title="Great!"
+                content="Your file has been uploaded successfully!" 
+                close={close} />
+                ) : null}
                 <CustomPopup 
                   trigger={
                     <IconButton color="primary" aria-label="help">
                       <HelpOutlineIcon />
-                    </IconButton>} 
-                  title="help" 
-                  content="help ..." 
+                    </IconButton>}  
+                  title="Certificate"
+                  content="The image is used only to confirm eligibility to become a beneficiary, 
+                  and will be immediately discarded upon approval by the administrator. 
+                  When you are approved as a beneficiary, 
+                  you are qualified to know the password for the Blooming box." 
                 />
               </div>
             ) : ( null ) }
@@ -324,7 +330,31 @@ const Join = (props) => {
                 <CustomPopup 
                   trigger="The Terms & Conditions"
                   title="The Terms & Conditions"
-                  content="About terms and conditions"
+                  content={<div>
+                    <strong>Personal information collection and terms of use</strong> <br /><br />
+                    All information provided by the user is used for the following purposes, 
+                    and is not used for purposes other than the following purposes. <br /><br />
+                    1. Collection item
+                    <ul>
+                      <li>e-mail</li>
+                      <li>recipient : Image for authentication</li>
+                    </ul>
+                    2. Purpose of collection and use <br />
+                    recipient : 
+                    <ul>
+                      <li>Member management</li>
+                      <li>Provision of information such as membership registration</li>
+                    </ul>
+                    donor : 
+                    <ul>
+                      <li>Member management</li>
+                      <li>testimonial payment</li>
+                    </ul>
+                    3. Retention and use period of personal information
+                    <ul>
+                      <li>From the date of collection until the purpose of collection of personal information is achieved</li>
+                    </ul>
+                  </div>}
                 />
                 </div>}
             />

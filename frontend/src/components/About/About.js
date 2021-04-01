@@ -1,14 +1,14 @@
 import React from 'react';
-import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
 import { FullPage, Slide } from 'react-full-page';
-import image from '../../assets/images/high-five.png';
-import Contact from './Contact';
-import '../../assets/fonts/fonts.css';
 import FaceIcon from '@material-ui/icons/Face';
 import PlaceIcon from '@material-ui/icons/Place';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import Grid from '@material-ui/core/Grid';
+import Contact from './Contact';
+import image from '../../assets/images/high-five.png';
+import '../../assets/fonts/fonts.css';
 
 const useStyles = makeStyles((theme) => ({
   whiteContainer: {

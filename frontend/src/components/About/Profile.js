@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-
 import GitHubIcon from '@material-ui/icons/GitHub';
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
 

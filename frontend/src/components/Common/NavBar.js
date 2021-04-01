@@ -1,10 +1,26 @@
 import React, { useEffect, useState } from 'react';
+import AuthService from '../../services/auth.service';
+
+import { makeStyles } from '@material-ui/core/styles';
 import { Nav, NavLogo, NavLink, NavMenu, NavBtn, NavBtnLink, NavBtnUser } from './NavbarElements';
-import styled, { StyleSheetManager } from 'styled-components';
 import Sidebar from './Sidebar';
 import UserInfo from './UserInfo';
 
-import AuthService from '../../services/auth.service';
+const useStyles = makeStyles((theme) => ({
+  barWrapper: {
+    display: "none",
+    color: "#fff",
+    '@media screen and (max-width: 768px)': {
+      display: "flex",
+      alignSelf: "center",
+      justifyContent: "flex-end",
+      width: "100vw",
+      padding: "1rem",
+      fontSize: "1.5rem",
+      cursor: "pointer"
+    }
+  }
+}));
 
 const NavBar = () => {
   const [role, setRole] = useState(0);
@@ -12,6 +28,7 @@ const NavBar = () => {
   const [currentUser, setCurrentUser] = useState(undefined);
   const [levelIcon, setLevelIcon] = useState("🌱");
   const [star, setStar] = useState(undefined);
+  const classes = useStyles();
 
   useEffect(() => {
     const user = AuthService.getCurrentUser();
@@ -64,9 +81,9 @@ const NavBar = () => {
       <NavLogo to='/'>
         Blooming
       </NavLogo>
-      <BarWrapper>
+      <div className={classes.barWrapper}>
         <Sidebar role={role} currentUser={currentUser} logout={logout} levelIcon={levelIcon} star={star} />
-      </BarWrapper>
+      </div>
       <NavMenu>
         <NavLink to='/' exact>
           About
@@ -95,17 +112,3 @@ const NavBar = () => {
 }
 
 export default NavBar;
-
-const BarWrapper = styled.div`
-  display: none;
-  color: #fff;
-  @media screen and (max-width: 768px) {
-    display: flex;
-    align-self: center;
-    justify-content: flex-end;
-    width: 100vw;
-    padding: 1rem;
-    font-size: 1.5rem;
-    cursor: pointer;
-  }
-`;

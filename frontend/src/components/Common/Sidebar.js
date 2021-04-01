@@ -1,17 +1,14 @@
 import React, { useState } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
 import { NavIcon, SidebarNav, SidebarWrap, SidebarLink, SidebarTitleLabel, SidebarLabel } from './SidebarElements';
 import MenuIcon from '@material-ui/icons/Menu';
 import CloseIcon from '@material-ui/icons/Close';
 import Backdrop from '@material-ui/core/Backdrop';
-import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
   backdrop: {
     color: '#fff',
   },
-  menu: {
-    // margin: "0.5rem"
-  }
 }));
 
 const Sidebar = ({ role, currentUser, logout, levelIcon, star }) => {
