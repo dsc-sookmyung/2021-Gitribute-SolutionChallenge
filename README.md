@@ -36,24 +36,27 @@
 2. Protecting both donors and beneficiaries while exchanging menstrual supplies.
 
 ### Project introduction
-블루밍은 소외계층 여성 청소년을 위한 지역 비대면 생리대 기부 플랫폼이다.
-
 Blooming is a local non-face-to-face sanitary pad donation platform for underprivileged female teenagers.
 
 The Blooming Box is located in the women's restroom of a subway station for good accessibility, so that donors can donate or beneficiaries can take sanitary pads non-face-to-face.
 There is a hole in the upper part of the box, so anyone can donate at any time, and in order to take a sanitary pad, you must sign up the Blooming site and get a password after being recognized as a beneficiary.
 Donors and beneficiaries keep a record on the site when they donate or take sanitary pads.
 Donors do not have to leave a record on the site, but if they leave a record, a certificate will be awarded based on the record that is left.
+
 With Blooming non-face-to-face donations, Girls with poor economic conditions can ease their worries about their menstruation.
 We hope Blooming blooms the life of low-income female teenagers and creates a virtuous circle of society by reducing inequality.
 
 
 ### Demo video link
-https://www.youtube.com/watch?v=AjA1jK2uBlc
+[![thumbnail](https://user-images.githubusercontent.com/53266682/113233558-7a75d300-92da-11eb-995a-4c3f2f49e40b.png)](https://www.youtube.com/watch?v=AjA1jK2uBlc)
 
 ### Screen shot
 ![image](https://user-images.githubusercontent.com/53266682/113231258-ca9e6680-92d5-11eb-9e2e-e394c53a2b4b.png)
+![image](https://user-images.githubusercontent.com/53266682/113233264-cc6a2900-92d9-11eb-90b8-f036eee31bf7.png)
+![image](https://user-images.githubusercontent.com/53266682/113233250-c4aa8480-92d9-11eb-841f-503b65de1340.png)
 ![image](https://user-images.githubusercontent.com/53266682/113231291-e0139080-92d5-11eb-8d4c-b4c5442d5889.png)
+![image](https://user-images.githubusercontent.com/53266682/113233211-a93f7980-92d9-11eb-8a90-0f41da32cdec.png)
+![certificate](https://user-images.githubusercontent.com/53266682/113233227-b52b3b80-92d9-11eb-8b21-b968a851a68f.png)
 
 ### How to run
 1. Download the project (git clone https://github.com/dsc-sookmyung/2021-Gitribute)
