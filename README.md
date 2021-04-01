@@ -47,8 +47,13 @@ Donors do not have to leave a record on the site, but if they leave a record, a 
 With Blooming non-face-to-face donations, Girls with poor economic conditions can ease their worries about their menstruation.
 We hope Blooming blooms the life of low-income female teenagers and creates a virtuous circle of society by reducing inequality.
 
-### Screen shot
 
+### Demo video link
+https://www.youtube.com/watch?v=AjA1jK2uBlc
+
+### Screen shot
+![image](https://user-images.githubusercontent.com/53266682/113231258-ca9e6680-92d5-11eb-9e2e-e394c53a2b4b.png)
+![image](https://user-images.githubusercontent.com/53266682/113231291-e0139080-92d5-11eb-8d4c-b4c5442d5889.png)
 
 ### How to run
 1. Download the project (git clone https://github.com/dsc-sookmyung/2021-Gitribute)
@@ -62,5 +67,3 @@ We hope Blooming blooms the life of low-income female teenagers and creates a vi
 9. Go to the frontend folder (cd ~ / cd frontend)
 10. Setting the necessary environment (npm i)
 11. Start (yarn start)
-
-### Demo video link
