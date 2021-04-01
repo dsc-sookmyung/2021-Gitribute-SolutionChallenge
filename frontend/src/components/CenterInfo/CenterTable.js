@@ -311,7 +311,7 @@ const CenterTable = ({ currentUser, role, region, star, centerNames, defaultCent
         </TableContainer>
       </Grid>
       <Grid item md={6}>
-        <TableContainer className={classes.tablePCCenterInfo} component={Paper}>
+        <TableContainer className={classes.tableCenterInfo} component={Paper}>
           <Table className={classes.table} aria-label="simple table">
             <TableHead>
               <TableRow>
