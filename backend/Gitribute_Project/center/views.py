@@ -37,6 +37,7 @@ def getDefaultCenter(request):
         area = request.data["area"]
         gmaps = googlemaps.Client(key=get_secret("MAPAPI"))
 
+
         if int(area) == 0:
             print("total 시리얼라이저")
             center = Center.objects.get(id = 1)
@@ -138,6 +139,7 @@ def getCenter(request):
             print(total)
 
             centerlocation = gmaps.reverse_geocode((center.lng, center.lat))
+  
             result = centerlocation[0].get("formatted_address")
             print(result)
 
