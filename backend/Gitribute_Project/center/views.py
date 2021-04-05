@@ -35,7 +35,7 @@ def get_secret(setting, secrets=secrets):
 def getDefaultCenter(request):
     if request.method == 'POST':
         area = request.data["area"]
-        gmaps = googlemaps.Client(key=get_secret("MAPAPI"))
+        gmaps = googlemaps.Client(key=get_secret("GEOCODING_API"))
 
         if int(area) == 0:
             print("total 시리얼라이저")
@@ -103,7 +103,7 @@ def getCenter(request):
     if request.method == 'POST':
         area = request.data["area"]
         place = request.data["place"]
-        gmaps = googlemaps.Client(key=get_secret("MAPAPI"))
+        gmaps = googlemaps.Client(key=get_secret("GEOCODING_API"))
         
         if (int(area) == 0 and place == "Baengma") or (int(area) == 2 and place == "Baengma"):
             print("Baengma 시리얼라이저")
@@ -112,7 +112,7 @@ def getCenter(request):
             total = center.pantyliner + center.medium + center.large + center.overnight
             print(total)
 
-            centerlocation = gmaps.reverse_geocode((center.lng, center.lat))
+            centerlocation = gmaps.reverse_geocode((center.lat, center.lng))
             result = centerlocation[0].get("formatted_address")
             print(result)
 
@@ -137,7 +137,7 @@ def getCenter(request):
             total = center.pantyliner + center.medium + center.large + center.overnight
             print(total)
 
-            centerlocation = gmaps.reverse_geocode((center.lng, center.lat))
+            centerlocation = gmaps.reverse_geocode((center.lat, center.lng))
             result = centerlocation[0].get("formatted_address")
             print(result)
 
