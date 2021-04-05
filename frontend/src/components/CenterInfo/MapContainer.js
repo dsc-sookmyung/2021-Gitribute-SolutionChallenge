@@ -33,7 +33,7 @@ const MapContainer = ({ lat, lng, handleMarker, role, showForm }) => {
   }
 
   const { isLoaded, loadError } = useJsApiLoader({
-    googleMapsApiKey: 'AIzaSyCIYlorAfLUWWY5gyB47xPjZ1lclWZwHWQ'
+    googleMapsApiKey: process.env.REACT_APP_MAPS_API_KEY
   })
 
   const renderMap = () => {
