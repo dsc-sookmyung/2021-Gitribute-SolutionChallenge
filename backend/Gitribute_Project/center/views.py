@@ -10,12 +10,33 @@ from .models import Center, ErrorList
 from accounts.serializers import DonorCreateSerializer, ReceiverCreateSerializer, UserLoginSerializer
 from accounts.models import User
 
+import googlemaps
+
+import os, json
+from django.core.exceptions import ImproperlyConfigured
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+secret_file = os.path.join(BASE_DIR, 'secrets.json')
+
+with open(secret_file) as f:
+    secrets = json.loads(f.read())
+
+def get_secret(setting, secrets=secrets):
+    try:
+        return secrets[setting]
+    except KeyError:
+        error_msg = "Set the {} environment variable".format(setting)
+        raise ImproperlyConfigured(error_msg)
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def getDefaultCenter(request):
     if request.method == 'POST':
         area = request.data["area"]
+        gmaps = googlemaps.Client(key=get_secret("MAPAPI"))
+
 
         if int(area) == 0:
             print("total 시리얼라이저")
@@ -23,6 +44,10 @@ def getDefaultCenter(request):
 
             total = center.pantyliner + center.medium + center.large + center.overnight
             print(total)
+
+            centerlocation = gmaps.reverse_geocode((center.lat, center.lng))
+            result = centerlocation[0].get("formatted_address")
+            print(result)
 
             response = {
                 'area' : center.area,
@@ -37,7 +62,7 @@ def getDefaultCenter(request):
                 'total' : total},
                 'password': center.password,
                 'phonenumber': center.phonenumber,
-                'location': center.location,
+                'location': result,
             }
 
         elif int(area) == 2:
@@ -47,6 +72,10 @@ def getDefaultCenter(request):
             total = center.pantyliner + center.medium + center.large + center.overnight
             print(total)
 
+            centerlocation = gmaps.reverse_geocode((center.lat, center.lng))
+            result = centerlocation[0].get("formatted_address")
+            print(result)
+
             response = {
                 'area' : center.area,
                 'center' : {'Madu', 'Baengma'},
@@ -60,7 +89,7 @@ def getDefaultCenter(request):
                 'total' : total},
                 'password': center.password,
                 'phonenumber': center.phonenumber,
-                'location': center.location,
+                'location': result,
             }
             
         else:
@@ -75,6 +104,7 @@ def getCenter(request):
     if request.method == 'POST':
         area = request.data["area"]
         place = request.data["place"]
+        gmaps = googlemaps.Client(key=get_secret("MAPAPI"))
         
         if (int(area) == 0 and place == "Baengma") or (int(area) == 2 and place == "Baengma"):
             print("Baengma 시리얼라이저")
@@ -82,6 +112,10 @@ def getCenter(request):
 
             total = center.pantyliner + center.medium + center.large + center.overnight
             print(total)
+
+            centerlocation = gmaps.reverse_geocode((center.lng, center.lat))
+            result = centerlocation[0].get("formatted_address")
+            print(result)
 
             response = {
                 'name' : center.name,
@@ -94,7 +128,7 @@ def getCenter(request):
                 'total' : total},
                 'password': center.password,
                 'phonenumber': center.phonenumber,
-                'location': center.location,
+                'location': result,
             }
 
         elif (int(area) == 0 and place == "Madu") or (int(area) == 2 and place == "Madu"):
@@ -104,6 +138,11 @@ def getCenter(request):
             total = center.pantyliner + center.medium + center.large + center.overnight
             print(total)
 
+            centerlocation = gmaps.reverse_geocode((center.lng, center.lat))
+  
+            result = centerlocation[0].get("formatted_address")
+            print(result)
+
             response = {
                 'name' : center.name,
                 'lat' : center.lat,
@@ -115,7 +154,7 @@ def getCenter(request):
                 'total' : total},
                 'password': center.password,
                 'phonenumber': center.phonenumber,
-                'location': center.location,
+                'location': result,
             }
             
         else:
