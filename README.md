@@ -3,7 +3,7 @@
 
 > DSC Sookmyung Team Gitribute <br />
 > Team Member : Kwon Eunji(heleneunji), Suh Hee(0hee0), Yoo Jiyeon(hellouz818) <br />
-> Duration of development : 2021.03.01-2021.03.31
+> Duration of development : 2021.03.01-2021.04.11
 
 
 ### WEB Developer
@@ -48,7 +48,7 @@ We hope Blooming blooms the life of low-income female teenagers and creates a vi
 
 
 ### Demo video link
-[![thumbnail](https://user-images.githubusercontent.com/53266682/113233558-7a75d300-92da-11eb-995a-4c3f2f49e40b.png)](https://youtu.be/_SYZ9VLt6eg)
+[![thumbnail](https://user-images.githubusercontent.com/53266682/113233558-7a75d300-92da-11eb-995a-4c3f2f49e40b.png)](https://www.youtube.com/watch?v=_SYZ9VLt6eg)
 
 ### Screen shot
 ![image](https://user-images.githubusercontent.com/53266682/113231258-ca9e6680-92d5-11eb-9e2e-e394c53a2b4b.png)
