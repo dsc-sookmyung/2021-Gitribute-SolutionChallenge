@@ -123,10 +123,10 @@ WSGI_APPLICATION = 'Gitribute_Project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME':'gitribute',
+        'NAME':'blooming',
         'USER':'root',
-        #'PASSWORD':get_secret("DATABASE"),
-        'HOST':'35.223.122.159',
+        'PASSWORD':get_secret("DATABASE"),
+        'HOST':'localhost',
         'PORT':'3306',
     }
 }
