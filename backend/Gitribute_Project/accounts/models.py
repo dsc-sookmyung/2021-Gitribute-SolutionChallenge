@@ -53,6 +53,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     medium = models.IntegerField(null=True, blank=True)
     large = models.IntegerField(null=True, blank=True)
     overnight = models.IntegerField(null=True, blank=True)
+    rank = models.IntegerField(null=True, blank=True)
 
     #receiver에게 나중에 필요한 값
     total = models.IntegerField(null=True, blank=True)

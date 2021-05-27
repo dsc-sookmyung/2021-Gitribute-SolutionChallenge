@@ -163,6 +163,7 @@ def mypage(request):
             else:
                 user.level = 1
 
+            user.total = total
             user.save()
 
         return Response({'message':'put request'})
