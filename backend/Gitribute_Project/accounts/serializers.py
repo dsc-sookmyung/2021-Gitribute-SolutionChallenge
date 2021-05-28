@@ -1,9 +1,16 @@
 from rest_framework import serializers
 from rest_framework_jwt.settings import api_settings
 from django.contrib.auth import get_user_model
-from .models import User
 from django.contrib.auth.models import update_last_login
 from django.contrib.auth import authenticate
+
+from django.template.loader import render_to_string
+from django.utils.http import urlsafe_base64_encode
+from django.utils.encoding import force_bytes
+from django.core.mail import EmailMessage
+
+from .models import User
+from .token import account_activation_token
 
 JWT_PAYLOAD_HANDLER = api_settings.JWT_PAYLOAD_HANDLER
 JWT_ENCODE_HANDLER = api_settings.JWT_ENCODE_HANDLER
@@ -44,8 +51,22 @@ class DonorCreateSerializer(serializers.Serializer):
         donor.set_password(validated_data['password'])
 
         donor.save()
+
+        message = render_to_string('accounts/activation_email_donor.html', {
+                'user': donor,
+                'domain' :'localhost:8000',
+                'uid' : urlsafe_base64_encode(force_bytes(donor.pk)),
+                'token' : account_activation_token.make_token(donor)
+            })
+
+            
+        mail_subject = 'Blooming Donor Authentication Mail'
+        to_email = validated_data['email']
+        email = EmailMessage(mail_subject, message, to=[to_email])
+        email.send()
+        
         return donor
-   
+
 class ReceiverCreateSerializer(serializers.Serializer):
     email = serializers.EmailField(required=True)
     username = serializers.CharField(required=True)
