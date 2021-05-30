@@ -67,6 +67,7 @@ class DonorCreateSerializer(serializers.Serializer):
         
         return donor
 
+
 class ReceiverCreateSerializer(serializers.Serializer):
     email = serializers.EmailField(required=True)
     username = serializers.CharField(required=True)
@@ -97,9 +98,22 @@ class ReceiverCreateSerializer(serializers.Serializer):
         receiver.set_password(validated_data['password'])
 
         receiver.save()
+
+        message = render_to_string('accounts/activation_email_receiver.html', {
+                'user': receiver,
+                'domain' :'localhost:8000',
+                'uid' : urlsafe_base64_encode(force_bytes(receiver.pk)),
+                'token' : account_activation_token.make_token(receiver)
+            })
+
+            
+        mail_subject = 'Blooming Receiver Authentication Mail'
+        to_email = validated_data['email']
+        email = EmailMessage(mail_subject, message, to=[to_email])
+        email.send()
+
         return receiver
    
-    
 
 class UserLoginSerializer(serializers.Serializer):
     email = serializers.CharField(max_length=64)

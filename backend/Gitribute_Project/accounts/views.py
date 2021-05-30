@@ -67,6 +67,32 @@ def DonorActivate(request, uidb64, token):
             print(traceback.format_exc())
 
 
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def ReceiverActivate(request, uidb64, token):
+    if request.method == 'GET':
+        try: 
+            uid = force_text(urlsafe_base64_decode(uidb64))
+            user = User.objects.get(pk=uid)
+            
+        except(TypeError, ValueError, OverflowError, User.DoesNotExist):
+            user = None
+
+        try:
+
+            if user is not None and account_activation_token.check_token(user, token):
+                    print(user.email)
+                    user.email_active = True
+                    user.save()
+                    return redirect('http://localhost:3000/')
+                    #return Response({"message":user.email + ' has been activated.'}, status=status.HTTP_200_OK)
+            else:
+                return Response({"message":'This link has expired.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        except Exception as e:
+            print(traceback.format_exc())
+
+
 
 @api_view(['POST'])
 @permission_classes([AllowAny])

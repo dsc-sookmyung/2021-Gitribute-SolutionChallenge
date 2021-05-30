@@ -1,0 +1,6 @@
+{{user.username}}님, 아래 링크를 클릭해서 이메일 인증을 진행해주세요.
+Blooming 서비스 이용을 위해서는 사진 인증과 이메일 인증이 필요합니다.
+사진 인증은 최대 24시간 이내 소요됩니다. 감사합니다.
+
+Blooming 홈으로 가기
+http://{{domain}}{% url 'accounts:activate_receiver' uid token %}

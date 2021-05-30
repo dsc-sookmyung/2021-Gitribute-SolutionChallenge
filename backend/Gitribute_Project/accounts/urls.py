@@ -9,5 +9,5 @@ urlpatterns = [
     path('login/', views.login),
     path('mypage/', views.mypage),
     path('activate_donor/<str:uidb64>/<str:token>/', views.DonorActivate, name='activate_donor'),
-
+    path('activate_receiver/<str:uidb64>/<str:token>/', views.ReceiverActivate, name='activate_receiver'),
 ]
