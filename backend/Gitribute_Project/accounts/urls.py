@@ -1,11 +1,13 @@
 from django.urls import path
 
 from . import views
+app_name = 'accounts'
 
-#함수형 뷰를 호출했기 때문
+#fuction view
 urlpatterns = [
     path('signup/', views.createUser),
     path('login/', views.login),
     path('mypage/', views.mypage),
-
+    path('activate_donor/<str:uidb64>/<str:token>/', views.DonorActivate, name='activate_donor'),
+    path('activate_receiver/<str:uidb64>/<str:token>/', views.ReceiverActivate, name='activate_receiver'),
 ]

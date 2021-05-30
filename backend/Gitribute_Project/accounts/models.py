@@ -53,10 +53,10 @@ class User(AbstractBaseUser, PermissionsMixin):
     medium = models.IntegerField(null=True, blank=True)
     large = models.IntegerField(null=True, blank=True)
     overnight = models.IntegerField(null=True, blank=True)
-    rank = models.IntegerField(null=True, blank=True)
-
+    
     #receiver에게 나중에 필요한 값
     total = models.IntegerField(null=True, blank=True)
+    email_active = models.BooleanField(default=False)
 
 
     is_staff = models.BooleanField(
@@ -66,7 +66,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     )
     is_active = models.BooleanField(
         _('active'),
-        default=True,
+        default=False,
         help_text=_(
             'Designates whether this user should be treated as active. '
             'Unselect this instead of deleting accounts.'

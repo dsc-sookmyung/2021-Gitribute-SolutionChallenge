@@ -132,6 +132,16 @@ DATABASES = {
 }
 
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587 # gmail과의 통신하는 포트
+EMAIL_HOST = 'smtp.gmail.com' # 메일을 호스트하는 서버
+EMAIL_HOST_USER = get_secret("EMAIL_HOST_USER") # 발신할 이메일
+EMAIL_HOST_PASSWORD = get_secret("EMAIL_HOST_PASSWORD") #발신할 비밀번호
+
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
 
