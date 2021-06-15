@@ -7,6 +7,9 @@ import Join from './components/SignUp/Join';
 import Login from './components/SignIn/Login';
 import PasswordForgot from './components/PasswordReset/ForgotPassword';
 import PasswordReset from './components/PasswordReset/PasswordReset';
+import AccountManager from './components/AccountManager/AccountManager';
+import Rankings from './components/Rankings/Rankings';
+import JoinSuccess from './components/SignUp/JoinSuccess';
 import { Switch } from 'react-router-dom/cjs/react-router-dom.min';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -31,6 +34,9 @@ function App() {
           <Route path='/login' component={Login} />
           <Route path='/password_reset' component={PasswordReset} />
           <Route path='/password_forgot' component={PasswordForgot} />
+          <Route path='/myaccount' component={AccountManager} />
+          <Route path='/rankings' component={Rankings} />
+          <Route path='/join_success' component={JoinSuccess} />
         </Switch>
       </div>
     </Router>
