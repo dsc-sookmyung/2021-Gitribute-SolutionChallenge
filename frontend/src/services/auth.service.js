@@ -37,9 +37,21 @@ const getCurrentUser = () => {
   return JSON.parse(localStorage.getItem("user"));
 };
 
+const deleteAccount = (password, user) => {
+  return axios
+    .post(API_URL + "account", {
+      password,
+      user
+    })
+    .then((response) => {
+      return response.data;
+    })
+}
+
 export default {
   register,
   login,
   logout,
   getCurrentUser,
+  deleteAccount
 };
