@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
+import AuthService from '../../services/auth.service';
+
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
@@ -6,6 +8,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
 const useStyles = makeStyles((theme) => ({
+  container: {
+    background: "#fff",
+    paddingTop: '2.5rem'
+  },
   paper: {
     marginTop: theme.spacing(8),
     display: 'flex',
@@ -24,12 +30,26 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ForgotPassword() {
-  
+export default function ForgotPassword(props) {
+  const [email, setEmail] = useState();
   const classes = useStyles();
 
+  const handleEmail = (e) => {
+    setEmail(e.target.value);
+  }
+
+  const resetEmail = () => {
+    if (AuthService.resetEmail(email)) {
+      alert("An email has been sent. Sign in with the password in your email and change your password on Mypage.")
+      props.history.push("/login");
+    }
+    else {
+      alert("Email sending failed. Please try again.");
+    }
+  }
+
   return (
-    <Container component="main" maxWidth="xs">
+    <Container className={classes.container} component="main" maxWidth="xs">
       <div className={classes.paper}>
         <Typography variant="h1">
           Forgot your password?
@@ -51,6 +71,7 @@ export default function ForgotPassword() {
             name="email"
             autoComplete="email"
             autoFocus
+            onChange={handleEmail}
           />
           <Button
             type="submit"
@@ -58,6 +79,7 @@ export default function ForgotPassword() {
             variant="contained"
             color="secondary"
             className={classes.submit}
+            onSubmit={resetEmail}
           >
             Send password reset email 
           </Button>

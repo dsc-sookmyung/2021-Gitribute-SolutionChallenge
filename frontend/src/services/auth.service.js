@@ -48,6 +48,16 @@ const deleteAccount = (password, user) => {
     })
 }
 
+const forgotPassword = (email) => {
+  return axios
+    .post(API_URL + "forgot", {
+      email
+    })
+    .then((response) => {
+      return response.date;
+    })
+}
+
 export default {
   register,
   login,
