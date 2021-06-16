@@ -16,6 +16,8 @@ import os, json
 from django.core.exceptions import ImproperlyConfigured
 from pathlib import Path
 
+from django.db import connection
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 secret_file = os.path.join(BASE_DIR, 'secrets.json')
@@ -45,13 +47,18 @@ def getDefaultCenter(request):
             total = center.pantyliner + center.medium + center.large + center.overnight
             print(total)
 
-            centerlocation = gmaps.reverse_geocode((center.lat, center.lng))
-            result = centerlocation[0].get("formatted_address")
-            print(result)
+            #centerlocation = gmaps.reverse_geocode((center.lat, center.lng))
+            #result = centerlocation[0].get("formatted_address")
+            #print(result)
+
+            curs = connection.cursor()
+            sql = "select name from center"
+            curs.execute(sql)
+            names = curs.fetchall()
 
             response = {
                 'area' : center.area,
-                'center' : {'Baengma', 'Madu'},
+                'center' : names,
                 'name' : center.name,
                 'lat' : center.lat,
                 'lng': center.lng,
@@ -62,7 +69,7 @@ def getDefaultCenter(request):
                 'total' : total},
                 'password': center.password,
                 'phonenumber': center.phonenumber,
-                'location': result,
+                #'location': result,
             }
 
         elif int(area) == 2:
@@ -72,13 +79,18 @@ def getDefaultCenter(request):
             total = center.pantyliner + center.medium + center.large + center.overnight
             print(total)
 
-            centerlocation = gmaps.reverse_geocode((center.lat, center.lng))
-            result = centerlocation[0].get("formatted_address")
-            print(result)
+            #centerlocation = gmaps.reverse_geocode((center.lat, center.lng))
+            #result = centerlocation[0].get("formatted_address")
+            #print(result)
+
+            curs = connection.cursor()
+            sql = "select name from center"
+            curs.execute(sql)
+            names = curs.fetchall()
 
             response = {
                 'area' : center.area,
-                'center' : {'Baengma', 'Madu'},
+                'center' : names,
                 'name' : center.name,
                 'lat' : center.lat,
                 'lng': center.lng,
@@ -89,7 +101,7 @@ def getDefaultCenter(request):
                 'total' : total},
                 'password': center.password,
                 'phonenumber': center.phonenumber,
-                'location': result,
+                #'location': result,
             }
             
         else:
@@ -113,9 +125,9 @@ def getCenter(request):
             total = center.pantyliner + center.medium + center.large + center.overnight
             print(total)
 
-            centerlocation = gmaps.reverse_geocode((center.lat, center.lng))
-            result = centerlocation[0].get("formatted_address")
-            print(result)
+            #centerlocation = gmaps.reverse_geocode((center.lat, center.lng))
+            #result = centerlocation[0].get("formatted_address")
+            #print(result)
 
             response = {
                 'name' : center.name,
@@ -128,7 +140,7 @@ def getCenter(request):
                 'total' : total},
                 'password': center.password,
                 'phonenumber': center.phonenumber,
-                'location': result,
+                #'location': result,
             }
 
         elif (int(area) == 0 and place == "Madu") or (int(area) == 2 and place == "Madu"):
@@ -154,7 +166,7 @@ def getCenter(request):
                 'total' : total},
                 'password': center.password,
                 'phonenumber': center.phonenumber,
-                'location': result,
+                #'location': result,
             }
             
         else:
