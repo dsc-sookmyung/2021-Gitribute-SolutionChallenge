@@ -54,8 +54,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const CustomPopup = ({ trigger, title, content }) => {
+const CustomPopup = ({ trigger, title, content, btnText, handleSubmit }) => {
   const classes = useStyles();
+  
+  const onClickFunction = () => {
+    if (handleSubmit) {
+      handleSubmit();
+    }
+  }
 
   return(
     <Popup
@@ -85,12 +91,12 @@ const CustomPopup = ({ trigger, title, content }) => {
           <div className={classes.button}>
             <Button 
               className={classes.ok}
-              onClick={() => { close(); }}
+              onClick={() => { onClickFunction(); close(); }}
               size="small"
               variant="contained"
               color="secondary"
             >
-              OK
+              {btnText ? btnText : "OK"}
             </Button>
           </div>
         </div>
