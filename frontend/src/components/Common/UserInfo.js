@@ -62,7 +62,7 @@ const UserInfo = ({ trigger, currentUser, logout, levelIcon }) => {
             <div className={classes.title}>Available</div>
             <div className={classes.content}>Total &nbsp;&nbsp; {userInfo.total}</div>
             <hr style={{border: "solid 0.1px #e9ecef", transform: "scaleY(0.5)", width: "90%"}} />
-            <a href="#" onClick={logout}><div className={classes.title}>Sign Out</div></a>
+            <a href="/" onClick={logout}><div className={classes.title}>Sign Out</div></a>
           </div>           
         ) : (
           userInfo.role === 2 ? (
@@ -76,7 +76,7 @@ const UserInfo = ({ trigger, currentUser, logout, levelIcon }) => {
               <div className={classes.content}>Large {userInfo.large}</div>
               <div className={classes.content}>Overnight {userInfo.overnight}</div>
               <hr style={{border: "solid 0.1px #e9ecef", transform: "scaleY(0.5)", width: "90%"}} />
-              <Link className={classes.pointLink} to='#' onClick={logout}>
+              <Link className={classes.pointLink} to='/' onClick={logout}>
                 <div className={classes.contentLink}>Sign Out</div>
               </Link>
             </div>           
