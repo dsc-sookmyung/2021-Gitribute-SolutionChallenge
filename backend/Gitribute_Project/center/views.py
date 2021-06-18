@@ -56,9 +56,10 @@ def getDefaultCenter(request):
             curs.execute(sql)
             names = curs.fetchall()
 
+
             response = {
                 'area' : center.area,
-                'center' : names,
+                'center' : {names[0][0], names[1][0]},
                 'name' : center.name,
                 'lat' : center.lat,
                 'lng': center.lng,
@@ -90,7 +91,7 @@ def getDefaultCenter(request):
 
             response = {
                 'area' : center.area,
-                'center' : names,
+                'center' : {names[0][0], names[1][0]},
                 'name' : center.name,
                 'lat' : center.lat,
                 'lng': center.lng,
