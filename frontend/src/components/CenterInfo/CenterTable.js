@@ -17,6 +17,10 @@ import MapContainer from './MapContainer';
 const useStyles = makeStyles((theme) => ({
   table: {
     minWidth: 100,
+    backgroundColor: "white",
+    [theme.breakpoints.down('sm')]: {
+      width: "100vw"
+    },
   },
   tableCenter: {
     height: "28rem",
