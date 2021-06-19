@@ -9,7 +9,6 @@ import FirstPageIcon from '@material-ui/icons/FirstPage';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import LastPageIcon from '@material-ui/icons/LastPage';
-// import { FirstPageIcon, KeyboardArrowLeft, KeyboardArrowRight, LastPageIcon } from '@material-ui/icons'; 
 
 import AuthService from '../../services/auth.service';
 import UserService from '../../services/user.service';
@@ -79,11 +78,11 @@ TablePaginationActions.propTypes = {
     rowsPerPage: PropTypes.number.isRequired,
 };
   
-function createData(rank, level, username, num) {
-  return { rank, level, username, num };
+function createData(rank, level, username, total) {
+  return { rank, level, username, total };
 }
   
-const rows = [
+let rows = [
     createData(1, '🌼🌼🌼', 'dooooonor1', 122),
     createData(2, '🌼', 'donor2', 101),
     createData(3, '🍀🍀', 'donor3', 71),
@@ -137,11 +136,10 @@ const useStyles2 = makeStyles({
   
 export default function Rankings() {
   const [currentUser, setCurrentUser] = useState(undefined);
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rankings, setRankings] = useState();
   const classes = useStyles2();
-
-  const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -152,9 +150,30 @@ export default function Rankings() {
     setPage(0);
   };
 
-  useEffect(() => {
+  useEffect(async () => {
+    const getRankings = await UserService.getRankings();
+    console.log(JSON.stringify(getRankings));
+    setRankings(getRankings);
+    // TEST
+    /*
+    const ranks = [
+        {
+            rank: 1,
+            level: "🌼",
+            username: "donor111",
+            total: 100
+        },
+        {
+            rank: 2,
+            level: "🌱🌱",
+            username: "donor222",
+            total: 11
+        },
+    ]
+    setRankings(ranks);
+    */
+    
     const user = AuthService.getCurrentUser();
-
     if (user) {
         setCurrentUser(user);   
     }
@@ -163,6 +182,17 @@ export default function Rankings() {
   useEffect(() => {
     console.log(JSON.stringify(currentUser));
   }, [currentUser]);
+
+  useEffect(() => {
+    if (rankings) {
+      rows =
+        rankings.map((ranking) => 
+            createData(ranking.rank, ranking.level, ranking.username, ranking.total)
+        );
+    }
+  }, [rankings]);
+
+  const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
   return (
     <div className={classes.container}>
@@ -197,7 +227,7 @@ export default function Rankings() {
                   {row.username}
                 </TableCell>
                 <TableCell style={{ width: 160 }} align="right">
-                  {row.num}
+                  {row.total}
                 </TableCell>
               </TableRow>
             ))}
