@@ -11,7 +11,7 @@ import CenterTable from './CenterTable';
 const useStyles = makeStyles((theme) => ({
   container: {
     height: "100vh",
-    backgroudnColor: "#fff",
+    backgroundColor: "#fff",
     padding: "6.5rem calc((100vw - 1193px) / 2 + 1rem)",
     display: "flex",
     flexDirection: "column",
