@@ -17,9 +17,12 @@ import MapContainer from './MapContainer';
 const useStyles = makeStyles((theme) => ({
   table: {
     minWidth: 100,
+    backgroundColor: "white",
+    [theme.breakpoints.down('xs')]: {
+      width: "100vw"
+    },
   },
   tableCenter: {
-    height: "28rem",
     [theme.breakpoints.down('sm')]: {
       width: "36rem",
       height: "100%"
@@ -27,6 +30,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down('xs')]: {
       width: "20rem"
     },
+    height: "28rem",
   },
   tableCenterInfo: {
     [theme.breakpoints.down('sm')]: {
@@ -204,7 +208,7 @@ const CenterTable = ({ currentUser, role, region, star, centerNames, defaultCent
   return (
     <Grid container className={classes.table}>
       <Grid item md={3}>
-        <TableContainer component={Paper}>
+        <TableContainer component={Paper} style={{backgroundColor: "white"}}>
         <Table className={classes.tableCenter} aria-label="simple table">
           <TableHead>
             <TableRow>
@@ -216,7 +220,6 @@ const CenterTable = ({ currentUser, role, region, star, centerNames, defaultCent
                 return (
                   <TableRow 
                     key={center} 
-                    className="chooseitems" 
                     hover
                     onClick={() => {handleDetail(center)}}
                     selected={selectedCenter === center}
@@ -321,7 +324,7 @@ const CenterTable = ({ currentUser, role, region, star, centerNames, defaultCent
             <TableBody>
               <TableRow>
                 <TableCell className={classes.map}>
-                  { centerInfo ? (
+                  {centerInfo ? (
                     <MapContainer lat={parseFloat(centerInfo.lat)} lng={parseFloat(centerInfo.lng)} handleMarker={handleMarker} role={role} showForm={showForm} />
                   ) : (
                     <MapContainer lat={parseFloat(defaultCenter.lat)} lng={parseFloat(defaultCenter.lng)} handleMarker={handleMarker} role={role} showForm={showForm} />
