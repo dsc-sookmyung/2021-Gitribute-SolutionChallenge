@@ -63,5 +63,6 @@ export default {
   login,
   logout,
   getCurrentUser,
-  deleteAccount
+  deleteAccount,
+  forgotPassword
 };

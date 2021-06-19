@@ -161,12 +161,13 @@ const updatePassword = (newPassword) => {
   })
 }
 
-const updatePrivacy = (newUsername, isVisible) => {
+const updatePrivacy = (profilePicture, newUsername, isVisible) => {
   return axios({
     method: 'post',
     url: API_URL_MYPAGE,
     headers: authHeader(),
     data: {
+      profilePicture: profilePicture,
       username: newUsername,
       visibility: isVisible
     }
