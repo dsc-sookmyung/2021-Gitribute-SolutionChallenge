@@ -7,7 +7,6 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { ToggleButton, ToggleButtonGroup } from '@material-ui/lab';
 
-import round_account from '../../assets/images/round_account_circle.png';
 import round_person from '../../assets/images/round_person.png';
 import Home from './Home';
 import Privacy from './Privacy';
