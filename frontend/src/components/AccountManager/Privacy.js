@@ -96,7 +96,7 @@ const Privacy = (user) => {
     }
 
     const handleUpdatePrivacy = async () => {
-        if (await UserService.updatePrivacy(newUsername, isVisible)) {
+        if (await UserService.updatePrivacy(profilePicture, newUsername, isVisible)) {
             alert("Update privacy successfully!");
         }
         else {
