@@ -16,5 +16,6 @@ urlpatterns = [
     path('center/', include('center.urls')),
     path('scrap/', include('scrap.urls')),
     path('chart/', include('chart.urls')),
+    path('mypage/', include('mypage.urls')),
    
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
