@@ -5,7 +5,8 @@ const API_URL_MYPAGE = "http://localhost:8000/users/mypage/";
 const API_URL_CENTER = "http://localhost:8000/center/";
 const API_URL_STAR = "http://localhost:8000/scrap/center/";
 const API_URL_RANKINGS = "http://localhost:8000/chart/";
-const API_URL_CHANGEPASSWORD = "http://localhost:8000/change_password";
+const API_URL_CHANGEPASSWORD = "http://localhost:8000/change_password/";
+const API_URL_UPDATEPRIVACY = "http://localhost:8000/mypage/updatePrivacy/"
 
 const getUserInfo = () => {
   return axios({
@@ -164,7 +165,7 @@ const updatePassword = (newPassword) => {
 const updatePrivacy = (profilePicture, newUsername) => {
   return axios({
     method: 'post',
-    url: API_URL_MYPAGE,
+    url: API_URL_UPDATEPRIVACY,
     headers: authHeader(),
     data: {
       profilePicture: profilePicture,
