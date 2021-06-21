@@ -52,7 +52,7 @@ def chart(request):
 
             print(ranking)
             rankingresult.append(ranking)
-            resultjson = json.dumps(rankingresult)
+            #resultjson = json.dumps(rankingresult)
 
 
-        return Response(resultjson, status=status.HTTP_201_CREATED)
+        return Response(rankingresult, status=status.HTTP_201_CREATED)

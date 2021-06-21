@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     'accounts',
     'corsheaders',
     'center',
+    'mypage',
+    
     
 ]
 
@@ -54,8 +56,8 @@ AUTH_USER_MODEL = 'accounts.User'
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated', # 인증된 사용자만 접근 가능
-        #'rest_framework.permissions.IsAdminUser', # 관리자만 접근 가능
-        #'rest_framework.permissions.AllowAny', # 누구나 접근 가능
+        'rest_framework.permissions.IsAdminUser', # 관리자만 접근 가능
+        'rest_framework.permissions.AllowAny', # 누구나 접근 가능
 
     ),
 
@@ -123,11 +125,11 @@ WSGI_APPLICATION = 'Gitribute_Project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME':'blooming',
-        'USER':'root',
-        'PASSWORD':get_secret("DATABASE"),
-        'HOST':'localhost',
-        'PORT':'3306',
+        'NAME': 'localgitribute',
+        'USER': 'user',
+        'PASSWORD': get_secret("DATABASE"),
+        'HOST': 'localhost',
+        'PORT': '3306',
     }
 }
 
