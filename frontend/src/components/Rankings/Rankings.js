@@ -151,28 +151,10 @@ export default function Rankings() {
   };
 
   useEffect(async () => {
-    const getRankings = await UserService.getRankings();
-    console.log(JSON.stringify(getRankings));
-    setRankings(getRankings);
-    // TEST
-    /*
-    const ranks = [
-        {
-            rank: 1,
-            level: "🌼",
-            username: "donor111",
-            total: 100
-        },
-        {
-            rank: 2,
-            level: "🌱🌱",
-            username: "donor222",
-            total: 11
-        },
-    ]
+    const ranks = await UserService.getRankings();    
+    console.log(JSON.stringify(ranks));    
     setRankings(ranks);
-    */
-    
+
     const user = AuthService.getCurrentUser();
     if (user) {
         setCurrentUser(user);   
@@ -221,7 +203,22 @@ export default function Rankings() {
                   row.rank === 3 ? <span className={classes.rankThird}>{row.rank}</span> :
                   <span className={classes.rank}>{row.rank}</span>
                   }
-                  <span>&nbsp;&nbsp;&nbsp;&nbsp;{row.level}</span>
+                  <span>&nbsp;&nbsp;&nbsp;&nbsp;
+                  {
+                    row.total >= 120 ? row.level = "💖" :
+                    row.total >= 110 ? row.level = "🌼🌼🌼" :
+                    row.total >= 100 ? row.level = "🌼🌼" :
+                    row.total >= 90 ? row.level = "🌼" :
+                    row.total >= 80 ? row.level = "🍀🍀🍀" : 
+                    row.total >= 70 ? row.level = "🍀🍀" :
+                    row.total >= 60 ? row.level = "🍀" :
+                    row.total >= 50 ? row.level = "🌿🌿🌿" :
+                    row.total >= 40 ? row.level = "🌿🌿" :
+                    row.total >= 30 ? row.level = "🌿" :
+                    row.total >= 20 ? row.level = "🌱🌱🌱" :
+                    row.total >= 10 ? row.level = "🌱🌱" : row.level = "🌱"
+                  }
+                  </span>
                 </TableCell>
                 <TableCell align="left">
                   {row.username}
