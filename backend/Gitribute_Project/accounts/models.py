@@ -56,7 +56,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     
     #receiver에게 나중에 필요한 값
     total = models.IntegerField(null=True, blank=True)
-    email_active = models.BooleanField(default=False)
+    #email_active = models.BooleanField(default=False)
 
 
     is_staff = models.BooleanField(
