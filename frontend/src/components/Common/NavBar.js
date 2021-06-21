@@ -95,6 +95,9 @@ const NavBar = () => {
             "Primary Center: 📍 "+star
           )}
         </NavLink>
+        <NavLink to='/rankings'>
+          Rankings
+        </NavLink>
       </NavMenu>
       <NavBtn>
       {role === 0 ? (

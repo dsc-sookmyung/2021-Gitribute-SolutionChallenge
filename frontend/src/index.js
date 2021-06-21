@@ -20,7 +20,6 @@ const theme = createMuiTheme({
       fontSize: '3rem',
       fontWeight: 700,
       '@media (max-width:767px)': {
-        // fontSize: '2rem',
       },
     },
     h2: {

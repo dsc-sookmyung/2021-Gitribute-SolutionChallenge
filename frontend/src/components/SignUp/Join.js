@@ -19,6 +19,8 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import CustomAlert from '../Common/CustomAlert';
+import Backdrop from '@material-ui/core/Backdrop';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -51,7 +53,11 @@ const useStyles = makeStyles((theme) => ({
   },
   input: {
     display: 'none'
-  }
+  },
+  backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
+    color: '#fff',
+  },
 }));
 
 const Join = (props) => {
@@ -70,6 +76,8 @@ const Join = (props) => {
   const [successful, setSuccessful] = useState(false);
   const [message, setMessage] = useState("");
   const [showAlert, setShowAlert] = useState(false);
+  const [showJoinAlert, setShowJoinAlert] = useState(false);
+  const [showBackdrop, setShowBackdrop] = useState(false);
 
   useEffect(() => {
     username.length > 8 ? setUsernameError(true) : setUsernameError(false);
@@ -141,6 +149,11 @@ const Join = (props) => {
     setShowAlert(false);
   }
 
+  const joinClose = () => {
+    setShowJoinAlert(false);
+    props.history.push("/login");
+  }
+
   const onSubmit = (e) => {
     e.preventDefault();
 
@@ -167,14 +180,13 @@ const Join = (props) => {
       )
     }
 
+    setShowBackdrop(true);
     AuthService.register(username, email, password, role, image)
     .then((response) => {
       setMessage(response.data.message);
       setSuccessful(true);
-
-      alert("Sign up is complete!");
-
-      props.history.push("/login");
+      setShowJoinAlert(true);
+      setShowBackdrop(false);
     })
     .catch((error) => {
       const resMessage =
@@ -187,8 +199,21 @@ const Join = (props) => {
       setMessage(resMessage);
       alert(resMessage);
       setSuccessful(false);
+      setShowBackdrop(false);
     })
   }
+
+  useEffect(() => {
+    showJoinAlert
+      ? "An email has been sent for confirmㅡation!\nPlease check the email you entered. Registration will not be complete if you do not confirm within 24 hours."
+      : null
+    showJoinAlert ? (
+      <CustomAlert 
+      title="An email has been sent for confirmation."
+      content="Please check the email you entered. Registration will not be complete if you do not confirm within 24 hours." 
+      close={joinClose} />
+      ) : null
+  }, [showJoinAlert])
 
   return (
     <Container className={classes.container} component="main" maxWidth="xs">
@@ -222,6 +247,9 @@ const Join = (props) => {
         </>
       ) : (
         <div className={classes.paper}>
+          <Backdrop className={classes.backdrop} open={showBackdrop}>
+            <CircularProgress color="inherit" />
+          </Backdrop>
           { role === 1 ? (
             <Typography variant="body1">
               Join Blooming as a Recipient
@@ -325,7 +353,7 @@ const Join = (props) => {
               </div>
             ) : ( null ) }
             <FormControlLabel
-              control={<Checkbox value="agreeTerms" color="secondary" onChange={handleCheck} />}
+              control={<Checkbox checked={isChecked} value="agreeTerms" color="secondary" onChange={handleCheck} />}
               label={<div>I Agree to &nbsp;
                 <CustomPopup 
                   trigger="The Terms & Conditions"

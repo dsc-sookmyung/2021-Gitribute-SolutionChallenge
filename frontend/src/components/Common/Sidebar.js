@@ -4,10 +4,16 @@ import { NavIcon, SidebarNav, SidebarWrap, SidebarLink, SidebarTitleLabel, Sideb
 import MenuIcon from '@material-ui/icons/Menu';
 import CloseIcon from '@material-ui/icons/Close';
 import Backdrop from '@material-ui/core/Backdrop';
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   backdrop: {
     color: '#fff',
+  },
+  pointLink: {
+    color: 'inherit', 
+    textDecoration: 'inherit',
+    fontWeight: 'bold'
   },
 }));
 
@@ -31,6 +37,7 @@ const Sidebar = ({ role, currentUser, logout, levelIcon, star }) => {
           </NavIcon>
           <SidebarLink to='/'>About</SidebarLink>
           <SidebarLink to='/center'>{!star ? ("Choose your local LOGO Center") : ("Primary Center: 📍"+star)}</SidebarLink>
+          <SidebarLink to='/rankings'>Rankings</SidebarLink>
           { role === 0 ? (
             <SidebarLink to='/login'>Sign&nbsp;In</SidebarLink>
           ) : (
@@ -39,13 +46,27 @@ const Sidebar = ({ role, currentUser, logout, levelIcon, star }) => {
           { dropBox ? (
             role === 1 ? (
               <div className="modal">
+                <SidebarTitleLabel>
+                    <Link className={classes.pointLink} to='/myaccount'>
+                      <span style={{fontWeight: 'normal'}}>Signed in as</span> {currentUser.username}
+                    </Link>
+                </SidebarTitleLabel>
                 <SidebarTitleLabel>Available</SidebarTitleLabel>
                 <SidebarLabel>Total &nbsp;&nbsp; {currentUser.total}</SidebarLabel>
-                <SidebarTitleLabel><a href="#" onClick={logout}>Sign Out</a></SidebarTitleLabel>
+                <SidebarTitleLabel>
+                  <Link className={classes.pointLink} to='/' onClick={logout}>
+                    Sign Out
+                  </Link>
+                </SidebarTitleLabel>
               </div>           
             ) : (
               role === 2 ? (
                 <div className="modal">
+                  <SidebarTitleLabel>
+                    <Link className={classes.pointLink} to='/myaccount'>
+                      <span style={{fontWeight: 'normal'}}>Signed in as</span> {currentUser.username}
+                    </Link>
+                  </SidebarTitleLabel>
                   <SidebarTitleLabel>Level</SidebarTitleLabel>
                   <SidebarLabel>{levelIcon} {currentUser.level}</SidebarLabel>
                   <SidebarTitleLabel>Donation</SidebarTitleLabel>
@@ -53,7 +74,11 @@ const Sidebar = ({ role, currentUser, logout, levelIcon, star }) => {
                   <SidebarLabel>Medium {currentUser.medium}</SidebarLabel>
                   <SidebarLabel>Large {currentUser.large}</SidebarLabel>
                   <SidebarLabel>Overnight {currentUser.overnight}</SidebarLabel>
-                  <SidebarTitleLabel><a href="#" onClick={logout}>Sign Out</a></SidebarTitleLabel>
+                  <SidebarTitleLabel>
+                    <Link className={classes.pointLink} to='/' onClick={logout}>
+                      Sign Out
+                    </Link>
+                  </SidebarTitleLabel>
                 </div>           
               ) : null )
           ) : null }

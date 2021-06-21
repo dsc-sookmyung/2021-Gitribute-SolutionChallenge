@@ -1,11 +1,17 @@
-from django.shortcuts import render
-from rest_framework import status, viewsets
+from django.http.request import HttpRequest
+from django.shortcuts import redirect, render
+from django.utils.http import urlsafe_base64_decode
+from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny, IsAuthenticated
-
+from django.template.loader import render_to_string
 from .serializers import DonorCreateSerializer, ReceiverCreateSerializer, UserLoginSerializer
 from .models import User
+from .token import account_activation_token
+from django.core.mail import EmailMessage
+from django.utils.encoding import force_text
+import traceback
 
 from django.db import connection
 
@@ -31,11 +37,63 @@ def createUser(request):
             return Response({"message": "Request Body Error."}, status=status.HTTP_409_CONFLICT)
 
         if User.objects.filter(email=serializer.validated_data['email']).first() is None:
-            
             serializer.save()
-            print(serializer.data)
             return Response({"message": "ok"}, status=status.HTTP_201_CREATED)
+
         return Response({"message": "duplicate email"}, status=status.HTTP_409_CONFLICT)
+
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def DonorActivate(request, uidb64, token):
+    if request.method == 'GET':
+        try: 
+            uid = force_text(urlsafe_base64_decode(uidb64))
+            user = User.objects.get(pk=uid)
+            
+        except(TypeError, ValueError, OverflowError, User.DoesNotExist):
+            user = None
+
+        try:
+
+            if user is not None and account_activation_token.check_token(user, token):
+                    print(user.email)
+                    user.is_active = True
+                    user.save()
+                    return redirect('http://localhost:3000/join_success')
+                    #return Response({"message":user.email + ' has been activated.'}, status=status.HTTP_200_OK)
+            else:
+                return Response({"message":'This link has expired.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        except Exception as e:
+            print(traceback.format_exc())
+
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def ReceiverActivate(request, uidb64, token):
+    if request.method == 'GET':
+        try: 
+            uid = force_text(urlsafe_base64_decode(uidb64))
+            user = User.objects.get(pk=uid)
+            
+        except(TypeError, ValueError, OverflowError, User.DoesNotExist):
+            user = None
+
+        try:
+
+            if user is not None and account_activation_token.check_token(user, token):
+                    print(user.email)
+                    user.email_active = True
+                    user.save()
+                    return redirect('http://localhost:3000/')
+                    #return Response({"message":user.email + ' has been activated.'}, status=status.HTTP_200_OK)
+            else:
+                return Response({"message":'This link has expired.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        except Exception as e:
+            print(traceback.format_exc())
+
 
 
 @api_view(['POST'])
@@ -165,6 +223,7 @@ def mypage(request):
             else:
                 user.level = 1
 
+            user.total = total
             user.save()
 
         return Response({'message':'put request'})

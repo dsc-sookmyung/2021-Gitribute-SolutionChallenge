@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'center',
     'mypage',
     
+    
 ]
 
 AUTH_USER_MODEL = 'accounts.User'
@@ -55,8 +56,8 @@ AUTH_USER_MODEL = 'accounts.User'
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated', # 인증된 사용자만 접근 가능
-        #'rest_framework.permissions.IsAdminUser', # 관리자만 접근 가능
-        #'rest_framework.permissions.AllowAny', # 누구나 접근 가능
+        'rest_framework.permissions.IsAdminUser', # 관리자만 접근 가능
+        'rest_framework.permissions.AllowAny', # 누구나 접근 가능
 
     ),
 
@@ -131,6 +132,16 @@ DATABASES = {
         'PORT': '3306',
     }
 }
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587 # gmail과의 통신하는 포트
+EMAIL_HOST = 'smtp.gmail.com' # 메일을 호스트하는 서버
+EMAIL_HOST_USER = get_secret("EMAIL_HOST_USER") # 발신할 이메일
+EMAIL_HOST_PASSWORD = get_secret("EMAIL_HOST_PASSWORD") #발신할 비밀번호
+
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 
 # Password validation

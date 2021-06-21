@@ -4,6 +4,8 @@ import authHeader from "./auth-header";
 const API_URL_MYPAGE = "http://localhost:8000/users/mypage/";
 const API_URL_CENTER = "http://localhost:8000/center/";
 const API_URL_STAR = "http://localhost:8000/scrap/center/";
+const API_URL_RANKINGS = "http://localhost:8000/chart/";
+const API_URL_CHANGEPASSWORD = "http://localhost:8000/change_password";
 
 const getUserInfo = () => {
   return axios({
@@ -119,11 +121,70 @@ const handleStar = (star) => {
   })
 };
 
+const getRankings = () => {
+  return axios({
+    method: 'get',
+    url: API_URL_RANKINGS,
+    headers: authHeader(),
+  })
+  .then((response) => {
+    console.log(JSON.stringify(response.data));
+    return response.data;
+  })
+}
+
+const checkPassword = (currentPassword) => {
+  return axios({
+    method: 'post',
+    url: API_URL_CHANGEPASSWORD,
+    headers: authHeader(),
+    data: {
+      currentPassword: currentPassword
+    }
+  })
+  .then((response) => {
+    return response.date;
+  })
+}
+
+const updatePassword = (newPassword) => {
+  return axios({
+    method: 'post',
+    url: API_URL_CHANGEPASSWORD,
+    headers: authHeader(),
+    data: {
+      newPassword: newPassword
+    }
+  })
+  .then((response) => {
+    return response.date;
+  })
+}
+
+const updatePrivacy = (profilePicture, newUsername) => {
+  return axios({
+    method: 'post',
+    url: API_URL_MYPAGE,
+    headers: authHeader(),
+    data: {
+      profilePicture: profilePicture,
+      username: newUsername,
+    }
+  })
+  .then((response) => {
+    return response.date;
+  })
+}
+
 export default {
   getUserInfo,
   getDefaultCenter,
   getCenter,
   padNumToCenter,
   padNumToMypage,
-  handleStar
+  handleStar,
+  getRankings,
+  checkPassword,
+  updatePassword,
+  updatePrivacy
 };

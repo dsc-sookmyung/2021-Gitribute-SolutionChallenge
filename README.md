@@ -3,7 +3,7 @@
 
 > DSC Sookmyung Team Gitribute <br />
 > Team Member : Kwon Eunji(heleneunji), Suh Hee(0hee0), Yoo Jiyeon(hellouz818) <br />
-> Duration of development : 2021.03.01-2021.03.31
+> Duration of development : 2021.03.01-2021.04.11
 
 
 ### WEB Developer
@@ -48,7 +48,7 @@ We hope Blooming blooms the life of low-income female teenagers and creates a vi
 
 
 ### Demo video link
-[![thumbnail](https://user-images.githubusercontent.com/53266682/113233558-7a75d300-92da-11eb-995a-4c3f2f49e40b.png)](https://www.youtube.com/watch?v=AjA1jK2uBlc)
+[![thumbnail](https://user-images.githubusercontent.com/53266682/113233558-7a75d300-92da-11eb-995a-4c3f2f49e40b.png)](https://www.youtube.com/watch?v=_SYZ9VLt6eg)
 
 ### Screen shot
 ![image](https://user-images.githubusercontent.com/53266682/113231258-ca9e6680-92d5-11eb-9e2e-e394c53a2b4b.png)
@@ -56,7 +56,7 @@ We hope Blooming blooms the life of low-income female teenagers and creates a vi
 ![image](https://user-images.githubusercontent.com/53266682/113233250-c4aa8480-92d9-11eb-841f-503b65de1340.png)
 ![image](https://user-images.githubusercontent.com/53266682/113231291-e0139080-92d5-11eb-8d4c-b4c5442d5889.png)
 ![image](https://user-images.githubusercontent.com/53266682/113233211-a93f7980-92d9-11eb-8a90-0f41da32cdec.png)
-![certificate](https://user-images.githubusercontent.com/53266682/113233227-b52b3b80-92d9-11eb-8b21-b968a851a68f.png)
+![certificate](https://user-images.githubusercontent.com/53266682/114274499-97886f80-9a59-11eb-961b-0880ed0965f8.png)
 
 ### How to run
 1. Download the project (git clone https://github.com/dsc-sookmyung/2021-Gitribute)
