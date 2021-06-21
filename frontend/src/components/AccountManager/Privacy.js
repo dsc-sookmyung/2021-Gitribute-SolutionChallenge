@@ -30,7 +30,6 @@ const useStyles = makeStyles((theme) => ({
 
 const Privacy = (user) => {
     const [newUsername, setNewUsername] = useState(user.username);
-    const [isVisible, setIsVisible] = useState(true);
     const [profilePicture, setProfilePicture] = useState(user.profile);
     const [currentPassword, setCurrentPassword] = useState();
     const [newPassword, setNewPassword] = useState();
@@ -40,12 +39,6 @@ const Privacy = (user) => {
 
     const handleUsername = (e) => {
         setNewUsername(e.target.value);
-    }
-
-    const handleVisibility = (e) => {
-        e.preventDefault();
-
-        setIsVisible(!isVisible);
     }
 
     const handlePicture = (e) => {
@@ -96,7 +89,7 @@ const Privacy = (user) => {
     }
 
     const handleUpdatePrivacy = async () => {
-        if (await UserService.updatePrivacy(profilePicture, newUsername, isVisible)) {
+        if (await UserService.updatePrivacy(profilePicture, newUsername)) {
             alert("Update privacy successfully!");
         }
         else {
@@ -203,22 +196,6 @@ const Privacy = (user) => {
                 />
             </div>
             <div>***********</div>
-          </div>
-          <div className={classes.content}>
-            <div className={classes.title}>
-                Rank visibility&nbsp;&nbsp;&nbsp;&nbsp;
-                <Switch
-                checked={isVisible}
-                onChange={handleVisibility}
-                color="secondary"
-                />
-            </div>
-            <div>
-                You can choose whether to display your username in the donor ranking list. <br/>
-               <span style={{ color: "#bdbdbd"}}>
-                    Setting: { isVisible ? "Visible" : "Invisible"}
-                </span>
-            </div>
           </div>
           <br/>
             <Button variant="contained" color="secondary" onClick={handleUpdatePrivacy}>
