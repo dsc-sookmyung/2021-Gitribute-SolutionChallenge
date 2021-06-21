@@ -118,61 +118,29 @@ def getCenter(request):
         area = request.data["area"]
         place = request.data["place"]
         gmaps = googlemaps.Client(key=get_secret("GEOCODING_API"))
-        
-        if (int(area) == 0 and place == "Baengma") or (int(area) == 2 and place == "Baengma"):
-            print("Baengma 시리얼라이저")
-            center = Center.objects.get(id = 1)
 
-            total = center.pantyliner + center.medium + center.large + center.overnight
-            print(total)
+        center = Center.objects.get(name = request.data["place"])
 
-            #centerlocation = gmaps.reverse_geocode((center.lat, center.lng))
-            #result = centerlocation[0].get("formatted_address")
-            #print(result)
+        total = center.pantyliner + center.medium + center.large + center.overnight
+        print(total)
 
-            response = {
-                'name' : center.name,
-                'lat' : center.lat,
-                'lng': center.lng,
-                'pads' : {'liner' : center.pantyliner,
-                'medium': center.medium,
-                'large': center.large,
-                'overnight': center.overnight,
-                'total' : total},
-                'password': center.password,
-                'phonenumber': center.phonenumber,
-                #'location': result,
-            }
+        #centerlocation = gmaps.reverse_geocode((center.lat, center.lng))
+        #result = centerlocation[0].get("formatted_address")
+        #print(result)
 
-        elif (int(area) == 0 and place == "Madu") or (int(area) == 2 and place == "Madu"):
-            print("Madu 시리얼라이저")
-            center = Center.objects.get(id = 2)
-
-            total = center.pantyliner + center.medium + center.large + center.overnight
-            print(total)
-
-            centerlocation = gmaps.reverse_geocode((center.lat, center.lng))
-
-            result = centerlocation[0].get("formatted_address")
-            print(result)
-
-            response = {
-                'name' : center.name,
-                'lat' : center.lat,
-                'lng': center.lng,
-                'pads' : {'liner' : center.pantyliner,
-                'medium': center.medium,
-                'large': center.large,
-                'overnight': center.overnight,
-                'total' : total},
-                'password': center.password,
-                'phonenumber': center.phonenumber,
-                #'location': result,
-            }
-            
-        else:
-            print("validated_serializer 오류")
-            return Response({'message':"doesn't exist"})
+        response = {
+            'name' : center.name,
+            'lat' : center.lat,
+            'lng': center.lng,
+            'pads' : {'liner' : center.pantyliner,
+            'medium': center.medium,
+            'large': center.large,
+            'overnight': center.overnight,
+            'total' : total},
+            'password': center.password,
+            'phonenumber': center.phonenumber,
+            #'location': result,
+        }
 
         return Response(response, status=status.HTTP_200_OK)
 
