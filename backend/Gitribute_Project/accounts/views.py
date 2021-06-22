@@ -12,6 +12,7 @@ from .token import account_activation_token
 from django.core.mail import EmailMessage
 from django.utils.encoding import force_text
 import traceback
+from random import *
 
 from django.db import connection
 
@@ -228,3 +229,37 @@ def mypage(request):
 
         return Response({'message':'put request'})
       
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def forgetpassword(request):
+    if request.method == 'POST':
+
+        randnum = str(randrange(10)) + str(randrange(10)) + str(randrange(10)) + str(randrange(10))
+        print(randnum)
+
+        #받아온 이메일로 메일 보내기
+        message = render_to_string('accounts/activation_email_donor.html', {
+                'password': randnum,
+            })
+
+        mail_subject = 'Blooming Forgotten Password'
+        to_email = request.data["email"]
+        email = EmailMessage(mail_subject, message, to=[to_email])
+        email.send()
+        
+        serializer = UserLoginSerializer(data=request.data)
+        
+        if not serializer.is_valid(raise_exception=True):
+            return Response({"message": "Request Body Error."}, status=status.HTTP_409_CONFLICT)
+        
+        if serializer.validated_data['email'] == "NoExist":
+            return Response({'message': 'No Email'}, status=status.HTTP_200_OK)
+
+        else :
+            user = User.objects.get(email = request.data["email"])
+
+            user.set_password(randnum)
+
+            user.save()
+
+            return Response({"message": "Forgotten Password update"}, status=status.HTTP_200_OK)
