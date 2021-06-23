@@ -5,8 +5,10 @@ const API_URL_MYPAGE = "http://localhost:8000/users/mypage/";
 const API_URL_CENTER = "http://localhost:8000/center/";
 const API_URL_STAR = "http://localhost:8000/scrap/center/";
 const API_URL_RANKINGS = "http://localhost:8000/chart/";
-const API_URL_CHANGEPASSWORD = "http://localhost:8000/change_password/";
+const API_URL_CHECKPASSWORD = "http://localhost:8000/mypage/checkPassword/"
+const API_URL_UPDATEPASSWORD = "http://localhost:8000/mypage/updatePassword/"
 const API_URL_UPDATEPRIVACY = "http://localhost:8000/mypage/updatePrivacy/"
+const API_URL_DELETEACCOUNT = "http://localhost:8000/mypage/deleteAccount/"
 
 const getUserInfo = () => {
   return axios({
@@ -137,28 +139,30 @@ const getRankings = () => {
 const checkPassword = (currentPassword) => {
   return axios({
     method: 'post',
-    url: API_URL_CHANGEPASSWORD,
+    url: API_URL_CHECKPASSWORD,
     headers: authHeader(),
     data: {
       currentPassword: currentPassword
     }
   })
   .then((response) => {
-    return response.date;
+    alert("CHECK: "+JSON.stringify(response.data));
+    return response.data;
   })
 }
 
 const updatePassword = (newPassword) => {
   return axios({
     method: 'post',
-    url: API_URL_CHANGEPASSWORD,
+    url: API_URL_UPDATEPASSWORD,
     headers: authHeader(),
     data: {
       newPassword: newPassword
     }
   })
   .then((response) => {
-    return response.date;
+    console.log("UPDATE: "+JSON.stringify(response.data));
+    return response.data;
   })
 }
 
@@ -169,11 +173,30 @@ const updatePrivacy = (profilePicture, newUsername) => {
     headers: authHeader(),
     data: {
       profilePicture: profilePicture,
-      username: newUsername,
+      newUsername: newUsername,
     }
   })
   .then((response) => {
-    return response.date;
+    return response.data;
+  })
+}
+
+const deleteAccount = (password) => {
+  return axios({
+    method: 'post',
+    url: API_URL_DELETEACCOUNT,
+    headers: authHeader(),
+    data: {
+        currentPassword: password,
+    }
+  })
+  .then((response) => {
+    console.log(JSON.stringify(response.data));
+    if (response.data.message === "success") {
+      alert("Delete your account successfully!");
+      localStorage.removeItem("user");
+    }
+    return response.data;
   })
 }
 
@@ -187,5 +210,6 @@ export default {
   getRankings,
   checkPassword,
   updatePassword,
-  updatePrivacy
+  updatePrivacy,
+  deleteAccount
 };
