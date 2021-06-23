@@ -233,33 +233,30 @@ def mypage(request):
 @permission_classes([AllowAny])
 def forgetpassword(request):
     if request.method == 'POST':
-
-        randnum = str(randrange(10)) + str(randrange(10)) + str(randrange(10)) + str(randrange(10))
-        print(randnum)
-
-        #받아온 이메일로 메일 보내기
-        message = render_to_string('accounts/activation_email_donor.html', {
-                'password': randnum,
-            })
-
-        mail_subject = 'Blooming Forgotten Password'
-        to_email = request.data["email"]
-        email = EmailMessage(mail_subject, message, to=[to_email])
-        email.send()
         
-        serializer = UserLoginSerializer(data=request.data)
-        
-        if not serializer.is_valid(raise_exception=True):
-            return Response({"message": "Request Body Error."}, status=status.HTTP_409_CONFLICT)
-        
-        if serializer.validated_data['email'] == "NoExist":
-            return Response({'message': 'No Email'}, status=status.HTTP_200_OK)
-
-        else :
+        if User.objects.filter(email = request.data["email"]).exists():
             user = User.objects.get(email = request.data["email"])
+
+            randnum = str(randrange(10)) + str(randrange(10)) + str(randrange(10)) + str(randrange(10))
+            print(randnum)
+
+            #받아온 이메일로 메일 보내기
+            message = render_to_string('accounts/forget_password_email_send.html', {
+                'password': randnum,
+                'username' : user.username,
+                })
+
+            mail_subject = 'Blooming Forgotten Password'
+            to_email = request.data["email"]
+            email = EmailMessage(mail_subject, message, to=[to_email])
+            email.send()
 
             user.set_password(randnum)
 
             user.save()
 
             return Response({"message": "Forgotten Password update"}, status=status.HTTP_200_OK)
+
+        else :
+            return Response({"message": 'No such Email'}, status=status.HTTP_200_OK)
+            

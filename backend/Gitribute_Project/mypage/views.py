@@ -103,9 +103,11 @@ def checkpassword(request):
         user = User.objects.get(email = request.user.email)
 
         if (user.check_password(request.data['currentPassword']) == 1):
-            return Response({"boolean" : "true"}, status=status.HTTP_200_OK)
+            response = {"true"}
+            return Response(response, status=status.HTTP_200_OK)
         else :          
-            return Response({"boolean" : "false"}, status=status.HTTP_200_OK)
+            response = {"false"}
+            return Response(response, status=status.HTTP_200_OK)
 
 
 @api_view(['POST'])
@@ -128,7 +130,7 @@ def updatepassword(request):
         user.save()
         print(user.password)
 
-        return Response({"boolean" : "true"}, status=status.HTTP_200_OK)
+        return Response({"message" : "Password Update success"}, status=status.HTTP_200_OK)
         
 
 @api_view(['POST'])
@@ -154,10 +156,13 @@ def deleteaccount(request):
             curs.execute(sql)
             connection.commit()
 
-            return Response({"boolean" : "true"}, status=status.HTTP_200_OK)
+            return Response({"message" : "success"}, status=status.HTTP_200_OK)
+        
+        elif (user.check_password(request.data['currentPassword']) == 0):
+            return Response({"message" : "incorrect"}, status=status.HTTP_200_OK)
         
         else :
-            return Response({"boolean" : "false"}, status=status.HTTP_200_OK)
+            return Response({"message" : "fail"}, status=status.HTTP_200_OK)
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
