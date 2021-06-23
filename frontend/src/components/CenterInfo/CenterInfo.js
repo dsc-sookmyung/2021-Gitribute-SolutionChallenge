@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function CenterInfo() {
+export default function CenterInfo({ handleUpdate }) {
   const [role, setRole] = useState(0);
   const [currentUser, setCurrentUser] = useState(undefined);
   const [star, setStar] = useState(undefined);
@@ -157,7 +157,8 @@ export default function CenterInfo() {
         </FormControl>
       </Grid>
       <CenterTable className={classes.table} currentUser={currentUser} role={role} 
-      region={region} star={star} centerNames={centerNames} defaultCenter={defaultCenter} />
+      region={region} star={star} centerNames={centerNames} defaultCenter={defaultCenter}
+      handleUpdate={handleUpdate} />
     </div>
   );
 }

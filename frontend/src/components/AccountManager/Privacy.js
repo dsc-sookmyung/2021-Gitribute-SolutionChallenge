@@ -9,6 +9,7 @@ import CustomAlert from '../Common/CustomAlert';
 import CustomPopup from '../Common/CustomPopup';
 import CropOriginalIcon from '@material-ui/icons/CropOriginal';
 
+import AuthService from '../../services/auth.service';
 import UserService from '../../services/user.service';
 
 const useStyles = makeStyles((theme) => ({
@@ -28,14 +29,25 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const Privacy = (user) => {
-    const [newUsername, setNewUsername] = useState(user.username);
-    const [profilePicture, setProfilePicture] = useState(user.profile);
+const Privacy = ({ updateUserInfo }) => {
+    const [user, setUser] = useState(undefined);
+    const [newUsername, setNewUsername] = useState("");
+    const [profilePicture, setProfilePicture] = useState("");
     const [currentPassword, setCurrentPassword] = useState();
     const [newPassword, setNewPassword] = useState();
     const [confirmPassword, setConfirmPassword] = useState();
     const [showAlert, setShowAlert] = useState(false);
     const classes = useStyles();
+
+    useEffect(() => {
+      const user = AuthService.getCurrentUser();
+  
+      if (user) {
+          setUser(user);
+          setNewUsername(user.username);
+          // setProfilePicture(user.profile);
+        }
+    }, []);
 
     const handleUsername = (e) => {
         setNewUsername(e.target.value);
@@ -90,10 +102,11 @@ const Privacy = (user) => {
 
     const handleUpdatePrivacy = async () => {
         if (await UserService.updatePrivacy(profilePicture, newUsername)) {
-            alert("Update privacy successfully!");
+          updateUserInfo();
+          alert("Update privacy successfully!");
         }
         else {
-            alert("Update privacy failed.");
+          alert("Update privacy failed.");
         }
     }
   
@@ -135,7 +148,6 @@ const Privacy = (user) => {
                 name="username"
                 label="Username"
                 autoComplete="uname"
-                defaultValue={user.username}
                 value={newUsername}
                 onChange={handleUsername}
             />

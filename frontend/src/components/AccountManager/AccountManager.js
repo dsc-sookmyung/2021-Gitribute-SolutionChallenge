@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function AccountManager() {
+export default function AccountManager({ handleUpdate }) {
   const [currentUser, setCurrentUser] = useState(undefined);
   const [role, setRole] = useState(0);
   const [username, setUsername] = useState("USER");
@@ -62,21 +62,26 @@ export default function AccountManager() {
 
     if (user) {
         setCurrentUser(user);
-        setRole(user.role);
-        setUsername(user.username);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (currentUser) {
+        setRole(currentUser.role);
+        setUsername(currentUser.username);
         
-        if (user.center) {
-          setStar(user.center);
+        if (currentUser.center) {
+          setStar(currentUser.center);
         }
   
-        if (user.level) {
-          user.level <= 10 ? (
+        if (currentUser.level) {
+          currentUser.level <= 10 ? (
             setLevelIcon("🌱")
           ) : (
-            user.level < 30 ? (
+            currentUser.level < 30 ? (
               setLevelIcon("☘")
             ) : (
-              user.level < 50 ? (
+              currentUser.level < 50 ? (
                 setLevelIcon("🍀")
               ) : (
                   setLevelIcon("🌼")
@@ -85,14 +90,25 @@ export default function AccountManager() {
           )
         }
       }
-  }, []);
+  }, [currentUser]);
 
   useEffect(() => {
-    console.log(JSON.stringify(currentUser));
-  }, [currentUser]);
+    console.log(username);
+  }, [username]);
 
   const handleToggleChange = (e, newActive) => {
     setActive(newActive);
+  }
+
+  const updateUserInfo = async () => {
+    await UserService.getUserInfo();
+    handleUpdate();
+
+    const user = await AuthService.getCurrentUser();
+
+    if (user) {
+        setCurrentUser(user);
+    }
   }
 
   return (
@@ -105,7 +121,7 @@ export default function AccountManager() {
             <Grid className={classes.profileText} item container direction="column" justify="center">
                 <Grid item>
                 <Typography variant="h3">
-                    Username
+                    {username}
                 </Typography>
                 </Grid>
                 <Grid item>
@@ -131,7 +147,7 @@ export default function AccountManager() {
       </Grid>
       <div className={classes.activeContent}>
         {
-        active === "privacy" ? <Privacy user={currentUser}/> :
+        active === "privacy" ? <Privacy updateUserInfo={updateUserInfo}/> :
         active === "account" ? <Account user={currentUser}/> : <Home user={currentUser}/>
         }
     </div>

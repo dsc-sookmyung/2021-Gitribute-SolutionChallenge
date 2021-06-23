@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import AuthService from '../../services/auth.service';
+import UserService from '../../services/user.service';
 
 import { makeStyles } from '@material-ui/core/styles';
 import { Nav, NavLogo, NavLink, NavMenu, NavBtn, NavBtnLink, NavBtnUser } from './NavbarElements';
@@ -22,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const NavBar = () => {
+const NavBar = ({ updated }) => {
   const [role, setRole] = useState(0);
   const [username, setUsername] = useState("USER");
   const [currentUser, setCurrentUser] = useState(undefined);
@@ -30,7 +31,8 @@ const NavBar = () => {
   const [star, setStar] = useState(undefined);
   const classes = useStyles();
 
-  useEffect(() => {
+  useEffect(async () => {
+    await UserService.getUserInfo();
     const user = AuthService.getCurrentUser();
     if (user) {
       setCurrentUser(user);
@@ -57,14 +59,14 @@ const NavBar = () => {
         )
       }
     }
-  }, []);
+  }, [updated]);
 
   useEffect(() => {
-    console.log(JSON.stringify(currentUser));
+
   }, [currentUser]);
 
   useEffect(() => {
-    console.log(star);
+
   }, [star]);
 
   const logout = () => {

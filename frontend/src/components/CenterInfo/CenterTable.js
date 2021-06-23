@@ -75,11 +75,11 @@ let padNumber = [
   createPadData('Overnight', 0),
 ];
 
-const CenterTable = ({ currentUser, role, region, star, centerNames, defaultCenter }) => {
+const CenterTable = ({ currentUser, role, region, star, centerNames, defaultCenter, handleUpdate }) => {
   const classes = useStyles();
   const [selectedCenter, setSelectedCenter] = useState(star);
   const [centerInfo, setCenterInfo] = useState(undefined);
-  const [showForm, setShowForm] = useState(false);
+  const [showForm, setShowForm] = useState(true);
   const [currentStar, setCurrentStar] = useState(star);
   const [clickStar, setClickStar] = useState(false);
   const [showDetail, setShowDetail] = useState(false);
@@ -152,9 +152,7 @@ const CenterTable = ({ currentUser, role, region, star, centerNames, defaultCent
     await UserService.getUserInfo();
     const user = await AuthService.getCurrentUser();
     if (user) {
-      console.log("user: "+JSON.stringify(user));
       setCurrentStar(user.center);
-      console.log("star: "+JSON.stringify(user.center));  
     }
   }, [clickStar])
 
@@ -182,6 +180,7 @@ const CenterTable = ({ currentUser, role, region, star, centerNames, defaultCent
 
   const onClickStar = async () => {
     await UserService.handleStar(selectedCenter);
+    handleUpdate();
     setClickStar(!clickStar);
   }
 
@@ -334,7 +333,7 @@ const CenterTable = ({ currentUser, role, region, star, centerNames, defaultCent
               {showForm ? (
                 <TableRow>
                   <TableCell style={{ paddingBottom: "0.4rem" }}>
-                    <CountInputForm role={role} region={region} centerInfo={centerInfo} />
+                    <CountInputForm role={role} region={region} centerInfo={centerInfo} handleUpdate={handleUpdate} />
                   </TableCell>
                 </TableRow>
               ) : (null)}

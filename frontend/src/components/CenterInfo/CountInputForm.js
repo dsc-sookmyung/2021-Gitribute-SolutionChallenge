@@ -76,7 +76,7 @@ const contentStyle = {
   boxShadow: "3px 5px 5px 3px rgba(0, 0, 0, 0.1)"
 };
 
-export default function CountInputForm({ role, region, centerInfo }) {
+export default function CountInputForm({ role, region, centerInfo, handleUpdate }) {
   const [currentUser, setCurrentUser] = useState(undefined);
   const [total, setTotal] = useState(0);
   const [checkedLiner, setCheckedLiner] = useState(false);
@@ -358,6 +358,7 @@ export default function CountInputForm({ role, region, centerInfo }) {
         setCheckedOvernight(false);
 
         alert("Thank you! Your submission has been sent.");
+        window.location.reload();
         /*
         <CustomAlert 
         title="Thank you!"
@@ -370,6 +371,7 @@ export default function CountInputForm({ role, region, centerInfo }) {
   useEffect(() => {
     if (updateMypage) {
       UserService.getUserInfo();
+      handleUpdate();
     }
     setUpdateMypage(false);
   }, [updateMypage])
