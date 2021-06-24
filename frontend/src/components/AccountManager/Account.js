@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { withRouter } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
@@ -60,14 +61,12 @@ const Account = (props) => {
     const handleSubmit = async(e) => {
         await UserService.deleteAccount(password)
         .then((data) => {
-            /*
             if (data.message === "success") {
                 alert("Delete your account successfully!");
                 props.history.push("/");
                 window.location.reload();
             }
-            */
-            if (data.message === "incorrect") {
+            else if (data.message === "incorrect") {
                 alert("Your password is not correct. Please try again.");
             }
             else {
@@ -122,4 +121,4 @@ const Account = (props) => {
     )
 }
 
-export default Account;
+export default withRouter(Account);

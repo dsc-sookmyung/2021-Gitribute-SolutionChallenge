@@ -146,7 +146,7 @@ const checkPassword = (currentPassword) => {
     }
   })
   .then((response) => {
-    alert("CHECK: "+JSON.stringify(response.data));
+    console.log("CHECK: "+JSON.stringify(response.data));
     return response.data;
   })
 }
@@ -193,7 +193,6 @@ const deleteAccount = (password) => {
   .then((response) => {
     console.log(JSON.stringify(response.data));
     if (response.data.message === "success") {
-      alert("Delete your account successfully!");
       localStorage.removeItem("user");
     }
     return response.data;
