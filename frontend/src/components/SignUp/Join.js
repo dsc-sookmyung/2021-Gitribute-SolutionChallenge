@@ -204,9 +204,10 @@ const Join = (props) => {
   }
 
   useEffect(() => {
-    showJoinAlert
-      ? "An email has been sent for confirmㅡation!\nPlease check the email you entered. Registration will not be complete if you do not confirm within 24 hours."
-      : null
+    if (showJoinAlert) {
+      alert("An email has been sent for confirmation!\nPlease check the email you entered. Registration will not be complete if you do not confirm within 24 hours.");
+      props.history.push("/");
+    }
     showJoinAlert ? (
       <CustomAlert 
       title="An email has been sent for confirmation."
