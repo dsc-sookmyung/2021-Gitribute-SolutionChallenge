@@ -14,6 +14,8 @@ import Grid from '@material-ui/core/Grid';
 import CountInputForm from './CountInputForm';
 import MapContainer from './MapContainer';
 
+/* star 취소한 경우 바로 업데이트 안됨 문제 */
+
 const useStyles = makeStyles((theme) => ({
   table: {
     minWidth: 100,
@@ -153,6 +155,7 @@ const CenterTable = ({ currentUser, role, region, star, centerNames, defaultCent
     const user = await AuthService.getCurrentUser();
     if (user) {
       setCurrentStar(user.center);
+      handleUpdate();
     }
   }, [clickStar])
 
@@ -180,7 +183,6 @@ const CenterTable = ({ currentUser, role, region, star, centerNames, defaultCent
 
   const onClickStar = async () => {
     await UserService.handleStar(selectedCenter);
-    handleUpdate();
     setClickStar(!clickStar);
   }
 

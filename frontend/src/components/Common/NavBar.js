@@ -39,10 +39,8 @@ const NavBar = ({ updated }) => {
       setRole(user.role);
       setUsername(user.username);
       
-      if (user.center) {
-        setStar(user.center);
-      }
-
+      setStar(user.center);
+      
       if (user.level) {
         user.level <= 10 ? (
           setLevelIcon("🌱")
