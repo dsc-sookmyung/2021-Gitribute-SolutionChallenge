@@ -12,7 +12,6 @@ import Rankings from './components/Rankings/Rankings';
 import JoinSuccess from './components/SignUp/JoinSuccess';
 import { Switch } from 'react-router-dom/cjs/react-router-dom.min';
 import { makeStyles } from '@material-ui/core/styles';
-import UserService from './services/user.service';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -29,6 +28,10 @@ function App() {
     setUpdated(!updated);
   }
 
+  const isLogin = () => {
+    return localStorage.getItem("user");
+  }
+
   useEffect(() => {
   }, [updated]);
 
@@ -43,7 +46,7 @@ function App() {
           <Route path='/login' component={Login} />
           <Route path='/password_reset' component={PasswordReset} />
           <Route path='/password_forgot' component={PasswordForgot} />
-          <Route path='/myaccount' render={() => <AccountManager handleUpdate={handleUpdate} />} />
+          <Route path='/myaccount' render={() => isLogin() ? <AccountManager handleUpdate={handleUpdate} /> : <Login/>} />
           <Route path='/rankings' component={Rankings} />
           <Route path='/join_success' component={JoinSuccess} />
         </Switch>
