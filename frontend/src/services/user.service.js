@@ -166,7 +166,7 @@ const updatePassword = (newPassword) => {
   })
 }
 
-const updatePrivacy = (profilePicture, newUsername) => {
+const updatePrivacy = (profilePicture, newUsername, isVisible) => {
   return axios({
     method: 'post',
     url: API_URL_UPDATEPRIVACY,
@@ -174,6 +174,7 @@ const updatePrivacy = (profilePicture, newUsername) => {
     data: {
       profilePicture: profilePicture,
       newUsername: newUsername,
+      isVisible, isVisible
     }
   })
   .then((response) => {
@@ -191,7 +192,6 @@ const deleteAccount = (password) => {
     }
   })
   .then((response) => {
-    console.log(JSON.stringify(response.data));
     if (response.data.message === "success") {
       localStorage.removeItem("user");
     }

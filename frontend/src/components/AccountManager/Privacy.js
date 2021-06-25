@@ -32,6 +32,7 @@ const useStyles = makeStyles((theme) => ({
 const Privacy = ({ updateUserInfo }) => {
     const [user, setUser] = useState(undefined);
     const [newUsername, setNewUsername] = useState("");
+    const [isVisible, setIsVisible] = useState(true);
     const [profilePicture, setProfilePicture] = useState("");
     const [currentPassword, setCurrentPassword] = useState();
     const [newPassword, setNewPassword] = useState();
@@ -45,6 +46,7 @@ const Privacy = ({ updateUserInfo }) => {
       if (user) {
           setUser(user);
           setNewUsername(user.username);
+          setIsVisible(user.visibility);
           // setProfilePicture(user.profile);
         }
     }, []);
@@ -63,6 +65,12 @@ const Privacy = ({ updateUserInfo }) => {
           setProfilePicture(file);
           setShowAlert(true);
         }
+    }
+
+    const handleVisibility = (e) => {
+      e.preventDefault();
+
+      setIsVisible(!isVisible);
     }
 
     const close = () => {
@@ -101,7 +109,7 @@ const Privacy = ({ updateUserInfo }) => {
     }
 
     const handleUpdatePrivacy = async () => {
-        if (await UserService.updatePrivacy(profilePicture, newUsername)) {
+        if (await UserService.updatePrivacy(profilePicture, newUsername, isVisible)) {
           updateUserInfo();
           alert("Update privacy successfully!");
         }
@@ -208,6 +216,22 @@ const Privacy = ({ updateUserInfo }) => {
                 />
             </div>
             <div>***********</div>
+          </div>
+          <div className={classes.content}>
+            <div className={classes.title}>
+                Rank visibility&nbsp;&nbsp;&nbsp;&nbsp;
+                <Switch
+                checked={isVisible}
+                onChange={handleVisibility}
+                color="secondary"
+                />
+            </div>
+            <div>
+                You can choose whether to display your username in the donor ranking list. <br/>
+               <span style={{ color: "#bdbdbd"}}>
+                    Setting: { isVisible ? "Visible" : "Invisible"}
+                </span>
+            </div>
           </div>
           <br/>
             <Button variant="contained" color="secondary" onClick={handleUpdatePrivacy}>
