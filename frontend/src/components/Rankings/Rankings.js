@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { makeStyles, useTheme, withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import { Table, TableHead, TableBody, TableCell, TableContainer, TableFooter, TablePagination, TableRow } from '@material-ui/core';
 import Paper from '@material-ui/core/Paper';
@@ -9,6 +9,8 @@ import FirstPageIcon from '@material-ui/icons/FirstPage';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import LastPageIcon from '@material-ui/icons/LastPage';
+import CustomPopup from '../Common/CustomPopup';
+import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 
 import AuthService from '../../services/auth.service';
 import UserService from '../../services/user.service';
@@ -132,7 +134,18 @@ const useStyles2 = makeStyles({
         fontWeight: "bold",
         color: "#cd7f32"
     },
+    fontExtremeBold: {
+      fontWeight: 700,
+    }
 });
+
+const StyledTableRow = withStyles((theme) => ({
+  root: {
+    '&:nth-of-type(even)': {
+      backgroundColor: theme.palette.action.hover,
+    },
+  },
+}))(TableRow);
   
 export default function Rankings() {
   const [currentUser, setCurrentUser] = useState(undefined);
@@ -180,14 +193,27 @@ export default function Rankings() {
     <div className={classes.container}>
       <Typography variant="h3" className={classes.margin}>
         Donor Rankings
+        <CustomPopup 
+          trigger={
+            <IconButton color="primary" aria-label="help">
+              <HelpOutlineIcon color='action' />
+            </IconButton>}  
+          title="Information"
+          content={<div>The ranking is determined according to the total number of sanitary pad donations. <br/><br/>
+          If you do not want to show yourself in the rankings, follow these steps: <br/>
+          1. Click your profile in the top right corner <br/>
+          2. Click Signed in as username to enter My Page <br/>
+          3. Click Privacy info <br/>
+          4. Turn off the visibility switch!</div>}
+        />
       </Typography>
       <TableContainer component={Paper}>
         <Table className={classes.table} aria-label="rankings pagination table">
           <TableHead className={classes.tableHead}>
             <TableRow>
-              <TableCell>Rank</TableCell>
-              <TableCell align="left">Username</TableCell>
-              <TableCell align="right"># of Donations</TableCell>
+              <TableCell className={classes.fontExtremeBold}>Rank</TableCell>
+              <TableCell className={classes.fontExtremeBold} align="left">Username</TableCell>
+              <TableCell className={classes.fontExtremeBold} align="right"># of Donations</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -195,7 +221,7 @@ export default function Rankings() {
               ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               : rows
             ).map((row) => (
-              <TableRow key={row.name}>
+              <StyledTableRow key={row.name}>
                 <TableCell style={{ width: 240 }} component="th" scope="row">
                   {
                   row.rank === 1 ? <span className={classes.rankFirst}>{row.rank}</span> :
@@ -226,7 +252,7 @@ export default function Rankings() {
                 <TableCell style={{ width: 160 }} align="right">
                   {row.total}
                 </TableCell>
-              </TableRow>
+              </StyledTableRow>
             ))}
   
             {emptyRows > 0 && (

@@ -9,7 +9,7 @@ import { ToggleButton, ToggleButtonGroup } from '@material-ui/lab';
 
 import round_person from '../../assets/images/round_person.png';
 import Home from './Home';
-import Privacy from './Privacy';
+import PersonalInfo from './PersonalInfo';
 import Account from './Account';
 
 const useStyles = makeStyles((theme) => ({
@@ -74,20 +74,19 @@ export default function AccountManager({ handleUpdate }) {
           setStar(currentUser.center);
         }
   
-        if (currentUser.level) {
-          currentUser.level <= 10 ? (
-            setLevelIcon("🌱")
-          ) : (
-            currentUser.level < 30 ? (
-              setLevelIcon("☘")
-            ) : (
-              currentUser.level < 50 ? (
-                setLevelIcon("🍀")
-              ) : (
-                  setLevelIcon("🌼")
-              )
-            )
-          )
+        if (currentUser.total) {
+          currentUser.total >= 120 ? setLevelIcon("💖") :
+          currentUser.total >= 110 ? setLevelIcon("🌼🌼🌼") :
+          currentUser.total >= 100 ? setLevelIcon("🌼🌼") :
+          currentUser.total >= 90 ? setLevelIcon("🌼") :
+          currentUser.total >= 80 ? setLevelIcon("🍀🍀🍀") : 
+          currentUser.total >= 70 ? setLevelIcon("🍀🍀") :
+          currentUser.total >= 60 ? setLevelIcon("🍀") :
+          currentUser.total >= 50 ? setLevelIcon("🌿🌿🌿") :
+          currentUser.total >= 40 ? setLevelIcon("🌿🌿") :
+          currentUser.total >= 30 ? setLevelIcon("🌿") :
+          currentUser.total >= 20 ? setLevelIcon("🌱🌱🌱") :
+          currentUser.total >= 10 ? setLevelIcon("🌱🌱") : setLevelIcon("🌱")
         }
       }
   }, [currentUser]);
@@ -137,8 +136,8 @@ export default function AccountManager({ handleUpdate }) {
             <ToggleButton value="home">
               Home
             </ToggleButton>
-            <ToggleButton value="privacy">
-              Privacy
+            <ToggleButton value="personal-info">
+              Personal Info
             </ToggleButton>
             <ToggleButton value="account">
               Account    
@@ -147,8 +146,8 @@ export default function AccountManager({ handleUpdate }) {
       </Grid>
       <div className={classes.activeContent}>
         {
-        active === "privacy" ? <Privacy updateUserInfo={updateUserInfo}/> :
-        active === "account" ? <Account user={currentUser}/> : <Home user={currentUser}/>
+        active === "personal-info" ? <PersonalInfo updateUserInfo={updateUserInfo}/> :
+        active === "account" ? <Account /> : <Home currentUser={currentUser} levelIcon={levelIcon} />
         }
     </div>
     </div>
