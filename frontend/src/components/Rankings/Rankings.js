@@ -84,15 +84,7 @@ function createData(rank, level, username, total) {
   return { rank, level, username, total };
 }
   
-let rows = [
-    createData(1, '🌼🌼🌼', 'dooooonor1', 122),
-    createData(2, '🌼', 'donor2', 101),
-    createData(3, '🍀🍀', 'donor3', 71),
-    createData(4, '🌿', 'donor4', 30),
-    createData(4, '🌿', 'donor5', 30),
-    createData(6, '🌱🌱', 'donor6', 17),
-    createData(7, '🌱', 'donor7', 3),
-]
+let rows = []
   
 const useStyles2 = makeStyles({
     container: {
@@ -152,6 +144,7 @@ export default function Rankings() {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [rankings, setRankings] = useState();
+  const [rankingRows, setRankingRows] = useState(rows);
   const classes = useStyles2();
 
   const handleChangePage = (event, newPage) => {
@@ -184,10 +177,11 @@ export default function Rankings() {
         rankings.map((ranking) => 
             createData(ranking.rank, ranking.level, ranking.username, ranking.total)
         );
+      setRankingRows(rows);
     }
   }, [rankings]);
 
-  const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+  const emptyRows = rowsPerPage - Math.min(rowsPerPage, rankingRows.length - page * rowsPerPage);
 
   return (
     <div className={classes.container}>
@@ -218,8 +212,8 @@ export default function Rankings() {
           </TableHead>
           <TableBody>
             {(rowsPerPage > 0
-              ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              : rows
+              ? rankingRows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              : rankingRows
             ).map((row) => (
               <StyledTableRow key={row.name}>
                 <TableCell style={{ width: 240 }} component="th" scope="row">
@@ -266,7 +260,7 @@ export default function Rankings() {
               <TablePagination
                 rowsPerPageOptions={[5, 10, { label: 'All', value: -1 }]}
                 colSpan={3}
-                count={rows.length}
+                count={rankingRows.length}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 SelectProps={{

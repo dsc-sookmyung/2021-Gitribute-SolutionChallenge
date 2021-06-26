@@ -81,6 +81,7 @@ const CenterTable = ({ currentUser, role, region, star, centerNames, defaultCent
   const classes = useStyles();
   const [selectedCenter, setSelectedCenter] = useState(star);
   const [centerInfo, setCenterInfo] = useState(undefined);
+  const [padInfo, setPadInfo] = useState(padNumber);
   const [showForm, setShowForm] = useState(true);
   const [currentStar, setCurrentStar] = useState(star);
   const [clickStar, setClickStar] = useState(false);
@@ -103,6 +104,7 @@ const CenterTable = ({ currentUser, role, region, star, centerNames, defaultCent
         createPadData('Large', 0),
         createPadData('Overnight', 0),
       ];
+      setPadInfo(padNumber);
     }
     else {
       setSelectedCenter(defaultCenter.name);
@@ -139,6 +141,7 @@ const CenterTable = ({ currentUser, role, region, star, centerNames, defaultCent
         createPadData('Overnight', centerInfo.pads.overnight),
       ]; 
     }
+    setPadInfo(padNumber);
   });
 
   useEffect(() => {
@@ -149,7 +152,8 @@ const CenterTable = ({ currentUser, role, region, star, centerNames, defaultCent
         createPadData('Medium', centerInfo.pads.medium),
         createPadData('Large', centerInfo.pads.large),
         createPadData('Overnight', centerInfo.pads.overnight),
-      ];        
+      ];    
+      setPadInfo(padNumber);    
     }
   }, [centerInfo]);
 
@@ -185,6 +189,7 @@ const CenterTable = ({ currentUser, role, region, star, centerNames, defaultCent
           createPadData('Large', getCenterInfo.pads.large),
           createPadData('Overnight', getCenterInfo.pads.overnight),
         ];        
+        setPadInfo(padNumber);
       }
       setShowDetail(false);
     }
