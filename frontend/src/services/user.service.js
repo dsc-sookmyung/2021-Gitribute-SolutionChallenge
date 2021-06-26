@@ -66,6 +66,27 @@ const getCenter = (region, center) => {
   }
 };
 
+const getNearestCenter = (lat, lng) => {
+  try {
+    return axios({
+      method: 'post',
+      url: API_URL_CENTER+'nearcenter/',
+      headers: authHeader(),
+      data: {
+        lat: lat,
+        lng: lng
+      }
+    })
+    .then((response) => {
+      console.log(JSON.stringify(response.data));
+      return response.data;
+    })
+  }
+  catch (error) {
+    console.log(error);
+  }
+};
+
 const padNumToMypage = (linerCounter, mediumCounter, largeCounter, overnightCounter) => {
   return axios({
     method: 'put',
@@ -203,6 +224,7 @@ export default {
   getUserInfo,
   getDefaultCenter,
   getCenter,
+  getNearestCenter,
   padNumToCenter,
   padNumToMypage,
   handleStar,
