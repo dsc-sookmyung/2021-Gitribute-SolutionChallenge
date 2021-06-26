@@ -47,12 +47,13 @@ class DonorCreateSerializer(serializers.Serializer):
             medium = 0,
             large = 0,
             overnight = 0,
+            total = 0,
         )
         donor.set_password(validated_data['password'])
 
         donor.save()
 
-        message = render_to_string('accounts/activation_email_donor.html', {
+        message = render_to_string('accounts/activation_email.html', {
                 'user': donor,
                 'domain' :'localhost:8000',
                 'uid' : urlsafe_base64_encode(force_bytes(donor.pk)),
@@ -99,7 +100,7 @@ class ReceiverCreateSerializer(serializers.Serializer):
 
         receiver.save()
 
-        message = render_to_string('accounts/activation_email_receiver.html', {
+        message = render_to_string('accounts/activation_email.html', {
                 'user': receiver,
                 'domain' :'localhost:8000',
                 'uid' : urlsafe_base64_encode(force_bytes(receiver.pk)),

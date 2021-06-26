@@ -14,7 +14,6 @@ from django.db import connection
 def mypage(request):
     auth_token = request.headers.get("Authorization", None)
 
-    # 토큰 값이 아예 안 들어왔을 때 401 코드 처리 및 메시지 출력
     if auth_token == None:
       return JsonResponse({'message':'Enter the token.'}, status=401)
 
@@ -64,9 +63,6 @@ def mypage(request):
 
         if user.role == 2:
             print("Donor")
-
-            #print(type(user.liner)) -> int
-            #print(type(request.data['liner'])) -> str
             
             user.liner += int(request.data['liner'])
             user.medium += int(request.data['medium'])
@@ -94,7 +90,6 @@ def mypage(request):
 def checkpassword(request):
     auth_token = request.headers.get("Authorization", None)
 
-    # 토큰 값이 아예 안 들어왔을 때 401 코드 처리 및 메시지 출력
     if auth_token == None:
       return JsonResponse({'message':'Enter the token.'}, status=401)
 
@@ -114,7 +109,6 @@ def checkpassword(request):
 def updatepassword(request):
     auth_token = request.headers.get("Authorization", None)
 
-    # 토큰 값이 아예 안 들어왔을 때 401 코드 처리 및 메시지 출력
     if auth_token == None:
       return JsonResponse({'message':'Enter the token.'}, status=401)
 
@@ -137,7 +131,6 @@ def updatepassword(request):
 def deleteaccount(request):
     auth_token = request.headers.get("Authorization", None)
 
-    # 토큰 값이 아예 안 들어왔을 때 401 코드 처리 및 메시지 출력
     if auth_token == None:
       return JsonResponse({'message':'Enter the token.'}, status=401)
 
@@ -168,7 +161,6 @@ def deleteaccount(request):
 def updateprivacy(request):
     auth_token = request.headers.get("Authorization", None)
 
-    # 토큰 값이 아예 안 들어왔을 때 401 코드 처리 및 메시지 출력
     if auth_token == None:
       return JsonResponse({'message':'Enter the token.'}, status=401)
 
@@ -176,12 +168,11 @@ def updateprivacy(request):
     if request.method == 'POST':
         user = User.objects.get(email = request.user.email)
         
-        print(user.username)
 
         user.username = request.data['newUsername']
+        user.visibility = request.data['isVisible']
 
         user.save()
         print(user.username)
 
         return Response({"message": "Privacy Update success"}, status=status.HTTP_200_OK)
-        
