@@ -41,7 +41,6 @@ def getDefaultCenter(request):
         gmaps = googlemaps.Client(key=get_secret("GEOCODING_API"))
 
         if int(area) == 0:
-            print("total 시리얼라이저")
 
             sortcenter = [] # 비교한 센터와 현재 위치의 거리와 센터 id 저장할 배열
 
@@ -50,25 +49,27 @@ def getDefaultCenter(request):
                 sortcenter.append(center.name)
 
             sortcenter = sorted(sortcenter) # 오름차순으로 정렬
-            print(sortcenter[0])
+
             center = Center.objects.get(name = sortcenter[0])
 
             names = sortcenter
 
         elif int(area) == 1 or int(area) == 2 or int(area) == 3 or int(area) == 4 or int(area) == 5 :
-            sortcenter = [] # 비교한 센터와 현재 위치의 거리와 센터 id 저장할 배열
+            
+            sortcenter = []
 
-            for i in range(1, 53) : # 전체 디비의 센터와 거리 비교
-                centerlist = Center.objects.get(id = i)
-                if centerlist.area == area :
-                    sortcenter.append(centerlist.name)
+            for i in range(1, 53) :
+                center = Center.objects.get(id = i)
+                if center.area == area :
+                    sortcenter.append(center.name)
+            
+            sortcenter = sorted(sortcenter)
 
-            names = sorted(sortcenter)
+            center = Center.objects.get(name = sortcenter[0])
 
-            center = Center.objects.get(name = names[0])
+            names = sortcenter
 
         else:
-            print("validated_serializer 오류")
             return Response({'message':"doesn't exist"})
         
         total = center.pantyliner + center.medium + center.large + center.overnight
@@ -128,6 +129,9 @@ def getCenter(request):
         }
 
         return Response(response, status=status.HTTP_200_OK)
+    
+    else:
+        return Response({'message':"doesn't exist"})
 
 @api_view(['PUT'])
 @permission_classes([AllowAny])
