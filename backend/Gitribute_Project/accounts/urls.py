@@ -8,7 +8,7 @@ urlpatterns = [
     path('signup/', views.createUser),
     path('login/', views.login),
     path('mypage/', views.mypage),
-    path('forgetpassword/', views.forgetpassword),
+    path('forgetPassword/', views.forgetpassword),
     path('activate/<str:uidb64>/<str:token>/', views.UserActivate, name='activate'),
-    
+
 ]
