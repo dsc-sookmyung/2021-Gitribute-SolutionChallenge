@@ -9,6 +9,6 @@ urlpatterns = [
     path('login/', views.login),
     path('mypage/', views.mypage),
     path('forgetPassword/', views.forgetpassword),
-    path('activate_donor/<str:uidb64>/<str:token>/', views.DonorActivate, name='activate_donor'),
-    path('activate_receiver/<str:uidb64>/<str:token>/', views.ReceiverActivate, name='activate_receiver'),
+    path('activate/<str:uidb64>/<str:token>/', views.UserActivate, name='activate'),
+
 ]

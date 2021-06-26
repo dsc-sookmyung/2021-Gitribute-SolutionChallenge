@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
+import { withRouter } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Popup from "reactjs-popup";
 import CustomPopup from '../Common/CustomPopup';
-import AuthService from '../../services/auth.service';
+import UserService from '../../services/user.service';
 
 const useStyles = makeStyles((theme) => ({
     title: {
@@ -49,7 +50,7 @@ const contentStyle = {
     boxShadow: "3px 5px 5px 3px rgba(0, 0, 0, 0.1)"
 };
 
-const Account = (props, user) => {
+const Account = (props) => {
     const [password, setPassword] = useState("");  
     const classes = useStyles();
 
@@ -57,24 +58,21 @@ const Account = (props, user) => {
         setPassword(e.target.value);
     }
     
-    const handleSubmit = (e) => {
-        e.preventDefault();
-
-        AuthService.deleteAccount(password, user)
-        .then(
-            (data) => {
-                if (data.message === "success") {
-                    alert("Delete your account successfully!");
-                    props.history.push("/");
-                    window.location.reload();
-                }
-                else if (data.message === "incorrect") {
-                    alert("Your password is not correct. Please try again.");
-                }
-                else {
-                    alert("FAIL!");
-                }
+    const handleSubmit = async(e) => {
+        await UserService.deleteAccount(password)
+        .then((data) => {
+            if (data.message === "success") {
+                alert("Delete your account successfully!");
+                props.history.push("/");
+                window.location.reload();
             }
+            else if (data.message === "incorrect") {
+                alert("Your password is not correct. Please try again.");
+            }
+            else {
+                alert("Failed to delete account. Please try again.");
+            }
+        }
         )
     }
 
@@ -117,10 +115,10 @@ const Account = (props, user) => {
               }
               title="Are you sure?"
               content={content}
-              onSubmit={handleSubmit}
+              handleSubmit={handleSubmit}
             />
         </div>
     )
 }
 
-export default Account;
+export default withRouter(Account);

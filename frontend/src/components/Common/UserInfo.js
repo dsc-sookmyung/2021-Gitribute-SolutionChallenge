@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
 import Popup from "reactjs-popup";
-import AuthService from '../../services/auth.service';
 
 const contentStyle = {
   position: "absolute",
@@ -38,13 +37,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const UserInfo = ({ trigger, currentUser, logout, levelIcon }) => {
-  const [userInfo, setUserInfo] = useState(currentUser);
   const classes = useStyles();
 
   useEffect(() => {
-    const user = AuthService.getCurrentUser();
-    setUserInfo(user);
-  }, []);
+
+  }, [currentUser]);
 
   return (
     <Popup
@@ -55,26 +52,26 @@ const UserInfo = ({ trigger, currentUser, logout, levelIcon }) => {
       {close => (
         <>
         <Link className={classes.pointLink} to='/myaccount'>
-          <div className={classes.contentLink}><span style={{fontWeight: 'normal'}}>Signed in as</span> {userInfo.username}</div>
+          <div className={classes.contentLink}><span style={{fontWeight: 'normal'}}>Signed in as</span> {currentUser.username}</div>
         </Link>
-        { userInfo.role === 1 ? (
+        { currentUser.role === 1 ? (
           <div className="modal">
             <div className={classes.title}>Available</div>
-            <div className={classes.content}>Total &nbsp;&nbsp; {userInfo.total}</div>
+            <div className={classes.content}>Total &nbsp;&nbsp; {currentUser.total}</div>
             <hr style={{border: "solid 0.1px #e9ecef", transform: "scaleY(0.5)", width: "90%"}} />
             <a href="/" onClick={logout}><div className={classes.title}>Sign Out</div></a>
           </div>           
         ) : (
-          userInfo.role === 2 ? (
+          currentUser.role === 2 ? (
             <div className="modal">
               <div className={classes.title}>Level</div>
-              <div className={classes.content}>{levelIcon} {userInfo.level}</div>
+              <div className={classes.content}>{levelIcon} {currentUser.level}</div>
               <hr style={{border: "solid 0.1px #e9ecef", transform: "scaleY(0.5)", width: "90%"}} />
               <div className={classes.title}>Donation</div>
-              <div className={classes.content}>Panty Liner {userInfo.liner}</div>
-              <div className={classes.content}>Medium {userInfo.medium}</div>
-              <div className={classes.content}>Large {userInfo.large}</div>
-              <div className={classes.content}>Overnight {userInfo.overnight}</div>
+              <div className={classes.content}>Panty Liner {currentUser.liner}</div>
+              <div className={classes.content}>Medium {currentUser.medium}</div>
+              <div className={classes.content}>Large {currentUser.large}</div>
+              <div className={classes.content}>Overnight {currentUser.overnight}</div>
               <hr style={{border: "solid 0.1px #e9ecef", transform: "scaleY(0.5)", width: "90%"}} />
               <Link className={classes.pointLink} to='/' onClick={logout}>
                 <div className={classes.contentLink}>Sign Out</div>

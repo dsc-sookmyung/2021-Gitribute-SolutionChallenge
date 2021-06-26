@@ -9,7 +9,7 @@ import { ToggleButton, ToggleButtonGroup } from '@material-ui/lab';
 
 import round_person from '../../assets/images/round_person.png';
 import Home from './Home';
-import Privacy from './Privacy';
+import PersonalInfo from './PersonalInfo';
 import Account from './Account';
 
 const useStyles = makeStyles((theme) => ({
@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function AccountManager() {
+export default function AccountManager({ handleUpdate }) {
   const [currentUser, setCurrentUser] = useState(undefined);
   const [role, setRole] = useState(0);
   const [username, setUsername] = useState("USER");
@@ -62,37 +62,52 @@ export default function AccountManager() {
 
     if (user) {
         setCurrentUser(user);
-        setRole(user.role);
-        setUsername(user.username);
-        
-        if (user.center) {
-          setStar(user.center);
-        }
-  
-        if (user.level) {
-          user.level <= 10 ? (
-            setLevelIcon("🌱")
-          ) : (
-            user.level < 30 ? (
-              setLevelIcon("☘")
-            ) : (
-              user.level < 50 ? (
-                setLevelIcon("🍀")
-              ) : (
-                  setLevelIcon("🌼")
-              )
-            )
-          )
-        }
-      }
+    }
   }, []);
 
   useEffect(() => {
-    console.log(JSON.stringify(currentUser));
+    if (currentUser) {
+        setRole(currentUser.role);
+        setUsername(currentUser.username);
+        
+        if (currentUser.center) {
+          setStar(currentUser.center);
+        }
+  
+        if (currentUser.total) {
+          currentUser.total >= 120 ? setLevelIcon("💖") :
+          currentUser.total >= 110 ? setLevelIcon("🌼🌼🌼") :
+          currentUser.total >= 100 ? setLevelIcon("🌼🌼") :
+          currentUser.total >= 90 ? setLevelIcon("🌼") :
+          currentUser.total >= 80 ? setLevelIcon("🍀🍀🍀") : 
+          currentUser.total >= 70 ? setLevelIcon("🍀🍀") :
+          currentUser.total >= 60 ? setLevelIcon("🍀") :
+          currentUser.total >= 50 ? setLevelIcon("🌿🌿🌿") :
+          currentUser.total >= 40 ? setLevelIcon("🌿🌿") :
+          currentUser.total >= 30 ? setLevelIcon("🌿") :
+          currentUser.total >= 20 ? setLevelIcon("🌱🌱🌱") :
+          currentUser.total >= 10 ? setLevelIcon("🌱🌱") : setLevelIcon("🌱")
+        }
+      }
   }, [currentUser]);
+
+  useEffect(() => {
+    console.log(username);
+  }, [username]);
 
   const handleToggleChange = (e, newActive) => {
     setActive(newActive);
+  }
+
+  const updateUserInfo = async () => {
+    await UserService.getUserInfo();
+    handleUpdate();
+
+    const user = await AuthService.getCurrentUser();
+
+    if (user) {
+        setCurrentUser(user);
+    }
   }
 
   return (
@@ -105,7 +120,7 @@ export default function AccountManager() {
             <Grid className={classes.profileText} item container direction="column" justify="center">
                 <Grid item>
                 <Typography variant="h3">
-                    Username
+                    {username}
                 </Typography>
                 </Grid>
                 <Grid item>
@@ -121,8 +136,8 @@ export default function AccountManager() {
             <ToggleButton value="home">
               Home
             </ToggleButton>
-            <ToggleButton value="privacy">
-              Privacy
+            <ToggleButton value="personal-info">
+              Personal Info
             </ToggleButton>
             <ToggleButton value="account">
               Account    
@@ -131,8 +146,8 @@ export default function AccountManager() {
       </Grid>
       <div className={classes.activeContent}>
         {
-        active === "privacy" ? <Privacy user={currentUser}/> :
-        active === "account" ? <Account user={currentUser}/> : <Home user={currentUser}/>
+        active === "personal-info" ? <PersonalInfo updateUserInfo={updateUserInfo}/> :
+        active === "account" ? <Account /> : <Home currentUser={currentUser} levelIcon={levelIcon} />
         }
     </div>
     </div>

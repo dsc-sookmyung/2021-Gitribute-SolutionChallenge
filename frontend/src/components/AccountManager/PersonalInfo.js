@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const Privacy = ({ updateUserInfo }) => {
+const PersonalInfo = ({ updateUserInfo }) => {
     const [user, setUser] = useState(undefined);
     const [newUsername, setNewUsername] = useState("");
     const [isVisible, setIsVisible] = useState(true);
@@ -111,10 +111,10 @@ const Privacy = ({ updateUserInfo }) => {
     const handleUpdatePrivacy = async () => {
         if (await UserService.updatePrivacy(profilePicture, newUsername, isVisible)) {
           updateUserInfo();
-          alert("Update privacy successfully!");
+          alert("Update personal info successfully!");
         }
         else {
-          alert("Update privacy failed.");
+          alert("Update personal info failed.");
         }
     }
   
@@ -235,10 +235,10 @@ const Privacy = ({ updateUserInfo }) => {
           </div>
           <br/>
             <Button variant="contained" color="secondary" onClick={handleUpdatePrivacy}>
-                Update privacy
+                Update personal info
             </Button>
         </div>
     )
 }
 
-export default Privacy;
+export default PersonalInfo;

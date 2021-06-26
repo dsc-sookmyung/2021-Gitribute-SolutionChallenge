@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import AuthService from '../../services/auth.service';
+import UserService from '../../services/user.service';
 
 import { makeStyles } from '@material-ui/core/styles';
 import { Nav, NavLogo, NavLink, NavMenu, NavBtn, NavBtnLink, NavBtnUser } from './NavbarElements';
@@ -22,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const NavBar = () => {
+const NavBar = ({ updated }) => {
   const [role, setRole] = useState(0);
   const [username, setUsername] = useState("USER");
   const [currentUser, setCurrentUser] = useState(undefined);
@@ -30,41 +31,39 @@ const NavBar = () => {
   const [star, setStar] = useState(undefined);
   const classes = useStyles();
 
-  useEffect(() => {
+  useEffect(async () => {
+    await UserService.getUserInfo();
     const user = AuthService.getCurrentUser();
     if (user) {
       setCurrentUser(user);
       setRole(user.role);
       setUsername(user.username);
       
-      if (user.center) {
-        setStar(user.center);
-      }
-
-      if (user.level) {
-        user.level <= 10 ? (
-          setLevelIcon("🌱")
-        ) : (
-          user.level < 30 ? (
-            setLevelIcon("☘")
-          ) : (
-            user.level < 50 ? (
-              setLevelIcon("🍀")
-            ) : (
-                setLevelIcon("🌼")
-            )
-          )
-        )
+      setStar(user.center);
+      
+      if (user.total) {
+        user.total >= 120 ? setLevelIcon("🦋") :
+        user.total >= 110 ? setLevelIcon("🌼🌼🌼") :
+        user.total >= 100 ? setLevelIcon("🌼🌼") :
+        user.total >= 90 ? setLevelIcon("🌼") :
+        user.total >= 80 ? setLevelIcon("🍀🍀🍀") : 
+        user.total >= 70 ? setLevelIcon("🍀🍀") :
+        user.total >= 60 ? setLevelIcon("🍀") :
+        user.total >= 50 ? setLevelIcon("🌿🌿🌿") :
+        user.total >= 40 ? setLevelIcon("🌿🌿") :
+        user.total >= 30 ? setLevelIcon("🌿") :
+        user.total >= 20 ? setLevelIcon("🌱🌱🌱") :
+        user.total >= 10 ? setLevelIcon("🌱🌱") : setLevelIcon("🌱")
       }
     }
-  }, []);
+  }, [updated]);
 
   useEffect(() => {
-    console.log(JSON.stringify(currentUser));
+
   }, [currentUser]);
 
   useEffect(() => {
-    console.log(star);
+
   }, [star]);
 
   const logout = () => {

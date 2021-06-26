@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Navbar from './components/Common/NavBar';
 import About from './components/About/About';
@@ -21,20 +21,32 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 function App() {
+  const [updated, setUpdated] = useState(false);
   const classes = useStyles();
+
+  const handleUpdate = () => {
+    setUpdated(!updated);
+  }
+
+  const isLogin = () => {
+    return localStorage.getItem("user");
+  }
+
+  useEffect(() => {
+  }, [updated]);
 
   return (
     <Router>
       <div className={classes.root}>
-        <Navbar />
+        <Navbar updated={updated}/>
         <Switch>
           <Route path='/' exact component={About} />
-          <Route path='/center' component={CenterInfo} />
+          <Route path='/center' render={() => <CenterInfo handleUpdate={handleUpdate} />} />
           <Route path='/join' component={Join} />
           <Route path='/login' component={Login} />
           <Route path='/password_reset' component={PasswordReset} />
           <Route path='/password_forgot' component={PasswordForgot} />
-          <Route path='/myaccount' component={AccountManager} />
+          <Route path='/myaccount' render={() => isLogin() ? <AccountManager handleUpdate={handleUpdate} /> : <Login/>} />
           <Route path='/rankings' component={Rankings} />
           <Route path='/join_success' component={JoinSuccess} />
         </Switch>
