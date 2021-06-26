@@ -103,11 +103,10 @@ def checkpassword(request):
         user = User.objects.get(email = request.user.email)
 
         if (user.check_password(request.data['currentPassword']) == 1):
-            response = {"true"}
-            return Response(response, status=status.HTTP_200_OK)
+            return Response({"message" : "true"}, status=status.HTTP_200_OK)
+
         else :          
-            response = {"false"}
-            return Response(response, status=status.HTTP_200_OK)
+            return Response({"message" : "false"}, status=status.HTTP_200_OK)
 
 
 @api_view(['POST'])

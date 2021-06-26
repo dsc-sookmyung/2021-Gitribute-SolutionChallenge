@@ -246,7 +246,7 @@ def forgetpassword(request):
                 'username' : user.username,
                 })
 
-            mail_subject = 'Blooming Forgotten Password'
+            mail_subject = 'Blooming Reset Password'
             to_email = request.data["email"]
             email = EmailMessage(mail_subject, message, to=[to_email])
             email.send()
@@ -255,8 +255,8 @@ def forgetpassword(request):
 
             user.save()
 
-            return Response({"message": "Forgotten Password update"}, status=status.HTTP_200_OK)
+            return Response({"message": "reset password"}, status=status.HTTP_200_OK)
 
         else :
-            return Response({"message": 'No such Email'}, status=status.HTTP_200_OK)
+            return Response({"message": 'no email'}, status=status.HTTP_200_OK)
             
