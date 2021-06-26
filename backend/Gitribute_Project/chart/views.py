@@ -16,7 +16,8 @@ def chart(request):
 
     if request.method == 'GET':
 
-        userlist = User.objects.all().order_by('total').reverse()
+        userlist = User.objects.filter(visibility=1).order_by('total').reverse()
+        print(userlist)
         ranklist = [] # total 추가 리스트
         rankresult = [] # 순위 정렬 리스트
         rankingresult = [] # 프론트엔드 리턴 리스트

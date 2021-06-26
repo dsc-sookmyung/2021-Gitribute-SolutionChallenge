@@ -14,6 +14,8 @@ import Grid from '@material-ui/core/Grid';
 import CountInputForm from './CountInputForm';
 import MapContainer from './MapContainer';
 
+/* star 취소한 경우 바로 업데이트 안됨 문제 */
+
 const useStyles = makeStyles((theme) => ({
   table: {
     minWidth: 100,
@@ -75,17 +77,22 @@ let padNumber = [
   createPadData('Overnight', 0),
 ];
 
-const CenterTable = ({ currentUser, role, region, star, centerNames, defaultCenter }) => {
+const CenterTable = ({ currentUser, role, region, star, centerNames, defaultCenter, handleUpdate, searchName }) => {
   const classes = useStyles();
   const [selectedCenter, setSelectedCenter] = useState(star);
   const [centerInfo, setCenterInfo] = useState(undefined);
-  const [showForm, setShowForm] = useState(false);
+  const [padInfo, setPadInfo] = useState(padNumber);
+  const [showForm, setShowForm] = useState(true);
   const [currentStar, setCurrentStar] = useState(star);
   const [clickStar, setClickStar] = useState(false);
   const [showDetail, setShowDetail] = useState(false);
 
   useEffect(() => {
-    if (star) {
+    if (searchName) {
+      setSelectedCenter(searchName);
+      setShowDetail(false);
+    }
+    else if (star) {
       setSelectedCenter(star);
     }
     else if (centerNames.center === "Center is in preparation!") {
@@ -97,6 +104,7 @@ const CenterTable = ({ currentUser, role, region, star, centerNames, defaultCent
         createPadData('Large', 0),
         createPadData('Overnight', 0),
       ];
+      setPadInfo(padNumber);
     }
     else {
       setSelectedCenter(defaultCenter.name);
@@ -104,10 +112,15 @@ const CenterTable = ({ currentUser, role, region, star, centerNames, defaultCent
   }, [defaultCenter]);
 
   useEffect(() => {
-    if (star) {
+    if (star & !searchName) {
       setSelectedCenter(star);
     }
   }, [star]);
+
+  useEffect(() => {
+    setSelectedCenter(searchName);
+    setShowDetail(true);
+  }, [searchName]);
 
   useEffect(() => {
     if (!star && !centerInfo && defaultCenter.pads) {
@@ -120,7 +133,7 @@ const CenterTable = ({ currentUser, role, region, star, centerNames, defaultCent
       ]; 
     }
     else if (centerInfo) {
-      console.log(JSON.stringify(centerInfo));
+      console.log("Center: "+JSON.stringify(centerInfo));
       padNumber = [
         createPadData('Panty Liner', centerInfo.pads.liner),
         createPadData('Medium', centerInfo.pads.medium),
@@ -128,6 +141,7 @@ const CenterTable = ({ currentUser, role, region, star, centerNames, defaultCent
         createPadData('Overnight', centerInfo.pads.overnight),
       ]; 
     }
+    setPadInfo(padNumber);
   });
 
   useEffect(() => {
@@ -138,7 +152,8 @@ const CenterTable = ({ currentUser, role, region, star, centerNames, defaultCent
         createPadData('Medium', centerInfo.pads.medium),
         createPadData('Large', centerInfo.pads.large),
         createPadData('Overnight', centerInfo.pads.overnight),
-      ];        
+      ];    
+      setPadInfo(padNumber);    
     }
   }, [centerInfo]);
 
@@ -152,9 +167,8 @@ const CenterTable = ({ currentUser, role, region, star, centerNames, defaultCent
     await UserService.getUserInfo();
     const user = await AuthService.getCurrentUser();
     if (user) {
-      console.log("user: "+JSON.stringify(user));
       setCurrentStar(user.center);
-      console.log("star: "+JSON.stringify(user.center));  
+      handleUpdate();
     }
   }, [clickStar])
 
@@ -175,6 +189,7 @@ const CenterTable = ({ currentUser, role, region, star, centerNames, defaultCent
           createPadData('Large', getCenterInfo.pads.large),
           createPadData('Overnight', getCenterInfo.pads.overnight),
         ];        
+        setPadInfo(padNumber);
       }
       setShowDetail(false);
     }
@@ -334,7 +349,7 @@ const CenterTable = ({ currentUser, role, region, star, centerNames, defaultCent
               {showForm ? (
                 <TableRow>
                   <TableCell style={{ paddingBottom: "0.4rem" }}>
-                    <CountInputForm role={role} region={region} centerInfo={centerInfo} />
+                    <CountInputForm role={role} region={region} centerInfo={centerInfo} handleUpdate={handleUpdate} />
                   </TableCell>
                 </TableRow>
               ) : (null)}
