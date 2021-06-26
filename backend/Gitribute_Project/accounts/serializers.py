@@ -47,6 +47,7 @@ class DonorCreateSerializer(serializers.Serializer):
             medium = 0,
             large = 0,
             overnight = 0,
+            total = 0,
         )
         donor.set_password(validated_data['password'])
 
