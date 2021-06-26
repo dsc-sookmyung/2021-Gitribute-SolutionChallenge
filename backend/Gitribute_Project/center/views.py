@@ -39,7 +39,7 @@ def getDefaultCenter(request):
     if request.method == 'POST':
         area = request.data["area"]
         gmaps = googlemaps.Client(key=get_secret("GEOCODING_API"))
-
+        print(area)
         if int(area) == 0:
 
             sortcenter = [] # 비교한 센터와 현재 위치의 거리와 센터 id 저장할 배열
@@ -57,14 +57,16 @@ def getDefaultCenter(request):
         elif int(area) == 1 or int(area) == 2 or int(area) == 3 or int(area) == 4 or int(area) == 5 :
             
             sortcenter = []
-
+            print(area)
             for i in range(1, 53) :
                 center = Center.objects.get(id = i)
-                if center.area == area :
+                print(center.area)
+                if str(center.area) == str(area) :
+                    print(center.name)
                     sortcenter.append(center.name)
-            
+            print(sortcenter)
             sortcenter = sorted(sortcenter)
-
+            print(sortcenter)
             center = Center.objects.get(name = sortcenter[0])
 
             names = sortcenter
