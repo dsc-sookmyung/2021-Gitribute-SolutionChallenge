@@ -41,20 +41,19 @@ const NavBar = ({ updated }) => {
       
       setStar(user.center);
       
-      if (user.level) {
-        user.level <= 10 ? (
-          setLevelIcon("🌱")
-        ) : (
-          user.level < 30 ? (
-            setLevelIcon("☘")
-          ) : (
-            user.level < 50 ? (
-              setLevelIcon("🍀")
-            ) : (
-                setLevelIcon("🌼")
-            )
-          )
-        )
+      if (user.total) {
+        user.total >= 120 ? setLevelIcon("🦋") :
+        user.total >= 110 ? setLevelIcon("🌼🌼🌼") :
+        user.total >= 100 ? setLevelIcon("🌼🌼") :
+        user.total >= 90 ? setLevelIcon("🌼") :
+        user.total >= 80 ? setLevelIcon("🍀🍀🍀") : 
+        user.total >= 70 ? setLevelIcon("🍀🍀") :
+        user.total >= 60 ? setLevelIcon("🍀") :
+        user.total >= 50 ? setLevelIcon("🌿🌿🌿") :
+        user.total >= 40 ? setLevelIcon("🌿🌿") :
+        user.total >= 30 ? setLevelIcon("🌿") :
+        user.total >= 20 ? setLevelIcon("🌱🌱🌱") :
+        user.total >= 10 ? setLevelIcon("🌱🌱") : setLevelIcon("🌱")
       }
     }
   }, [updated]);

@@ -231,7 +231,7 @@ export default function Rankings() {
                   }
                   <span>&nbsp;&nbsp;&nbsp;&nbsp;
                   {
-                    row.total >= 120 ? row.level = "💖" :
+                    row.total >= 120 ? row.level = "🦋" :
                     row.total >= 110 ? row.level = "🌼🌼🌼" :
                     row.total >= 100 ? row.level = "🌼🌼" :
                     row.total >= 90 ? row.level = "🌼" :
