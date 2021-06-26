@@ -42,27 +42,30 @@ def getDefaultCenter(request):
 
         if int(area) == 0:
             print("total 시리얼라이저")
-            center = Center.objects.get(id = 1)
-        
-        elif int(area) == 1:
-            print("seoul 시리얼라이저")
-            center = Center.objects.get(id = 13)
 
-        elif int(area) == 2:
-            print("gyeonggi 시리얼라이저")
-            center = Center.objects.get(id = 1)
-            
-        elif int(area) == 3:
-            print("gyeonggi 시리얼라이저")
-            center = Center.objects.get(id = 23)
+            sortcenter = [] # 비교한 센터와 현재 위치의 거리와 센터 id 저장할 배열
 
-        elif int(area) == 4:
-            print("gyeonggi 시리얼라이저")
-            center = Center.objects.get(id = 33)
-        
-        elif int(area) == 5:
-            print("gyeonggi 시리얼라이저")
-            center = Center.objects.get(id = 43)
+            for i in range(1, 53) : # 전체 디비의 센터와 거리 비교
+                center = Center.objects.get(id = i)          
+                sortcenter.append(center.name)
+
+            sortcenter = sorted(sortcenter) # 오름차순으로 정렬
+            print(sortcenter[0])
+            center = Center.objects.get(name = sortcenter[0])
+
+            names = sortcenter
+
+        elif int(area) == 1 or int(area) == 2 or int(area) == 3 or int(area) == 4 or int(area) == 5 :
+            sortcenter = [] # 비교한 센터와 현재 위치의 거리와 센터 id 저장할 배열
+
+            for i in range(1, 53) : # 전체 디비의 센터와 거리 비교
+                centerlist = Center.objects.get(id = i)
+                if centerlist.area == area :
+                    sortcenter.append(centerlist.name)
+
+            names = sorted(sortcenter)
+
+            center = Center.objects.get(name = names[0])
 
         else:
             print("validated_serializer 오류")
@@ -75,15 +78,9 @@ def getDefaultCenter(request):
         #result = centerlocation[0].get("formatted_address")
         #print(result)
 
-        curs = connection.cursor()
-        sql = "select name from center"
-        curs.execute(sql)
-        names = curs.fetchall()
-
-
         response = {
+            'center' : names,
             'area' : center.area,
-            'center' : {names[0][0], names[1][0]},
             'name' : center.name,
             'lat' : center.lat,
             'lng': center.lng,
@@ -218,52 +215,36 @@ def nearestCenter(request):
             dbcenter = (float(center.lat), float(center.lng))
 
             distance = haversine(currentlocation, dbcenter, unit = "m")
-            print("center : ",center.lat, center.lng, distance)
-            centerdistance.append([center.id, distance])
-        print(centerdistance)
+
+            centerdistance.append([center.name, distance])
+
         sortcenterdistance = sorted(centerdistance, key = lambda x : x[1]) # 오름차순으로 정렬
-        print(sortcenterdistance)
 
 
-        center1 = Center.objects.get(id = sortcenterdistance[0][0])
 
-        total1 = center1.pantyliner + center1.medium + center1.large + center1.overnight
+        center = Center.objects.get(name = sortcenterdistance[0][0])
 
-        #centerlocation = gmaps.reverse_geocode((center1.lat, center1.lng))
-        #result1 = centerlocation[0].get("formatted_address")
+        total = center.pantyliner + center.medium + center.large + center.overnight
+        print(total)
 
-        center2 = Center.objects.get(id = sortcenterdistance[1][0])
-
-        total2 = center2.pantyliner + center2.medium + center2.large + center2.overnight
-
-        #centerlocation = gmaps.reverse_geocode((center2.lat, center2.lng))
-        #result2 = centerlocation[0].get("formatted_address")
+        #centerlocation = gmaps.reverse_geocode((center.lat, center.lng))
+        #result = centerlocation[0].get("formatted_address")
+        #print(result)
 
         response = {
-            'center1' : "center1",
-            'name1' : center1.name,
-            'lat1' : center1.lat,
-            'lng1': center1.lng,
-            'pads1' : {'liner' : center1.pantyliner,
-            'medium': center1.medium,
-            'large': center1.large,
-            'overnight': center1.overnight,
-            'total' : total1},
-            'password1': center1.password,
-            'phonenumber1': center1.phonenumber,
-            #'location1': result1,
-            'center2' : "center2",
-            'name2' : center2.name,
-            'lat2' : center2.lat,
-            'lng2': center2.lng,
-            'pads2' : {'liner' : center2.pantyliner,
-            'medium': center2.medium,
-            'large': center2.large,
-            'overnight': center2.overnight,
-            'total' : total2},
-            'password2': center2.password,
-            'phonenumber2': center2.phonenumber,
-            #'location2': result2,
+            'center' : {sortcenterdistance[0][0], sortcenterdistance[1][0]},
+            'area' : center.area,
+            'name' : center.name,
+            'lat' : center.lat,
+            'lng': center.lng,
+            'pads' : {'liner' : center.pantyliner,
+            'medium': center.medium,
+            'large': center.large,
+            'overnight': center.overnight,
+            'total' : total},
+            'password': center.password,
+            'phonenumber': center.phonenumber,
+            #'location': result,
         }
 
         return Response(response, status=status.HTTP_200_OK)
