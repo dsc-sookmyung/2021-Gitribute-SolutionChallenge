@@ -77,7 +77,7 @@ let padNumber = [
   createPadData('Overnight', 0),
 ];
 
-const CenterTable = ({ currentUser, role, region, star, centerNames, defaultCenter, handleUpdate }) => {
+const CenterTable = ({ currentUser, role, region, star, centerNames, defaultCenter, handleUpdate, searchName }) => {
   const classes = useStyles();
   const [selectedCenter, setSelectedCenter] = useState(star);
   const [centerInfo, setCenterInfo] = useState(undefined);
@@ -87,7 +87,11 @@ const CenterTable = ({ currentUser, role, region, star, centerNames, defaultCent
   const [showDetail, setShowDetail] = useState(false);
 
   useEffect(() => {
-    if (star) {
+    if (searchName) {
+      setSelectedCenter(searchName);
+      setShowDetail(false);
+    }
+    else if (star) {
       setSelectedCenter(star);
     }
     else if (centerNames.center === "Center is in preparation!") {
@@ -106,10 +110,15 @@ const CenterTable = ({ currentUser, role, region, star, centerNames, defaultCent
   }, [defaultCenter]);
 
   useEffect(() => {
-    if (star) {
+    if (star & !searchName) {
       setSelectedCenter(star);
     }
   }, [star]);
+
+  useEffect(() => {
+    setSelectedCenter(searchName);
+    setShowDetail(true);
+  }, [searchName]);
 
   useEffect(() => {
     if (!star && !centerInfo && defaultCenter.pads) {
@@ -122,7 +131,7 @@ const CenterTable = ({ currentUser, role, region, star, centerNames, defaultCent
       ]; 
     }
     else if (centerInfo) {
-      console.log(JSON.stringify(centerInfo));
+      console.log("Center: "+JSON.stringify(centerInfo));
       padNumber = [
         createPadData('Panty Liner', centerInfo.pads.liner),
         createPadData('Medium', centerInfo.pads.medium),
