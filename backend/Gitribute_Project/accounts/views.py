@@ -111,8 +111,11 @@ def login(request):
                 'medium' : who.medium,
                 'large' : who.large,
                 'overnight' : who.overnight,
+                'total' : who.total,
+                'visibility' : who.visibility,
                 'success': 'True',
-                'token': serializer.data['token']
+                'token': serializer.data['token'],
+                
             }
         else:
             print("Error")
