@@ -46,6 +46,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     #나중에 추가적으로 받을 값
     center = models.CharField(max_length=50, null=True)
+    visibility = models.BooleanField(default = False)
 
     #donor에게 나중에 필요한 값
     level = models.IntegerField(null=True, blank=True)
@@ -56,7 +57,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     
     #receiver에게 나중에 필요한 값
     total = models.IntegerField(null=True, blank=True)
-    #email_active = models.BooleanField(default=False)
 
 
     is_staff = models.BooleanField(
