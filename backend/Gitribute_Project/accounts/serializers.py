@@ -12,6 +12,9 @@ from django.core.mail import EmailMessage
 from .models import User
 from .token import account_activation_token
 
+import os
+from pathlib import Path
+
 JWT_PAYLOAD_HANDLER = api_settings.JWT_PAYLOAD_HANDLER
 JWT_ENCODE_HANDLER = api_settings.JWT_ENCODE_HANDLER
 
@@ -68,7 +71,6 @@ class DonorCreateSerializer(serializers.Serializer):
         
         return donor
 
-
 class ReceiverCreateSerializer(serializers.Serializer):
     email = serializers.EmailField(required=True)
     username = serializers.CharField(required=True)
@@ -87,6 +89,46 @@ class ReceiverCreateSerializer(serializers.Serializer):
     image = serializers.ImageField(use_url=True, required=False)
     total = serializers.IntegerField(required=False)
 
+    def detect_text(path):
+        """Detects text in the file."""
+        from google.cloud import vision
+        import io
+
+        BASE_DIR = Path(__file__).resolve().parent.parent
+        client_secret_file = os.path.join(BASE_DIR, 'client_secrets.json')
+
+        os.environ["GOOGLE_APPLICATION_CREDENTIALS"]=client_secret_file
+
+        client = vision.ImageAnnotatorClient()
+
+        with io.open(path, 'rb') as image_file:
+            content = image_file.read()
+
+        image = vision.Image(content=content)
+
+        response = client.text_detection(image=image)
+        texts = response.text_annotations
+        print('Texts:')
+
+        for text in texts:
+            print('\n"{}"'.format(text.description))
+
+            vertices = (['({},{})'.format(vertex.x, vertex.y)
+                        for vertex in text.bounding_poly.vertices])
+
+            print('bounds: {}'.format(','.join(vertices)))
+
+        if response.error.message:
+            raise Exception(
+                '{}\nFor more info on error messages, check: '
+                'https://cloud.google.com/apis/design/errors'.format(
+                    response.error.message))
+
+    BASE_IMG_DIR = Path(__file__).resolve().parent.parent
+    img_path = os.path.join(BASE_IMG_DIR, 'media/신한.jpg')
+
+    detect_text(img_path)
+                    
     def create(self, validated_data):
         receiver = User.objects.create(
             email=validated_data['email'],
