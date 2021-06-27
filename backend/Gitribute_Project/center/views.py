@@ -77,14 +77,14 @@ def getDefaultCenter(request):
         elif int(area) == 1 or int(area) == 2 or int(area) == 3 or int(area) == 4 or int(area) == 5 :
             
             sortcenter = []
-            print(area)
+
             for i in range(1, 53) :
                 center = Center.objects.get(id = i)
-                print(center.area)
+
                 if str(center.area) == str(area) :
-                    print(center.name)
+
                     sortcenter.append(center.name)
-            print(sortcenter)
+
             sortcenter = sorted(sortcenter)
             print(sortcenter)
             center = Center.objects.get(name = sortcenter[0])
