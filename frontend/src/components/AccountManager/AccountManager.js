@@ -75,7 +75,7 @@ export default function AccountManager({ handleUpdate }) {
         }
   
         if (currentUser.total) {
-          currentUser.total >= 120 ? setLevelIcon("💖") :
+          currentUser.total >= 120 ? setLevelIcon("🦋") :
           currentUser.total >= 110 ? setLevelIcon("🌼🌼🌼") :
           currentUser.total >= 100 ? setLevelIcon("🌼🌼") :
           currentUser.total >= 90 ? setLevelIcon("🌼") :
