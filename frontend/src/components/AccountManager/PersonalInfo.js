@@ -31,8 +31,9 @@ const useStyles = makeStyles((theme) => ({
 
 const PersonalInfo = ({ updateUserInfo }) => {
     const [user, setUser] = useState(undefined);
+    const [role, setRole] = useState(0);
     const [newUsername, setNewUsername] = useState("");
-    const [isVisible, setIsVisible] = useState(true);
+    const [isVisible, setIsVisible] = useState(false);
     const [profilePicture, setProfilePicture] = useState("");
     const [currentPassword, setCurrentPassword] = useState();
     const [newPassword, setNewPassword] = useState();
@@ -45,6 +46,7 @@ const PersonalInfo = ({ updateUserInfo }) => {
   
       if (user) {
           setUser(user);
+          setRole(user.role);
           setNewUsername(user.username);
           setIsVisible(user.visibility);
           // setProfilePicture(user.profile);
@@ -89,8 +91,9 @@ const PersonalInfo = ({ updateUserInfo }) => {
         setConfirmPassword(e.target.value);
     }
 
-    const handleUpdatePassword = (e) => {
-        if (UserService.checkPassword(currentPassword)) {
+    const handleUpdatePassword = async (e) => {
+        const check = await UserService.checkPassword(currentPassword);
+        if (check !== "false") {
             if (newPassword === confirmPassword) {
                 if (UserService.updatePassword(newPassword)) {
                     alert("Your password has been changed successfully.");
@@ -217,22 +220,24 @@ const PersonalInfo = ({ updateUserInfo }) => {
             </div>
             <div>***********</div>
           </div>
-          <div className={classes.content}>
-            <div className={classes.title}>
-                Rank visibility&nbsp;&nbsp;&nbsp;&nbsp;
-                <Switch
-                checked={isVisible}
-                onChange={handleVisibility}
-                color="secondary"
-                />
-            </div>
-            <div>
-                You can choose whether to display your username in the donor ranking list. <br/>
-               <span style={{ color: "#bdbdbd"}}>
+          {role === 2 ? (
+            <div className={classes.content}>
+              <div className={classes.title}>
+                  Rank visibility&nbsp;&nbsp;&nbsp;&nbsp;
+                  <Switch
+                  checked={isVisible}
+                  onChange={handleVisibility}
+                  color="secondary"
+                  />
+              </div>
+              <div>
+                  You can choose whether to display your username in the donor ranking list. <br/>
+                <span style={{ color: "#bdbdbd"}}>
                     Setting: { isVisible ? "Visible" : "Invisible"}
                 </span>
+              </div>
             </div>
-          </div>
+          ) : null}
           <br/>
             <Button variant="contained" color="secondary" onClick={handleUpdatePrivacy}>
                 Update personal info
