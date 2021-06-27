@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import AuthService from '../../services/auth.service';
+
 import { makeStyles } from '@material-ui/core/styles';
 import { Table, TableHead, TableBody, TableCell, TableContainer, TableRow } from '@material-ui/core';
 import Paper from '@material-ui/core/Paper';
@@ -10,16 +12,26 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const Home = (user) => {
+const Home = ({ levelIcon }) => {
+    const [user, setUser] = useState(undefined);
     const [role, setRole] = useState(0);
-    const [level, setLevel] = useState("🌱");
     const [total, setTotal] = useState("0");
     const [pads, setPads] = useState({liner: 0, medium: 0, large: 0, overnight: 0});
     const classes = useStyles();
-  
+
+    useEffect(() => {
+        const user = AuthService.getCurrentUser();
+    
+        if (user) {
+            setUser(user);
+        }
+    }, []);
+
     useEffect(() => {
         if (user) {
             setRole(user.role);
+            setTotal(user.total);
+            setPads({liner: user.liner, medium: user.medium, large: user.large, overnight: user.overnight})
         }
     }, [user]);
     
@@ -32,12 +44,12 @@ const Home = (user) => {
             </div>          
         ) : (
             <div>
-              <div className={classes.title}>Level {level}</div>
+              <div className={classes.title}>Level {levelIcon}</div>
               <div className={classes.title}>Total {total}</div>
             </div>
         )}
         <TableContainer component={Paper}>
-            <Table className={classes.table} aria-label="customized table">
+            <Table aria-label="customized table">
                 <TableHead>
                     <TableRow>
                     <TableCell align="left">Liner</TableCell>
