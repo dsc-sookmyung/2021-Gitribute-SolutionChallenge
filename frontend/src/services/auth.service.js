@@ -39,11 +39,12 @@ const getCurrentUser = () => {
 
 const forgotPassword = (email) => {
   return axios
-    .post(API_URL + "forgot", {
+    .post(API_URL + "forgetPassword/", {
       email
     })
     .then((response) => {
-      return response.date;
+      console.log("reset: "+JSON.stringify(response.data));
+      return response.data.message;
     })
 }
 

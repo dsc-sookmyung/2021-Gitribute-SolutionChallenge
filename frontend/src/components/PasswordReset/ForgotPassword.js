@@ -39,7 +39,7 @@ export default function ForgotPassword(props) {
   }
 
   const resetEmail = () => {
-    if (AuthService.resetEmail(email)) {
+    if (AuthService.forgotPassword(email) !== "No such Email") {
       alert("An email has been sent. Sign in with the password in your email and change your password on Mypage.")
       props.history.push("/login");
     }
@@ -79,7 +79,7 @@ export default function ForgotPassword(props) {
             variant="contained"
             color="secondary"
             className={classes.submit}
-            onSubmit={resetEmail}
+            onClick={resetEmail}
           >
             Send password reset email 
           </Button>
