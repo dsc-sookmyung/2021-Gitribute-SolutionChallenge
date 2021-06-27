@@ -65,7 +65,7 @@ const UserInfo = ({ trigger, currentUser, logout, levelIcon }) => {
           currentUser.role === 2 ? (
             <div className="modal">
               <div className={classes.title}>Level</div>
-              <div className={classes.content}>{levelIcon} {currentUser.level}</div>
+              <div className={classes.content}>{levelIcon}</div>
               <hr style={{border: "solid 0.1px #e9ecef", transform: "scaleY(0.5)", width: "90%"}} />
               <div className={classes.title}>Donation</div>
               <div className={classes.content}>Panty Liner {currentUser.liner}</div>
