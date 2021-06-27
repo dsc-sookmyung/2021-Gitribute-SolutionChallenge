@@ -163,34 +163,36 @@ export default function CenterInfo({ handleUpdate }) {
         </Typography>
         </Grid>
         <Grid item xs={6} md={3}>
-        <Autocomplete
-          onChange={handleSearch}
-          Search by center name
-          id="search-name"
-          options={centerNames.map((center) => {return (center);})}
-          renderInput={(params) => (
-            <TextField 
-              {...params} 
-              label="Search by center name" 
-              variant="outlined"
-              InputProps={{
-                ...params.InputProps,
-                startAdornment:
-                <>
-                  <InputAdornment position="start">
-                    <SearchIcon />
-                  </InputAdornment>
-                  {params.InputProps.startAdornment}
-                </>
-              }}
-              onKeyPress={(e) => {
-                if (e.key === 'Enter') {
-                  e.preventDefault();
-                }
-              }}
-            />
-          )}
-        />
+        {centerNames.length > 1 ? (
+          <Autocomplete
+            onChange={handleSearch}
+            Search by center name
+            id="search-name"
+            options={centerNames.map((center) => {return (center);})}
+            renderInput={(params) => (
+              <TextField 
+                {...params} 
+                label="Search by center name" 
+                variant="outlined"
+                InputProps={{
+                  ...params.InputProps,
+                  startAdornment:
+                  <>
+                    <InputAdornment position="start">
+                      <SearchIcon />
+                    </InputAdornment>
+                    {params.InputProps.startAdornment}
+                  </>
+                }}
+                onKeyPress={(e) => {
+                  if (e.key === 'Enter') {
+                    e.preventDefault();
+                  }
+                }}
+              />
+            )}
+          />
+        ) : null}
         </Grid>
       </Grid>
       <Grid container className={classes.select}>
