@@ -216,7 +216,7 @@ def forgetpassword(request):
         if User.objects.filter(email = request.data["email"]).exists():
             user = User.objects.get(email = request.data["email"])
 
-            randnum = str(randrange(10)) + str(randrange(10)) + str(randrange(10)) + str(randrange(10))
+            randnum = str(randrange(10)) + str(randrange(10)) + str(randrange(10)) + str(randrange(10)) + str(randrange(10)) + str(randrange(10)) + str(randrange(10)) + str(randrange(10))
             print(randnum)
 
             #받아온 이메일로 메일 보내기
