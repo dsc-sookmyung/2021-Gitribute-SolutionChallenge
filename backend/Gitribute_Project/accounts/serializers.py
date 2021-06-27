@@ -89,45 +89,12 @@ class ReceiverCreateSerializer(serializers.Serializer):
     image = serializers.ImageField(use_url=True, required=False)
     total = serializers.IntegerField(required=False)
 
-    def detect_text(path):
-        """Detects text in the file."""
-        from google.cloud import vision
-        import io
+    
 
-        BASE_DIR = Path(__file__).resolve().parent.parent
-        client_secret_file = os.path.join(BASE_DIR, 'client_secrets.json')
+    #BASE_IMG_DIR = Path(__file__).resolve().parent.parent
+    #img_path = os.path.join(BASE_IMG_DIR, 'media/nuri2.jpg')
 
-        os.environ["GOOGLE_APPLICATION_CREDENTIALS"]=client_secret_file
-
-        client = vision.ImageAnnotatorClient()
-
-        with io.open(path, 'rb') as image_file:
-            content = image_file.read()
-
-        image = vision.Image(content=content)
-
-        response = client.text_detection(image=image)
-        texts = response.text_annotations
-        print('Texts:')
-
-        for text in texts:
-            print('\n"{}"'.format(text.description))
-
-            vertices = (['({},{})'.format(vertex.x, vertex.y)
-                        for vertex in text.bounding_poly.vertices])
-
-            print('bounds: {}'.format(','.join(vertices)))
-
-        if response.error.message:
-            raise Exception(
-                '{}\nFor more info on error messages, check: '
-                'https://cloud.google.com/apis/design/errors'.format(
-                    response.error.message))
-
-    BASE_IMG_DIR = Path(__file__).resolve().parent.parent
-    img_path = os.path.join(BASE_IMG_DIR, 'media/신한.jpg')
-
-    detect_text(img_path)
+    #detect_text(img_path)
                     
     def create(self, validated_data):
         receiver = User.objects.create(
@@ -140,16 +107,65 @@ class ReceiverCreateSerializer(serializers.Serializer):
         )
         receiver.set_password(validated_data['password'])
 
-        receiver.save()
+
+        def detect_text(path):
+            """Detects text in the file."""
+            from google.cloud import vision
+            import io
+
+            BASE_DIR = Path(__file__).resolve().parent.parent
+            client_secret_file = os.path.join(BASE_DIR, 'client_secrets.json')
+
+            os.environ["GOOGLE_APPLICATION_CREDENTIALS"]=client_secret_file
+
+            client = vision.ImageAnnotatorClient()
+
+            with io.open(path, 'rb') as image_file:
+                content = image_file.read()
+
+            image = vision.Image(content=content)
+
+            response = client.text_detection(image=image)
+            texts = response.text_annotations
+            print('Texts:')
+
+            for text in texts:
+                print('\n"{}"'.format(text.description))
+                val = ("농협카드" in text.description) & ("가상계좌"in text.description)
+                print(val)
+                break
+                vertices = (['({},{})'.format(vertex.x, vertex.y)
+                            for vertex in text.bounding_poly.vertices])
+
+                #print('bounds: {}'.format(','.join(vertices)))
+
+            if response.error.message:
+                raise Exception(
+                    '{}\nFor more info on error messages, check: '
+                    'https://cloud.google.com/apis/design/errors'.format(
+                        response.error.message))
+
+            print(receiver)
+            print(receiver.email)
+            print(receiver.image)
+
+            BASE_IMG_DIR = Path(__file__).resolve().parent.parent
+            img_path = os.path.join(BASE_IMG_DIR, 'media/'+str(receiver.image))
+            bool = detect_text(img_path)
+
+            if bool is True:
+                receiver.save()
+            else:
+                pass
 
         message = render_to_string('accounts/activation_email.html', {
-                'user': receiver,
-                'domain' :'localhost:8000',
-                'uid' : urlsafe_base64_encode(force_bytes(receiver.pk)),
-                'token' : account_activation_token.make_token(receiver)
+            'user': receiver,
+            'domain' :'localhost:8000',
+            'uid' : urlsafe_base64_encode(force_bytes(receiver.pk)),
+            'token' : account_activation_token.make_token(receiver)
             })
 
-            
+                
         mail_subject = 'Blooming Receiver Authentication Mail'
         to_email = validated_data['email']
         email = EmailMessage(mail_subject, message, to=[to_email])
