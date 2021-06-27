@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import AuthService from '../../services/auth.service';
 import UserService from '../../services/user.service';
 
@@ -25,16 +25,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   tableCenter: {
-    [theme.breakpoints.down('sm')]: {
-      width: "36rem",
-      height: "100%"
-    },
-    [theme.breakpoints.down('xs')]: {
-      width: "20rem"
-    },
     height: "28rem",
-  },
-  tableCenterInfo: {
     [theme.breakpoints.down('sm')]: {
       width: "36rem",
       height: "100%"
@@ -42,7 +33,6 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down('xs')]: {
       width: "20rem"
     },
-    height: "28rem"
   },
   innerTable: {
     minWidth: 200,
@@ -63,6 +53,9 @@ const useStyles = makeStyles((theme) => ({
         color: "#fff"
       }
     }
+  },
+  overflowScroll: {
+    overflow: "scroll",
   }
 }));
 
@@ -78,14 +71,15 @@ let padNumber = [
 ];
 
 const CenterTable = ({ currentUser, role, region, star, centerNames, defaultCenter, handleUpdate, searchName }) => {
-  const classes = useStyles();
   const [selectedCenter, setSelectedCenter] = useState(star);
   const [centerInfo, setCenterInfo] = useState(undefined);
   const [padInfo, setPadInfo] = useState(padNumber);
-  const [showForm, setShowForm] = useState(true);
+  const [showForm, setShowForm] = useState(false);
   const [currentStar, setCurrentStar] = useState(star);
   const [clickStar, setClickStar] = useState(false);
   const [showDetail, setShowDetail] = useState(false);
+  const classes = useStyles();
+  const myRef = useRef(null);
 
   useEffect(() => {
     if (searchName) {
@@ -121,28 +115,6 @@ const CenterTable = ({ currentUser, role, region, star, centerNames, defaultCent
     setSelectedCenter(searchName);
     setShowDetail(true);
   }, [searchName]);
-
-  useEffect(() => {
-    if (!star && !centerInfo && defaultCenter.pads) {
-      console.log("Default PadNumber"+JSON.stringify(defaultCenter.pads));
-      padNumber = [
-        createPadData('Panty Liner', defaultCenter.pads.liner),
-        createPadData('Medium', defaultCenter.pads.medium),
-        createPadData('Large', defaultCenter.pads.large),
-        createPadData('Overnight', defaultCenter.pads.overnight),
-      ]; 
-    }
-    else if (centerInfo) {
-      console.log("Center: "+JSON.stringify(centerInfo));
-      padNumber = [
-        createPadData('Panty Liner', centerInfo.pads.liner),
-        createPadData('Medium', centerInfo.pads.medium),
-        createPadData('Large', centerInfo.pads.large),
-        createPadData('Overnight', centerInfo.pads.overnight),
-      ]; 
-    }
-    setPadInfo(padNumber);
-  });
 
   useEffect(() => {
     console.log("centerInfo: "+JSON.stringify(centerInfo));
@@ -203,6 +175,7 @@ const CenterTable = ({ currentUser, role, region, star, centerNames, defaultCent
   const handleDetail = (center) => {
     console.log(JSON.stringify(center));
     setSelectedCenter(center);
+    executeScroll();
     setShowDetail(true);
   }
 
@@ -220,16 +193,22 @@ const CenterTable = ({ currentUser, role, region, star, centerNames, defaultCent
     }
   }
 
+  const executeScroll = () => {
+    if (myRef.current) {
+      myRef.current.scrollIntoView({ behavior: 'smooth'})
+    }
+  }
+
   return (
     <Grid container className={classes.table}>
       <Grid item md={3}>
-        <TableContainer component={Paper} style={{backgroundColor: "white"}}>
-        <Table className={classes.tableCenter} aria-label="simple table">
+        <TableContainer className={classes.tableCenter} component={Paper} style={{backgroundColor: "white"}}>
+        <Table className={classes.table} aria-label="simple table">
           <TableHead>
             <TableRow>
               <TableCell><strong>Center</strong></TableCell></TableRow>
           </TableHead>
-          <TableBody>
+          <TableBody className={classes.overflowScroll}>
             {centerNames.length >= 1 ? (
               centerNames.map((center) => {
                 return (
@@ -240,6 +219,7 @@ const CenterTable = ({ currentUser, role, region, star, centerNames, defaultCent
                     selected={selectedCenter === center}
                     classes={{ selected: classes.selected }}
                     className={classes.tableRow}
+                    ref={classes.selected ? myRef : null}
                   >
                     <TableCell className="chooseItemActive">
                       {center} Station
@@ -264,7 +244,7 @@ const CenterTable = ({ currentUser, role, region, star, centerNames, defaultCent
       </TableContainer>
       </Grid>
       <Grid item md={3}>
-        <TableContainer className={classes.tableCenterInfo} component={Paper}>
+        <TableContainer className={classes.tableCenter} component={Paper}>
           <Table className={classes.table} aria-label="simple table">
             <TableHead>
               <TableRow>
