@@ -95,6 +95,10 @@ def login(request):
                 'username' : who.username,
                 'role' : who.role,
                 'center': who.center,
+                'liner' : who.liner,
+                'medium' : who.medium,
+                'large' : who.large,
+                'overnight' : who.overnight,
                 'total' : who.total,
                 'success': 'True',
                 'token': serializer.data['token']
@@ -144,6 +148,10 @@ def mypage(request):
                 'username' : user.username,
                 'role' : user.role,
                 'center': user.center,
+                'liner' : user.liner,
+                'medium' : user.medium,
+                'large' : user.large,
+                'overnight' : user.overnight,
                 'total' : user.total,
                 'token' : auth_token,
             }
