@@ -145,6 +145,26 @@ const handleStar = (star) => {
   })
 };
 
+const sendLocation = (center) => {
+  try {
+    return axios({
+      method: 'post',
+      url: API_URL_CENTER+'locationbutton/',
+      headers: authHeader(),
+      data: {
+        center: center
+      }
+    })
+    .then((response) => {
+      console.log(JSON.stringify(response.data));
+      return response.data;
+    })
+  }
+  catch (error) {
+    console.log(error);
+  }
+};
+
 const getRankings = () => {
   return axios({
     method: 'get',
@@ -167,8 +187,8 @@ const checkPassword = (currentPassword) => {
     }
   })
   .then((response) => {
-    console.log("CHECK: "+JSON.stringify(response.data));
-    return response.data;
+    console.log("CHECK: "+JSON.stringify(response.data.message));
+    return response.data.message;
   })
 }
 
@@ -228,6 +248,7 @@ export default {
   padNumToCenter,
   padNumToMypage,
   handleStar,
+  sendLocation,
   getRankings,
   checkPassword,
   updatePassword,
