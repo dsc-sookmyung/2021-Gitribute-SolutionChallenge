@@ -151,12 +151,10 @@ class ReceiverCreateSerializer(serializers.Serializer):
 
             BASE_IMG_DIR = Path(__file__).resolve().parent.parent
             img_path = os.path.join(BASE_IMG_DIR, 'media/'+str(receiver.image))
-            bool = detect_text(img_path)
 
-            if bool is True:
-                receiver.save()
-            else:
-                pass
+            detect_text(img_path)
+        
+        receiver.save()
 
         message = render_to_string('accounts/activation_email.html', {
             'user': receiver,
@@ -170,7 +168,6 @@ class ReceiverCreateSerializer(serializers.Serializer):
         to_email = validated_data['email']
         email = EmailMessage(mail_subject, message, to=[to_email])
         email.send()
-
         return receiver
    
 
