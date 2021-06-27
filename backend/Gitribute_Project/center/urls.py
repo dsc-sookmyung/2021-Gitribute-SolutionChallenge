@@ -9,4 +9,5 @@ urlpatterns = [
     path('getcenter/', views.getCenter),
     path('centerdef/', views.Centerdef),
     path('nearcenter/', views.nearestCenter),
+    path('locationbutton/', views.locationbutton),
 ]

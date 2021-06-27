@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from rest_framework import status, viewsets
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
@@ -18,6 +18,26 @@ from pathlib import Path
 
 from django.db import connection
 from haversine import haversine
+
+from django.core.mail import EmailMessage
+from django.utils.encoding import force_text
+import traceback
+
+from django.http.request import HttpRequest
+from django.shortcuts import redirect, render
+from django.utils.http import urlsafe_base64_decode
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import AllowAny, IsAuthenticated
+from django.template.loader import render_to_string
+
+from django.core.mail import EmailMessage
+from django.utils.encoding import force_text
+import traceback
+from random import *
+
+from django.db import connection
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -77,9 +97,9 @@ def getDefaultCenter(request):
         total = center.pantyliner + center.medium + center.large + center.overnight
         print(total)
 
-        #centerlocation = gmaps.reverse_geocode((center.lat, center.lng))
-        #result = centerlocation[0].get("formatted_address")
-        #print(result)
+        centerlocation = gmaps.reverse_geocode((center.lat, center.lng))
+        result = centerlocation[0].get("formatted_address")
+        print(result)
 
         response = {
             'center' : names,
@@ -94,7 +114,7 @@ def getDefaultCenter(request):
             'total' : total},
             'password': center.password,
             'phonenumber': center.phonenumber,
-            #'location': result,
+            'location': result,
         }
 
         return Response(response, status=status.HTTP_200_OK)
@@ -112,9 +132,9 @@ def getCenter(request):
         total = center.pantyliner + center.medium + center.large + center.overnight
         print(total)
 
-        #centerlocation = gmaps.reverse_geocode((center.lat, center.lng))
-        #result = centerlocation[0].get("formatted_address")
-        #print(result)
+        centerlocation = gmaps.reverse_geocode((center.lat, center.lng))
+        result = centerlocation[0].get("formatted_address")
+        print(result)
 
         response = {
             'name' : center.name,
@@ -127,7 +147,7 @@ def getCenter(request):
             'total' : total},
             'password': center.password,
             'phonenumber': center.phonenumber,
-            #'location': result,
+            'location': result,
         }
 
         return Response(response, status=status.HTTP_200_OK)
@@ -226,16 +246,13 @@ def nearestCenter(request):
 
         sortcenterdistance = sorted(centerdistance, key = lambda x : x[1]) # 오름차순으로 정렬
 
-
-
         center = Center.objects.get(name = sortcenterdistance[0][0])
 
         total = center.pantyliner + center.medium + center.large + center.overnight
         print(total)
 
-        #centerlocation = gmaps.reverse_geocode((center.lat, center.lng))
-        #result = centerlocation[0].get("formatted_address")
-        #print(result)
+        centerlocation = gmaps.reverse_geocode((center.lat, center.lng))
+        result = centerlocation[0].get("formatted_address")
 
         response = {
             'center' : {sortcenterdistance[0][0], sortcenterdistance[1][0]},
@@ -250,7 +267,60 @@ def nearestCenter(request):
             'total' : total},
             'password': center.password,
             'phonenumber': center.phonenumber,
-            #'location': result,
+            'location': result,
         }
 
         return Response(response, status=status.HTTP_200_OK)
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def locationbutton(request):
+    auth_token = request.headers.get("Authorization", None)
+
+    if auth_token == None:
+      return JsonResponse({'message':'Enter the token.'}, status=401)
+
+    if request.method == 'POST':
+        user = User.objects.get(email = request.user.email)
+        center = Center.objects.get(name = request.data["center"])
+        
+        if int(user.role) == 1:
+
+            # 메일 보내기
+            message = render_to_string('center/Receiver_pushbutton_email_send.html', {
+                'password': center.password,
+                'username' : user.username,
+                'centername' : center.name,
+                #위치
+                'lat' : center.lat,
+                'lng' : center.lng,
+                })
+
+            mail_subject = 'Blooming Location Button'
+            to_email = user.email
+            email = EmailMessage(mail_subject, message, to=[to_email])
+            email.send()
+
+            return Response({"message": "location send"}, status=status.HTTP_200_OK)
+
+
+        elif int(user.role) == 2:
+
+            # 메일 보내기
+            message = render_to_string('center/Donor_pushbutton_email_send.html', {
+                'username' : user.username,
+                'centername' : center.name,
+                #위치
+                'lat' : center.lat,
+                'lng' : center.lng,
+                })
+
+            mail_subject = 'Blooming Location Button'
+            to_email = user.email
+            email = EmailMessage(mail_subject, message, to=[to_email])
+            email.send()
+
+            return Response({"message": "location send"}, status=status.HTTP_200_OK)
+
+        else :
+            return Response({"message": 'no email'}, status=status.HTTP_200_OK)
