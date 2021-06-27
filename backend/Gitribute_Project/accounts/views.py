@@ -159,6 +159,8 @@ def mypage(request):
                 'medium' : user.medium,
                 'large' : user.large,
                 'overnight' : user.overnight,
+                'total' : user.total,
+                'visibility' : user.visibility,
                 'token' : auth_token,
             }
             

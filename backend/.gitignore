@@ -1,4 +1,5 @@
 secrets.json
+client_secrets.json
 myvenv
 get-pip.py
 # Created by https://www.toptal.com/developers/gitignore/api/django,react,windows,macos,python
