@@ -74,6 +74,7 @@ const Join = (props) => {
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
   const [successful, setSuccessful] = useState(false);
+  const [fail, setFail] = useState(false);
   const [message, setMessage] = useState("");
   const [showAlert, setShowAlert] = useState(false);
   const [showJoinAlert, setShowJoinAlert] = useState(false);
@@ -183,10 +184,16 @@ const Join = (props) => {
     setShowBackdrop(true);
     AuthService.register(username, email, password, role, image)
     .then((response) => {
+      if (response.data.message === "ok") {
+        setSuccessful(true);
+        setShowJoinAlert(true);
+      }
+      else {
+        setFail(true);
+      }
       setMessage(response.data.message);
-      setSuccessful(true);
-      setShowJoinAlert(true);
       setShowBackdrop(false);
+
     })
     .catch((error) => {
       const resMessage =
@@ -205,7 +212,7 @@ const Join = (props) => {
 
   useEffect(() => {
     if (showJoinAlert) {
-      alert("An email has been sent for confirmation!\nPlease check the email you entered. Registration will not be complete if you do not confirm within 24 hours.");
+      alert("Card verification completed successfully!\n\nAn email has been sent for confirmation!\nPlease check the email you entered. Registration will not be complete if you do not confirm within 24 hours.");
       props.history.push("/");
     }
     showJoinAlert ? (
@@ -215,6 +222,13 @@ const Join = (props) => {
       close={joinClose} />
       ) : null
   }, [showJoinAlert])
+
+  useEffect(() => {
+    if (fail) {
+      alert("Card verification failed. Please try again.");
+      setFail(false);
+    }
+  }, [fail])
 
   return (
     <Container className={classes.container} component="main" maxWidth="xs">
