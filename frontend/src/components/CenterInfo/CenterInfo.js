@@ -60,7 +60,7 @@ function MarkerRadio(props) {
       disableRipple
       color="default"
       checkedIcon={<RoomIcon style={{ color: "#9c27b0" }} />}
-      icon={<RoomIcon />}
+      icon={<RoomIcon style={{ color: "#000" }} />}
       {...props}
     />
   );
@@ -97,9 +97,8 @@ export default function CenterInfo({ handleUpdate }) {
     if (region === 7) {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
-          (position) => {
-            const defaultCenterInfo = UserService.getNearestCenter(position.coords.latitude, position.coords.longtitude);
-            console.log("defaultCenterInfo: "+JSON.stringify(defaultCenterInfo));
+          async (position) => {
+            const defaultCenterInfo = await UserService.getNearestCenter(position.coords.latitude, position.coords.longitude);
             setCenterNames(defaultCenterInfo.center);
             setDefaultCenter(defaultCenterInfo);    
           },
@@ -163,7 +162,7 @@ export default function CenterInfo({ handleUpdate }) {
         </Typography>
         </Grid>
         <Grid item xs={6} md={3}>
-        {centerNames.length > 1 ? (
+        {centerNames && centerNames.length > 1 ? (
           <Autocomplete
             onChange={handleSearch}
             Search by center name
