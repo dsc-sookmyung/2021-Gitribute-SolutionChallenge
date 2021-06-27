@@ -4,7 +4,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 
 const MapContainer = ({ lat, lng, handleMarker, role, showForm }) => {
   const mapStyles = {
-    height: "20.4rem",
+    height: "22.4rem",
     width: "100%"
   }
   

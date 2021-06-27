@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: theme.spacing(1)
   },
   input: {
-    width: "4rem",
+    width: "4.5rem",
     marginBottom: theme.spacing(1),
     marginRight: theme.spacing(1)
   },
@@ -384,25 +384,25 @@ export default function CountInputForm({ role, region, centerInfo, handleUpdate 
         <strong>❤ Choose the types of sanitary pad you want to take</strong>
       )}
       <Grid container className={classes.select}>
-        <Grid item xs={6}> 
+        <Grid item xs={12} sm={6}> 
           <FormControlLabel
             control={<Checkbox name="liner" checked={checkedLiner} onChange={() => setCheckedLiner(!checkedLiner)} color="secondary" />}
             label={<Typography variant="body2">Panty Liner</Typography>}
           />
         </Grid>
-        <Grid item xs={6}> 
+        <Grid item xs={12} sm={6}> 
           <FormControlLabel
             control={<Checkbox name="medium" checked={checkedMedium} onChange={() => setCheckedMedium(!checkedMedium)} color="secondary" />}
             label={<Typography variant="body2">Medium</Typography>}
           />
         </Grid>
-        <Grid item xs={6}> 
+        <Grid item xs={12} sm={6}> 
           <FormControlLabel
             control={<Checkbox name="large" checked={checkedLarge} onChange={() => setCheckedLarge(!checkedLarge)} color="secondary" />}
             label={<Typography variant="body2">Large</Typography>}
           />
         </Grid>
-        <Grid item xs={6}> 
+        <Grid item xs={12} sm={6}> 
           <FormControlLabel
             control={<Checkbox name="overnight" checked={checkedOvernight} onChange={() => setCheckedOvernight(!checkedOvernight)} color="secondary" />}
             label={<Typography variant="body2">Overnight</Typography>}
