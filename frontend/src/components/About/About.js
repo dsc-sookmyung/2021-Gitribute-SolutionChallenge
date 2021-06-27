@@ -6,19 +6,36 @@ import FaceIcon from '@material-ui/icons/Face';
 import PlaceIcon from '@material-ui/icons/Place';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import Grid from '@material-ui/core/Grid';
+import Box from '@material-ui/core/Box';
+import EmojiNatureIcon from '@material-ui/icons/EmojiNature';
 import Contact from './Contact';
+import RankTable from'./RankTable';
 import image from '../../assets/images/high-five.png';
+import certificate from '../../assets/images/certificate.png';
 import '../../assets/fonts/fonts.css';
 
 const useStyles = makeStyles((theme) => ({
-  whiteContainer: {
-    background: "#fff",
+  flexStartContainer: {
     display: "flex",
     flexDirection: "column",
     justifyContent: "flex-start",
     [theme.breakpoints.down('xs')]: {
       overflow: "scroll"
     },
+  },
+  centerContainer: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    [theme.breakpoints.down('xs')]: {
+      overflow: "scroll"
+    },
+  },
+  bgWhite: {
+    background: "#fff",
+  },
+  bgPurple: {
+    background: "#9c27b0",
   },
   about: {
     padding: "2.5rem calc((100vw - 1193px) / 2 + 1rem)",
@@ -38,9 +55,7 @@ const useStyles = makeStyles((theme) => ({
     alignSelf: "flex-end"
   },
   imageContainer: {
-    [theme.breakpoints.up('md')]: {
-      marginLeft: "auto"
-    },
+    marginLeft: "auto",
     alignSelf: "flex-start",
     width: "360px",
     [theme.breakpoints.down('xs')]: {
@@ -48,6 +63,17 @@ const useStyles = makeStyles((theme) => ({
       alignSelf: "center",
       width: "260px",
       marginTop: "2.5rem"
+    },
+  },
+  certificateContainer: {
+    marginLeft: "auto",
+    alignSelf: "flex-start",
+    width: "720px",
+    [theme.breakpoints.down('md')]: {
+      width: "600px",
+    },
+    [theme.breakpoints.down('sm')]: {
+      width: "520px",
     },
   },
   featureTop: {
@@ -69,7 +95,6 @@ const useStyles = makeStyles((theme) => ({
   },
   columnContainer: {
     padding: "2.5rem calc((100vw - 1193px) / 2 + 1rem)",
-    marginTop: "4rem",
     marginBottom: "1rem",
     display: "flex",
     flexDirection: "column",
@@ -103,7 +128,7 @@ const useStyles = makeStyles((theme) => ({
   },
   furtherExplanation: {
     background: "rgba(255, 255, 255, 0.8)",
-    marginTop: "2rem",
+    marginTop: "4rem",
     padding: theme.spacing(2, 1),
     border: "1px solid #fff",
     borderRadius: "6px"
@@ -118,7 +143,41 @@ const useStyles = makeStyles((theme) => ({
   },
   largeIcon: {
     fontSize: "6rem",
-  }
+  },
+  fontBold: {
+    fontWeight: 600,
+  },
+  rankInfo: {
+    padding: "2.5rem calc((100vw - 1193px) / 2 + 1rem)",
+    display: "flex",
+    [theme.breakpoints.down('md')]: {
+      padding: "2.5rem 1rem"
+    },
+    [theme.breakpoints.down('xs')]: {
+      padding: "2.5rem 2rem",
+      flexDirection: "column",
+      alignSelf: "flex-start",
+    },
+  },
+  levelTable: {
+    marginLeft: "1rem",
+    alignSelf: "flex-start"
+  },
+  rankingExplanation: {
+    background: "rgba(255, 255, 255, 0.8)",
+    marginTop: "1rem",
+    padding: theme.spacing(2.45, 2),
+    border: "1px solid #fff",
+    borderRadius: "6px",
+    width: "720px",
+    alignSelf: "flex-end",
+    [theme.breakpoints.down('md')]: {
+      width: "600px",
+    },
+    [theme.breakpoints.down('sm')]: {
+      width: "520px",
+    },
+  },
 }))
 
 const About = () => {
@@ -126,7 +185,7 @@ const About = () => {
 
   return (
     <FullPage>
-      <Slide className={classes.whiteContainer}>
+      <Slide className={classes.flexStartContainer, classes.bgWhite}>
         <div className={classes.about}>
           <div className={classes.headline}>
             <Typography variant="h1">Until the day you <span style={{color: "#9c27b0"}}>bloom</span></Typography>
@@ -141,7 +200,7 @@ const About = () => {
         </div>
         <div className={classes.featureTop} />
       </Slide>
-      <Slide className={classes.purpleContainer}>
+      <Slide className={classes.centerContainer, classes.bgPurple}>
         <div className={classes.columnContainer}>
           <Typography className={classes.featureTitle} variant="h1">Blooming</Typography>
           <Grid container className={classes.features}>
@@ -179,15 +238,39 @@ const About = () => {
             </Grid>
           </Grid>
           <div className={classes.furtherExplanation}>
-          <Typography variant="body2">
-            🌼 Donors can just donate without logging in! 
-            However, if you enter the number of donations and the number of donations exceeds 50, you can get a certificate of donation, so we recommend using our service!
-          </Typography>
+            <Typography variant="body2">
+              🌼 Donors can just donate without logging in! 
+              However if you donate 120 or more, you can get a certificate of donation, so we recommend using our service!
+            </Typography>
           </div>
         </div>
-        <div className={classes.contactTop} />
       </Slide>
-      <Slide className={classes.whiteContainer}>
+      <Slide className={classes.flexStartContainer, classes.bgPurple}>
+        <div className={classes.rankInfo}>
+          <div display="flex" flexDirection="column">
+            <img className={classes.certificateContainer} src={certificate} width="auto" />
+            <div className={classes.rankingExplanation} justifyContent="flex-end">
+              <hr style={{border: "solid 0.1px #e9ecef", transform: "scaleY(0.5)", width: "100%"}} />
+                <Typography variant="body2">
+                  <Box letterSpacing={2} m={1}>
+                    Ranking is for donors only. 
+                    Ranking points refer to the total number of sanitary pad donations. 
+                    The more you donate, the higher your ranking goes. 
+                    Once you reach your final ranking of Butterfly "🦋", 
+                    you will receive a certificate of donation via the email you entered for your registration.
+                    <br/><br/>
+                    We hope you can have a donation ranking contest with other people and get a certificate!
+                  </Box>
+                </Typography>
+              <hr style={{border: "solid 0.1px #e9ecef", transform: "scaleY(0.5)", width: "100%"}} />
+            </div>
+          </div>
+          <div className={classes.levelTable}>
+            <RankTable />
+          </div>
+        </div>
+      </Slide>
+      <Slide className={classes.flexStartContainer, classes.bgWhite}>
         <div className={classes.columnContainer}>
         <div className={classes.contact}>
           <Contact />
