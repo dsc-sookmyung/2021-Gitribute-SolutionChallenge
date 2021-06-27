@@ -11,6 +11,9 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
+import SendIcon from '@material-ui/icons/Send';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import CountInputForm from './CountInputForm';
 import MapContainer from './MapContainer';
 
@@ -56,7 +59,11 @@ const useStyles = makeStyles((theme) => ({
   },
   overflowScroll: {
     overflow: "scroll",
-  }
+  },
+  sendEmail: {
+    padding: "0.6rem",
+    borderLeft: "none"
+  },
 }));
 
 function createPadData(type, number) {
@@ -78,30 +85,33 @@ const CenterTable = ({ currentUser, role, region, star, centerNames, defaultCent
   const [currentStar, setCurrentStar] = useState(star);
   const [clickStar, setClickStar] = useState(false);
   const [showDetail, setShowDetail] = useState(false);
+  const [loading, setLoading] = useState(false);
   const classes = useStyles();
   const myRef = useRef(null);
 
   useEffect(() => {
-    if (searchName) {
-      setSelectedCenter(searchName);
-      setShowDetail(false);
-    }
-    else if (star) {
-      setSelectedCenter(star);
-    }
-    else if (centerNames.center === "Center is in preparation!") {
-      setCenterInfo(defaultCenter);
-      setShowForm(false);
-      padNumber = [
-        createPadData('Panty Liner', 0),
-        createPadData('Medium', 0),
-        createPadData('Large', 0),
-        createPadData('Overnight', 0),
-      ];
-      setPadInfo(padNumber);
+    if (defaultCenter) {
+      setSelectedCenter(defaultCenter.name);
     }
     else {
-      setSelectedCenter(defaultCenter.name);
+      if (searchName) {
+        setSelectedCenter(searchName);
+        setShowDetail(false);
+      }
+      else if (star) {
+        setSelectedCenter(star);
+      }
+      else if (centerNames.center === "Center is in preparation!") {
+        setCenterInfo(defaultCenter);
+        setShowForm(false);
+        padNumber = [
+          createPadData('Panty Liner', 0),
+          createPadData('Medium', 0),
+          createPadData('Large', 0),
+          createPadData('Overnight', 0),
+        ];
+        setPadInfo(padNumber);
+      }
     }
   }, [defaultCenter]);
 
@@ -112,8 +122,10 @@ const CenterTable = ({ currentUser, role, region, star, centerNames, defaultCent
   }, [star]);
 
   useEffect(() => {
-    setSelectedCenter(searchName);
-    setShowDetail(true);
+    if (searchName) {
+      setSelectedCenter(searchName);
+      setShowDetail(true);  
+    }
   }, [searchName]);
 
   useEffect(() => {
@@ -199,6 +211,23 @@ const CenterTable = ({ currentUser, role, region, star, centerNames, defaultCent
     }
   }
 
+  const handleSendEmail = async (e) => {
+    e.preventDefault();
+
+    setLoading(true);
+
+    if (currentUser) {
+      const sent = await UserService.sendLocation(selectedCenter);
+      setLoading(false);
+      if (sent) {
+        alert("center location is sent to your email!");
+      }
+    }
+    else {
+      alert("Available after login");
+    }
+  }
+
   return (
     <Grid container className={classes.table}>
       <Grid item md={3}>
@@ -209,7 +238,7 @@ const CenterTable = ({ currentUser, role, region, star, centerNames, defaultCent
               <TableCell><strong>Center</strong></TableCell></TableRow>
           </TableHead>
           <TableBody className={classes.overflowScroll}>
-            {centerNames.length >= 1 ? (
+            {centerNames && centerNames.length >= 1 ? (
               centerNames.map((center) => {
                 return (
                   <TableRow 
@@ -222,7 +251,7 @@ const CenterTable = ({ currentUser, role, region, star, centerNames, defaultCent
                     ref={classes.selected ? myRef : null}
                   >
                     <TableCell className="chooseItemActive">
-                      {center} Station
+                      {center}
                     </TableCell>
                   </TableRow>
                 );
@@ -232,10 +261,7 @@ const CenterTable = ({ currentUser, role, region, star, centerNames, defaultCent
                 hover
                 onClick={() => {handleDetail(defaultCenter)}}>
                 <TableCell>
-                  {centerNames.center}
-                  {centerNames.location ? (
-                    " Station"
-                  ) : null}
+                  {centerNames ? centerNames.center : null}
                 </TableCell>
               </TableRow>
             )}
@@ -313,7 +339,19 @@ const CenterTable = ({ currentUser, role, region, star, centerNames, defaultCent
           <Table className={classes.table} aria-label="simple table">
             <TableHead>
               <TableRow>
-                <TableCell style={{ borderLeft: "none" }}>&nbsp;</TableCell>
+                <TableCell align="right" className={classes.sendEmail}>
+                <Button
+                  onClick={handleSendEmail}
+                  endIcon={<SendIcon />}
+                  disabled={loading}
+                >
+                  { loading ? (
+                    <CircularProgress color="inherit" size={20} />
+                  ) : (
+                    <div>Send location to email</div>
+                  )}
+                </Button>
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
