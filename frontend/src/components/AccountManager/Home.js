@@ -40,6 +40,7 @@ const Home = ({ levelIcon }) => {
         {role === 1 ? (
             <div>
               <div className={classes.title}>Available this month</div>
+              <div>{total}</div> <br/>
               <div className={classes.title}>History</div>  
             </div>          
         ) : (

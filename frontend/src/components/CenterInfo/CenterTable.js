@@ -92,6 +92,9 @@ const CenterTable = ({ currentUser, role, region, star, centerNames, defaultCent
   useEffect(() => {
     if (defaultCenter) {
       setSelectedCenter(defaultCenter.name);
+      if (star && region === 0) {
+        setSelectedCenter(star);
+      }
     }
     else {
       if (searchName) {
@@ -313,9 +316,9 @@ const CenterTable = ({ currentUser, role, region, star, centerNames, defaultCent
                 <TableRow>
                   <TableCell>
                     {centerInfo ? (
-                      "🔑"+centerInfo.password
+                      "🔑 "+centerInfo.password
                     ) : (
-                      "🔑"+defaultCenter.password
+                      "🔑 "+defaultCenter.password
                     )}
                   </TableCell>
                 </TableRow>
