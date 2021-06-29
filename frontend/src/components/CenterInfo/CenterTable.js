@@ -344,6 +344,8 @@ const CenterTable = ({ currentUser, role, region, star, centerNames, defaultCent
               <TableRow>
                 <TableCell align="right" className={classes.sendEmail}>
                 <Button
+                  color="secondary"
+                  variant="contained"
                   onClick={handleSendEmail}
                   endIcon={<SendIcon />}
                   disabled={loading}
@@ -351,7 +353,7 @@ const CenterTable = ({ currentUser, role, region, star, centerNames, defaultCent
                   { loading ? (
                     <CircularProgress color="inherit" size={20} />
                   ) : (
-                    <div>Send location to email</div>
+                    <div>Email location</div>
                   )}
                 </Button>
                 </TableCell>
