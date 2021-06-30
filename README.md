@@ -30,7 +30,7 @@
 ### 🌼 Used technology
  - Front-end: React Hook, Material-UI, Styled Components
  - Back-end: Django Rest Framework, MySQL, Google Cloud Platform
- ![archietecture](https://user-images.githubusercontent.com/49112482/123911479-d2de6e80-d9b6-11eb-82ee-dcb91352d030.png)
+![technology](https://user-images.githubusercontent.com/49112482/123912431-fce46080-d9b7-11eb-948b-37ea97d93c19.jpeg)
 
 ### 🌼 Goal
 1. Prevent female teenagers from suffering by lack of sanitary pads.
