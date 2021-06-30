@@ -18,7 +18,7 @@ We hope Blooming blooms the life of low-income female teenagers and creates a vi
 
 ### 🌼 Goal
 ![슬라이드1](https://user-images.githubusercontent.com/49220095/123957903-5adc6c80-d9e7-11eb-8126-5650c823e562.PNG)
-![블루밍 자료](https://user-images.githubusercontent.com/49220095/123960156-f1119200-d9e9-11eb-9418-4d299fe6bab9.png)
+![블루밍 자료1](https://user-images.githubusercontent.com/49220095/123960673-89a81200-d9ea-11eb-8247-7f154c1fa6f3.png)
 
 
 ### 🌼 Used technology
