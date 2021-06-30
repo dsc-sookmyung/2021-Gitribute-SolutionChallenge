@@ -225,7 +225,6 @@ def forgetpassword(request):
             user = User.objects.get(email = request.data["email"])
 
             randnum = str(randrange(10)) + str(randrange(10)) + str(randrange(10)) + str(randrange(10)) + str(randrange(10)) + str(randrange(10)) + str(randrange(10)) + str(randrange(10))
-            print(randnum)
 
             #받아온 이메일로 메일 보내기
             message = render_to_string('accounts/forget_password_email_send.html', {
