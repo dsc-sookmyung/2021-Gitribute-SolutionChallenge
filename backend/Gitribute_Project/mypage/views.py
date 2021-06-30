@@ -17,7 +17,6 @@ def mypage(request):
     if auth_token == None:
       return JsonResponse({'message':'Enter the token.'}, status=401)
 
-    print(auth_token)
     if request.method == 'GET':
         user = User.objects.get(email = request.user.email)
         if user.role == 1:
@@ -49,9 +48,9 @@ def mypage(request):
 
     if request.method == 'PUT':
         user = User.objects.get(username = request.user)
-        print(user.role)
+
         if user.role == 1:
-            print("Receiver")
+
             num = int(request.data['liner']) + int(request.data['medium']) + int(request.data['large']) + int(request.data['overnight'])
             user.total -= num
 
@@ -62,7 +61,6 @@ def mypage(request):
             user.save()
 
         if user.role == 2:
-            print("Donor")
             
             user.liner += int(request.data['liner'])
             user.medium += int(request.data['medium'])
@@ -70,7 +68,7 @@ def mypage(request):
             user.overnight += int(request.data['overnight'])
 
             total = user.liner + user.medium + user.large + user.overnight
-            print(total)
+
             if total > 50:
                 user.level = 4
             elif total > 30:
@@ -93,7 +91,6 @@ def checkpassword(request):
     if auth_token == None:
       return JsonResponse({'message':'Enter the token.'}, status=401)
 
-    print(auth_token)
     if request.method == 'POST':
         user = User.objects.get(email = request.user.email)
 
@@ -112,16 +109,12 @@ def updatepassword(request):
     if auth_token == None:
       return JsonResponse({'message':'Enter the token.'}, status=401)
 
-    print(auth_token)
     if request.method == 'POST':
         user = User.objects.get(email = request.user.email)
-        
-        print(user.password)
 
         user.set_password(request.data['newPassword'])
 
         user.save()
-        print(user.password)
 
         return Response({"message" : "Password Update success"}, status=status.HTTP_200_OK)
         
@@ -134,12 +127,10 @@ def deleteaccount(request):
     if auth_token == None:
       return JsonResponse({'message':'Enter the token.'}, status=401)
 
-    print(auth_token)
     if request.method == 'POST':
         user = User.objects.get(email = request.user.email)
 
         if (user.check_password(request.data['currentPassword']) == 1):
-            print("Password correct")
 
             email = user.email
 
@@ -164,7 +155,6 @@ def updateprivacy(request):
     if auth_token == None:
       return JsonResponse({'message':'Enter the token.'}, status=401)
 
-    print(auth_token)
     if request.method == 'POST':
         user = User.objects.get(email = request.user.email)
         
@@ -173,6 +163,5 @@ def updateprivacy(request):
         user.visibility = request.data['isVisible']
 
         user.save()
-        print(user.username)
 
         return Response({"message": "Privacy Update success"}, status=status.HTTP_200_OK)
