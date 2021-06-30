@@ -59,7 +59,6 @@ def getDefaultCenter(request):
     if request.method == 'POST':
         area = request.data["area"]
         gmaps = googlemaps.Client(key=get_secret("GEOCODING_API"))
-        print(area)
         if int(area) == 0:
 
             sortcenter = [] # 비교한 센터와 현재 위치의 거리와 센터 id 저장할 배열
@@ -86,7 +85,6 @@ def getDefaultCenter(request):
                     sortcenter.append(center.name)
 
             sortcenter = sorted(sortcenter)
-            print(sortcenter)
             center = Center.objects.get(name = sortcenter[0])
 
             names = sortcenter
@@ -95,11 +93,9 @@ def getDefaultCenter(request):
             return Response({'message':"doesn't exist"})
         
         total = center.pantyliner + center.medium + center.large + center.overnight
-        print(total)
 
         centerlocation = gmaps.reverse_geocode((center.lat, center.lng))
         result = centerlocation[0].get("formatted_address")
-        print(result)
 
         response = {
             'center' : names,
@@ -130,11 +126,9 @@ def getCenter(request):
         center = Center.objects.get(name = request.data["place"])
 
         total = center.pantyliner + center.medium + center.large + center.overnight
-        print(total)
 
         centerlocation = gmaps.reverse_geocode((center.lat, center.lng))
         result = centerlocation[0].get("formatted_address")
-        print(result)
 
         response = {
             'name' : center.name,
@@ -166,7 +160,6 @@ def Centerdef(request):
         centercount = Center.objects.get(id = 1)
         area = request.data["area"]
         place = request.data["place"]
-        print(place)
         
         centercount = Center.objects.get(name = request.data["place"])
 
@@ -174,8 +167,6 @@ def Centerdef(request):
 
         if (int(request.data['originalLiner']) != 0 and int(request.data['originalMedium']) != 0 and int(request.data['originalLarge']) != 0 and int(request.data['originalOvernight'] != 0)):
             if (centercount.pantyliner != int(request.data['originalLiner']) or centercount.medium != int(request.data['originalMedium']) or centercount.large != int(request.data['originalLarge']) or centercount.overnight != int(request.data['originalOvernight'])):
-            
-                print("개수 다름")
 
                 data = {
                     "email" : user.email,
@@ -190,10 +181,8 @@ def Centerdef(request):
                 }
 
                 errorlistserializer = ErrorListSerializer(data=data)
-                print(errorlistserializer.is_valid())
-                print(errorlistserializer.errors)
+
                 if errorlistserializer.is_valid():
-                    print("errorlistserializer.save()")
                     errorlistserializer.save()
 
                 centercount.pantyliner = int(request.data['originalLiner'])
@@ -204,9 +193,7 @@ def Centerdef(request):
                 if centerserializer.is_valid():
                     centercount.save()
 
-        print(user.role)
         if user.role == 1:
-            print("Receiver")
 
             centercount.pantyliner -= int(request.data['linerCounter'])
             centercount.medium -= int(request.data['mediumCounter'])
@@ -216,7 +203,6 @@ def Centerdef(request):
             centercount.save()
 
         if user.role == 2:
-            print("Donor")
             
             centercount.pantyliner += int(request.data['linerCounter'])
             centercount.medium += int(request.data['mediumCounter'])
@@ -249,7 +235,6 @@ def nearestCenter(request):
         center = Center.objects.get(name = sortcenterdistance[0][0])
 
         total = center.pantyliner + center.medium + center.large + center.overnight
-        print(total)
 
         centerlocation = gmaps.reverse_geocode((center.lat, center.lng))
         result = centerlocation[0].get("formatted_address")
