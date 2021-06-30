@@ -1,12 +1,12 @@
 # 2021 Solution Challenge : 🌼Blooming🌼
 
 
-> DSC Sookmyung Team Gitribute <br />
+> GDSC Sookmyung Team Gitribute <br />
 > Team Member : Kwon Eunji(heleneunji), Suh Hee(0hee0), Yoo Jiyeon(hellouz818) <br />
-> Duration of development : 2021.03.01-2021.04.11
+> Duration of development : 2021.03.01-2021.04.11 / 2021.05.27~2021.06.30
 
 
-### WEB Developer
+### 🌼 Contributors
 
 <table>
   <tr>
@@ -27,15 +27,16 @@
   </tr>
 </table>
 
-### Used technology
+### 🌼 Used technology
  - Front-end: React Hook, Material-UI, Styled Components
  - Back-end: Django Rest Framework, MySQL, Google Cloud Platform
+ ![archietecture](https://user-images.githubusercontent.com/49112482/123911479-d2de6e80-d9b6-11eb-82ee-dcb91352d030.png)
 
-### Goal
+### 🌼 Goal
 1. Prevent female teenagers from suffering by lack of sanitary pads.
 2. Protecting both donors and beneficiaries while exchanging menstrual supplies.
 
-### Project introduction
+### 🌼 Project introduction
 Blooming is a local non-face-to-face sanitary pad donation platform for underprivileged female teenagers.
 
 The Blooming Box is located in the women's restroom of a subway station for good accessibility, so that donors can donate or beneficiaries can take sanitary pads non-face-to-face.
@@ -47,10 +48,10 @@ With Blooming non-face-to-face donations, Girls with poor economic conditions ca
 We hope Blooming blooms the life of low-income female teenagers and creates a virtuous circle of society by reducing inequality.
 
 
-### Demo video link
+### 🌼 Demo video link
 [![thumbnail](https://user-images.githubusercontent.com/53266682/113233558-7a75d300-92da-11eb-995a-4c3f2f49e40b.png)](https://www.youtube.com/watch?v=_SYZ9VLt6eg)
 
-### Screen shot
+### 🌼 How to use?
 ![1_1](https://user-images.githubusercontent.com/49112482/123909661-4a5ece80-d9b4-11eb-9bad-0f03d7d80ebf.png)
 ![1_2](https://user-images.githubusercontent.com/49112482/123909664-4af76500-d9b4-11eb-9604-3d041f5f9ff3.png)
 ![2_1](https://user-images.githubusercontent.com/49112482/123909668-4b8ffb80-d9b4-11eb-992a-2317a763bbd4.png)
@@ -66,7 +67,7 @@ We hope Blooming blooms the life of low-income female teenagers and creates a vi
 ![6_1](https://user-images.githubusercontent.com/49112482/123909658-4a5ece80-d9b4-11eb-8856-8ce397096183.png)
 
 
-### How to run
+### 🌼 How to run
 1. Download the project (git clone https://github.com/dsc-sookmyung/2021-Gitribute)
 2. Go to the backend folder (cd backend)
 3. Create a virtual environment (python -m venv myvenv)
