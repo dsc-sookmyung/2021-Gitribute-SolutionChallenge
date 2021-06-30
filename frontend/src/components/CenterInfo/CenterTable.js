@@ -132,7 +132,7 @@ const CenterTable = ({ currentUser, role, region, star, centerNames, defaultCent
   }, [searchName]);
 
   useEffect(() => {
-    console.log("centerInfo: "+JSON.stringify(centerInfo));
+    // console.log("centerInfo: "+JSON.stringify(centerInfo));
     if (centerInfo) {
       padNumber = [
         createPadData('Panty Liner', centerInfo.pads.liner),
@@ -145,7 +145,7 @@ const CenterTable = ({ currentUser, role, region, star, centerNames, defaultCent
   }, [centerInfo]);
 
   useEffect(async () => {
-    console.log("selectedCenter: "+selectedCenter);
+    // console.log("selectedCenter: "+selectedCenter);
     const getCenterInfo = await UserService.getCenter(region, selectedCenter)
     setCenterInfo(getCenterInfo);
   }, [selectedCenter]);
@@ -160,15 +160,14 @@ const CenterTable = ({ currentUser, role, region, star, centerNames, defaultCent
   }, [clickStar])
 
   useEffect(() => {
-    console.log("current star: "+currentStar);
+    // console.log("current star: "+currentStar);
   }, [currentStar]);
 
   useEffect(async () => {
     if (showDetail) {
-      // GET center info
       const getCenterInfo = await UserService.getCenter(region, selectedCenter)
       setCenterInfo(getCenterInfo);
-      console.log("GET: "+JSON.stringify(getCenterInfo));
+      // console.log("GET: "+JSON.stringify(getCenterInfo));
       if (getCenterInfo.location) {
         padNumber = [
           createPadData('Panty Liner', getCenterInfo.pads.liner),
@@ -188,7 +187,7 @@ const CenterTable = ({ currentUser, role, region, star, centerNames, defaultCent
   }
 
   const handleDetail = (center) => {
-    console.log(JSON.stringify(center));
+    // console.log(JSON.stringify(center));
     setSelectedCenter(center);
     executeScroll();
     setShowDetail(true);
@@ -332,13 +331,12 @@ const CenterTable = ({ currentUser, role, region, star, centerNames, defaultCent
                     )}
                 </TableCell>
               </TableRow>
-              {/*<CenterTableData classes={classes} star={star} padNumber={padNumber} role={role} selectedCenter={selectedCenter} />*/}
             </TableBody>
           </Table>
         </TableContainer>
       </Grid>
       <Grid item md={6}>
-        <TableContainer className={classes.tableCenterInfo} component={Paper}>
+        <TableContainer className={classes.tableCenter} component={Paper}>
           <Table className={classes.table} aria-label="simple table">
             <TableHead>
               <TableRow>

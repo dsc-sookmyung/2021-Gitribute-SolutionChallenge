@@ -18,7 +18,7 @@ const getUserInfo = () => {
   })
   .then((response) => {
     if (response.data.token) {
-      console.log("USER:"+JSON.stringify(response.data));
+      // console.log("USER:"+JSON.stringify(response.data));
       localStorage.setItem("user", JSON.stringify(response.data));
     }
     return response.data;
@@ -36,7 +36,7 @@ const getDefaultCenter = (region) => {
       }
     })
     .then((response) => {
-      console.log(JSON.stringify(response.data));
+      // console.log(JSON.stringify(response.data));
       return response.data;  
     })
   } 
@@ -57,7 +57,7 @@ const getCenter = (region, center) => {
       }
     })
     .then((response) => {
-      console.log(JSON.stringify(response.data));
+      // console.log(JSON.stringify(response.data));
       return response.data;
     })
   }
@@ -78,7 +78,7 @@ const getNearestCenter = (lat, lng) => {
       }
     })
     .then((response) => {
-      console.log(JSON.stringify(response.data));
+      // console.log(JSON.stringify(response.data));
       return response.data;
     })
   }
@@ -100,7 +100,7 @@ const padNumToMypage = (linerCounter, mediumCounter, largeCounter, overnightCoun
     }
   })
   .then((response) => {
-    console.log(JSON.stringify(response.data));
+    // console.log(JSON.stringify(response.data));
     return response.data;
   })
 };
@@ -124,7 +124,7 @@ const padNumToCenter = (region, center, originalLiner, originalMedium, originalL
     }
   })
   .then((response) => {
-    console.log(JSON.stringify(response.data));
+    // console.log(JSON.stringify(response.data));
     return response.data;
   })
 }
@@ -140,7 +140,7 @@ const handleStar = (star) => {
     }
   })
   .then((response) => {
-    console.log(JSON.stringify(response.data));
+    // console.log(JSON.stringify(response.data));
     return response.data;
   })
 };
@@ -156,7 +156,7 @@ const sendLocation = (center) => {
       }
     })
     .then((response) => {
-      console.log(JSON.stringify(response.data));
+      // console.log(JSON.stringify(response.data));
       return response.data;
     })
   }
@@ -172,7 +172,7 @@ const getRankings = () => {
     headers: authHeader(),
   })
   .then((response) => {
-    console.log(JSON.stringify(response.data));
+    // console.log(JSON.stringify(response.data));
     return response.data;
   })
 }
@@ -187,7 +187,7 @@ const checkPassword = (currentPassword) => {
     }
   })
   .then((response) => {
-    console.log("CHECK: "+JSON.stringify(response.data.message));
+    // console.log("CHECK: "+JSON.stringify(response.data.message));
     return response.data.message;
   })
 }
@@ -202,7 +202,7 @@ const updatePassword = (newPassword) => {
     }
   })
   .then((response) => {
-    console.log("UPDATE: "+JSON.stringify(response.data));
+    // console.log("UPDATE: "+JSON.stringify(response.data));
     return response.data;
   })
 }

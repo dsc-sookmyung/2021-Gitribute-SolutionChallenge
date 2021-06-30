@@ -63,7 +63,7 @@ const PersonalInfo = ({ updateUserInfo }) => {
         if (e.target.files[0]) {
           const reader = new FileReader();
           const file = e.target.files[0];
-          console.log(file);
+          // console.log(file);
           setProfilePicture(file);
           setShowAlert(true);
         }

@@ -43,7 +43,7 @@ const forgotPassword = (email) => {
       email
     })
     .then((response) => {
-      console.log("reset: "+JSON.stringify(response.data));
+      // console.log("reset: "+JSON.stringify(response.data));
       return response.data.message;
     })
 }

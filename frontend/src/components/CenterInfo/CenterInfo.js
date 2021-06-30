@@ -90,7 +90,7 @@ export default function CenterInfo({ handleUpdate }) {
   }, []);
 
   useEffect(() => {
-    console.log(JSON.stringify(currentUser));
+    // console.log(JSON.stringify(currentUser));
   }, [currentUser]);
 
   useEffect(async () => {
@@ -115,7 +115,7 @@ export default function CenterInfo({ handleUpdate }) {
     else {
       const defaultCenterInfo = await UserService.getDefaultCenter(region)
       if (defaultCenterInfo.center) {
-        console.log("defaultCenterInfo: "+JSON.stringify(defaultCenterInfo));
+        // console.log("defaultCenterInfo: "+JSON.stringify(defaultCenterInfo));
         setCenterNames(defaultCenterInfo.center);
         setDefaultCenter(defaultCenterInfo);
       }
@@ -134,15 +134,15 @@ export default function CenterInfo({ handleUpdate }) {
   }  
 
   useEffect(() => {
-    console.log("Centernames: "+JSON.stringify(centerNames));
+    // console.log("Centernames: "+JSON.stringify(centerNames));
   }, [centerNames]);
 
   useEffect(() => {
-    console.log("DefaultCenter: "+JSON.stringify(defaultCenter));
+    // console.log("DefaultCenter: "+JSON.stringify(defaultCenter));
   }, [defaultCenter]);
 
   useEffect(() => {
-    console.log("searchName: "+searchName);
+    // console.log("searchName: "+searchName);
   }, [searchName]);
 
   const changeRegion = (e) => {

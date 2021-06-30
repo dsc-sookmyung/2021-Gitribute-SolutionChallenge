@@ -98,7 +98,7 @@ const Join = (props) => {
   }, [password])
 
   useEffect(() => {
-    console.log("image: "+image);
+    // console.log("image: "+image);
   }, [image])
 
   const joinRecipient = (e) => {
@@ -140,7 +140,7 @@ const Join = (props) => {
     if (e.target.files[0]) {
       const reader = new FileReader();
       const file = e.target.files[0];
-      console.log(file);
+      // console.log(file);
       setImage(file);
       setShowAlert(true);
     }
@@ -363,7 +363,7 @@ const Join = (props) => {
                   content="The image is used only to confirm eligibility to become a beneficiary, 
                   and will be immediately discarded upon approval by the administrator. 
                   When you are approved as a beneficiary, 
-                  you are qualified to know the password for the Blooming box." 
+                  you are qualified to know the passcode for the Blooming box." 
                 />
               </div>
             ) : ( null ) }

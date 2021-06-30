@@ -158,7 +158,7 @@ export default function Rankings() {
 
   useEffect(async () => {
     const ranks = await UserService.getRankings();    
-    console.log(JSON.stringify(ranks));    
+    // console.log(JSON.stringify(ranks));    
     setRankings(ranks);
 
     const user = AuthService.getCurrentUser();
@@ -168,7 +168,7 @@ export default function Rankings() {
   }, []);
 
   useEffect(() => {
-    console.log(JSON.stringify(currentUser));
+    // console.log(JSON.stringify(currentUser));
   }, [currentUser]);
 
   useEffect(() => {

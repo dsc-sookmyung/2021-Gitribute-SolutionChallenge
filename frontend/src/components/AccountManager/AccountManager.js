@@ -92,7 +92,7 @@ export default function AccountManager({ handleUpdate }) {
   }, [currentUser]);
 
   useEffect(() => {
-    console.log(username);
+    // console.log(username);
   }, [username]);
 
   const handleToggleChange = (e, newActive) => {

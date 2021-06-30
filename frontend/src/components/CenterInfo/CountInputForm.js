@@ -15,9 +15,6 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     alignItems: "flex-start",
-    '@media screen and (max-width: 1193px)': {
-      // padding: 2.5rem 1rem;
-    }
   },
   select: {
     marginTop: theme.spacing(1),
@@ -121,9 +118,6 @@ export default function CountInputForm({ role, region, centerInfo, handleUpdate 
         setLimitLarge(true);
         setLimitOvernight(true);
       }  
-      else if (totalCounter > total) {
-        // alert(`You have exceeded the number you can take!\nNumber of sanitary pads you can take: ${total}`);
-      }
 
       if (linerCounter === centerInfo.pads.liner) {
         if (linerCounter > originalLiner) {
@@ -133,7 +127,7 @@ export default function CountInputForm({ role, region, centerInfo, handleUpdate 
       else if (linerCounter > centerInfo.pads.liner) {
         if (linerCounter > originalLiner) {
           setLimitLiner(true); 
-          console.log(`You have exceeded the number in the center!`); 
+          // console.log(`You have exceeded the number in the center!`); 
         }
       }
       else {
@@ -148,7 +142,7 @@ export default function CountInputForm({ role, region, centerInfo, handleUpdate 
       else if (mediumCounter > centerInfo.pads.medium) {
         if (mediumCounter > originalMedium) {
           setLimitLiner(true); 
-          console.log(`You have exceeded the number in the center!`); 
+          // console.log(`You have exceeded the number in the center!`); 
         }
         else {
           setLimitMedium(true); 
@@ -164,7 +158,7 @@ export default function CountInputForm({ role, region, centerInfo, handleUpdate 
       else if (largeCounter > centerInfo.pads.large) {
         if (largeCounter > originalLarge) {
           setLimitLiner(true); 
-          console.log(`You have exceeded the number in the center!`); 
+          // console.log(`You have exceeded the number in the center!`); 
         }
         else {
           setLimitLarge(true); 
@@ -180,7 +174,7 @@ export default function CountInputForm({ role, region, centerInfo, handleUpdate 
       else if (overnightCounter > centerInfo.pads.overnight) {
         if (overnightCounter > originalOvernight) {
           setLimitLiner(true); 
-          console.log(`You have exceeded the number in the center!`); 
+          // console.log(`You have exceeded the number in the center!`); 
         }
         else {
           setLimitOvernight(true); 
@@ -193,7 +187,7 @@ export default function CountInputForm({ role, region, centerInfo, handleUpdate 
   }, [linerCounter, mediumCounter, largeCounter, overnightCounter]);
 
   useEffect(() => {
-    console.log("use effect");
+    // console.log("use effect");
   }, [limitLiner, limitMedium, limitLarge, limitOvernight]);
 
   useEffect(() => {
