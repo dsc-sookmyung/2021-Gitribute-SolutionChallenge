@@ -61,7 +61,7 @@ We hope Blooming blooms the life of low-income female teenagers and creates a vi
 ![4_2](https://user-images.githubusercontent.com/49112482/123909642-48950b00-d9b4-11eb-97f7-cb96773b62f5.png)
 ![4_3](https://user-images.githubusercontent.com/49112482/123909646-48950b00-d9b4-11eb-8355-234d295b7d0a.png)
 ![5_1](https://user-images.githubusercontent.com/49112482/123909650-492da180-d9b4-11eb-9f2f-2b63b3e4bb60.png)
-![5_2](https://user-images.githubusercontent.com/49112482/123909652-49c63800-d9b4-11eb-881b-bbff3bad11fb.png)
+![5_2](https://user-images.githubusercontent.com/49112482/123910378-50a17a80-d9b5-11eb-9b8d-cc11cc9bc38e.png)
 ![5_3](https://user-images.githubusercontent.com/49112482/123909655-49c63800-d9b4-11eb-9567-5af06b149ec6.png)
 ![6_1](https://user-images.githubusercontent.com/49112482/123909658-4a5ece80-d9b4-11eb-8856-8ce397096183.png)
 
