@@ -51,18 +51,28 @@ We hope Blooming blooms the life of low-income female teenagers and creates a vi
 [![thumbnail](https://user-images.githubusercontent.com/53266682/113233558-7a75d300-92da-11eb-995a-4c3f2f49e40b.png)](https://www.youtube.com/watch?v=_SYZ9VLt6eg)
 
 ### Screen shot
-![image](https://user-images.githubusercontent.com/53266682/113231258-ca9e6680-92d5-11eb-9e2e-e394c53a2b4b.png)
-![image](https://user-images.githubusercontent.com/53266682/113233264-cc6a2900-92d9-11eb-90b8-f036eee31bf7.png)
-![image](https://user-images.githubusercontent.com/53266682/113233250-c4aa8480-92d9-11eb-841f-503b65de1340.png)
-![image](https://user-images.githubusercontent.com/53266682/113231291-e0139080-92d5-11eb-8d4c-b4c5442d5889.png)
-![image](https://user-images.githubusercontent.com/53266682/113233211-a93f7980-92d9-11eb-8a90-0f41da32cdec.png)
-![certificate](https://user-images.githubusercontent.com/53266682/114274499-97886f80-9a59-11eb-961b-0880ed0965f8.png)
+![1_1](https://user-images.githubusercontent.com/49112482/123909661-4a5ece80-d9b4-11eb-9bad-0f03d7d80ebf.png)
+![1_2](https://user-images.githubusercontent.com/49112482/123909664-4af76500-d9b4-11eb-9604-3d041f5f9ff3.png)
+![2_1](https://user-images.githubusercontent.com/49112482/123909668-4b8ffb80-d9b4-11eb-992a-2317a763bbd4.png)
+![2_2](https://user-images.githubusercontent.com/49112482/123909670-4b8ffb80-d9b4-11eb-9e91-423f6af32133.png)
+![2_3](https://user-images.githubusercontent.com/49112482/123909630-4632b100-d9b4-11eb-930b-29cd9da2e891.png)
+![3_1](https://user-images.githubusercontent.com/49112482/123909635-4763de00-d9b4-11eb-9858-9f6fdcae50e4.png)
+![4_1](https://user-images.githubusercontent.com/49112482/123909638-47fc7480-d9b4-11eb-9121-1e62d4bdf480.png)
+![4_2](https://user-images.githubusercontent.com/49112482/123909642-48950b00-d9b4-11eb-97f7-cb96773b62f5.png)
+![4_3](https://user-images.githubusercontent.com/49112482/123909646-48950b00-d9b4-11eb-8355-234d295b7d0a.png)
+![5_1](https://user-images.githubusercontent.com/49112482/123909650-492da180-d9b4-11eb-9f2f-2b63b3e4bb60.png)
+![5_2](https://user-images.githubusercontent.com/49112482/123909652-49c63800-d9b4-11eb-881b-bbff3bad11fb.png)
+![5_3](https://user-images.githubusercontent.com/49112482/123909655-49c63800-d9b4-11eb-9567-5af06b149ec6.png)
+![6_1](https://user-images.githubusercontent.com/49112482/123909658-4a5ece80-d9b4-11eb-8856-8ce397096183.png)
+
 
 ### How to run
 1. Download the project (git clone https://github.com/dsc-sookmyung/2021-Gitribute)
 2. Go to the backend folder (cd backend)
 3. Create a virtual environment (python -m venv myvenv)
-4. Turn on virtual environment Window : (source myvenv/Scripts/activate) / Mac : (source myvenv/bin/activate)
+4. Turn on virtual environment
+ - Window (source myvenv/Scripts/activate)
+ - Mac : (source myvenv/bin/activate)
 5. Setting the necessary environment (pip install -r requirements.txt)
 6. Go to the project folder (cd Gitribute_Project)
 7. Migrate (python manage.py makemigrations)
