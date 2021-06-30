@@ -40,7 +40,7 @@
 Blooming is a local non-face-to-face sanitary pad donation platform for underprivileged female teenagers.
 
 The Blooming Box is located in the women's restroom of a subway station for good accessibility, so that donors can donate or beneficiaries can take sanitary pads non-face-to-face.
-There is a hole in the upper part of the box, so anyone can donate at any time, and in order to take a sanitary pad, you must sign up the Blooming site and get a password after being recognized as a beneficiary.
+There are several holes in the upper part of the box, so anyone can donate at any time, and in order to take a sanitary pad, you must sign up the Blooming site and get a password after being recognized as a beneficiary.
 Donors and beneficiaries keep a record on the site when they donate or take sanitary pads.
 Donors do not have to leave a record on the site, but if they leave a record, a certificate will be awarded based on the record that is left.
 
@@ -55,7 +55,7 @@ We hope Blooming blooms the life of low-income female teenagers and creates a vi
 ![1_1](https://user-images.githubusercontent.com/49112482/123909661-4a5ece80-d9b4-11eb-9bad-0f03d7d80ebf.png)
 ![1_2](https://user-images.githubusercontent.com/49112482/123909664-4af76500-d9b4-11eb-9604-3d041f5f9ff3.png)
 ![2_1](https://user-images.githubusercontent.com/49112482/123909668-4b8ffb80-d9b4-11eb-992a-2317a763bbd4.png)
-![2_2](https://user-images.githubusercontent.com/49112482/123909670-4b8ffb80-d9b4-11eb-9e91-423f6af32133.png)
+![2_2](https://user-images.githubusercontent.com/49112482/123957792-2cf72800-d9e7-11eb-8d98-e095b1844453.png)
 ![2_3](https://user-images.githubusercontent.com/49112482/123909630-4632b100-d9b4-11eb-930b-29cd9da2e891.png)
 ![3_1](https://user-images.githubusercontent.com/49112482/123909635-4763de00-d9b4-11eb-9858-9f6fdcae50e4.png)
 ![4_1](https://user-images.githubusercontent.com/49112482/123909638-47fc7480-d9b4-11eb-9121-1e62d4bdf480.png)
