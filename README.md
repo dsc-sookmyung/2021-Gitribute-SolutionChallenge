@@ -55,11 +55,13 @@ We hope Blooming blooms the life of low-income female teenagers and creates a vi
  - Mac : (source myvenv/bin/activate)
 5. Setting the necessary environment (pip install -r requirements.txt)
 6. Go to the project folder (cd Gitribute_Project)
-7. Migrate (python manage.py makemigrations)
-8. Run server (python manage.py runserver)
-9. Go to the frontend folder (cd ~ / cd frontend)
-10. Setting the necessary environment (yarn)
-11. Start (yarn start)
+7. Ready to Migrate (python manage.py makemigrations)
+8. Migrate (python manage.py migrate)
+9. Run server (python manage.py runserver)
+10. Go to the frontend folder (cd ~ / cd frontend)
+11. Setting the necessary environment (yarn)
+12. Start (yarn start)
+> You need secrets.json and client_secrets.json to run actually. This contains the required API KEYs and DATABASE passwords.
 
 ### 🌼 Contributors
 
