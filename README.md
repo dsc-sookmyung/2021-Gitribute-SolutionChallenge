@@ -28,7 +28,7 @@ We hope Blooming blooms the life of low-income female teenagers and creates a vi
 
 
 ### 🌼 Demo video link
-[![thumbnail](https://user-images.githubusercontent.com/53266682/113233558-7a75d300-92da-11eb-995a-4c3f2f49e40b.png)](https://www.youtube.com/watch?v=_SYZ9VLt6eg)
+[![thumbnail](https://user-images.githubusercontent.com/53266682/124046045-028b8600-da4c-11eb-9acb-e2b89cd698a3.png)](https://youtu.be/6QrrRphzHNY)
 
 ### 🌼 How to use?
 ![1_1](https://user-images.githubusercontent.com/49112482/123909661-4a5ece80-d9b4-11eb-9bad-0f03d7d80ebf.png)
