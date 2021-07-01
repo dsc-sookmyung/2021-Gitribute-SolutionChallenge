@@ -1,0 +1,53 @@
+id,name,lat,lng,pantyliner,medium,large,overnight,password,phonenumber,location,area
+1,"Baengma Station",37.65825679613986,126.79443218437487,12,8,4,9,2314,1544-7788,"318 Gyeongui-ro Ilsandong-gu Goyang-si Gyeonggi-do Republic of Korea",2
+2,"Madu Station",37.655984061625205,126.7896024113928,0,0,0,0,0,1544-7788,"1180 Jungang-ro Ilsandong-gu Goyang-si Gyeonggi-do Republic of Korea",2
+3,"Pangyo Station",37.39489957393206,127.11112781135085,0,0,0,0,0,1544-7788,"160 Pangyoyeok-ro Bundang-gu Seongnam-si Gyeonggi-do Republic of Korea",2
+4,"Ilsan Station",37.68198848881143,126.76999708255752,3,5,10,2,6455,1544-7788,"672 Gyeongui-ro Ilsanseo-gu Goyang-si Gyeonggi-do Republic of Korea",2
+5,"Bucheon Station",37.484042411947264,126.78279226906078,0,0,0,0,0,1544-7788,"1 Bucheon-ro Bucheon-si Gyeonggi-do Republic of Korea",2
+6,"Jukjeon Station",37.32463097569276,127.10738189637982,0,0,0,0,0,1544-7788,"530 Poeun-daero Suji-gu Yongin-si Gyeonggi-do Republic of Korea",2
+7,"Suwon Station",37.26615158927434,126.99969478126633,0,0,0,0,0,1544-7788,"924 Deogyeong-daero Paldal-gu Suwon-si Gyeonggi-do Republic of Korea",2
+8,"Daeseong-ri Station",37.68388332909574,127.37966618176357,0,0,0,0,0,1544-7788,"88 Gyeongchun-ro Cheongpyeong-myeon Gapyeong-gun Gyeonggi-do Republic of Korea",2
+9,"Seohyeon Station",37.38518999661867,127.12362973907244,0,0,0,0,0,1544-7788,"601 Seongnam-daero Bundang-gu Seongnam-si Gyeonggi-do Republic of Korea",2
+10,"Bupyeong Station",37.49060730457683,126.72342670212744,0,0,0,0,0,1544-7788,"16 Gwangjang-ro Bupyeong-gu Incheon Republic of Korea",2
+11,"Central Park Station",37.393120123430876,126.63473227858306,10,2,8,9,1211,1544-7788,"240 Incheon tower-daero Yeonsu-gu Incheon Republic of Korea",2
+12,"Dongincheon Station",37.47549919514787,126.63260848775876,0,0,0,0,0,1544-7788,"121 Chamoejeon-ro Jung-gu Incheon Republic of Korea",2
+13,"Seoul Station",37.55626713078372,126.97212110240697,3,20,7,11,3245,1544-7788,"13 Tongil-ro Jung-gu Seoul Republic of Korea",1
+14,"Shinchon Station",37.555145977331165,126.9368857204194,0,0,0,0,0,1544-7788,"90 Sinchon-ro 1-gil Seodaemun-gu Seoul Republic of Korea",1
+15,"Sookmyung Women's University Station",37.5445696448436,126.97210820938525,9,5,3,0,8193,1544-7788,"306 Hangang-daero Yongsan-gu Seoul Republic of Korea",1
+16,"Sadang Station",37.47653019207136,126.98162462466672,0,0,0,0,0,1544-7788,"2089 Nambusunhwan-ro Dongjak-gu Seoul Republic of Korea",1
+17,"Wangsimni Station",37.56120064884561,127.03849173795697,0,0,0,0,0,1544-7788,"300 Wangsimni-ro Seongdong-gu Seoul Republic of Korea",1
+18,"Dongjak Station",37.50289174498864,126.98036036025469,3,17,30,8,0,1544-7788,"257 Hyeonchung-ro Dongjak-gu Seoul Republic of Korea",1
+19,"Noryangjin Station",37.514147276563065,126.94256592550069,0,0,0,0,0,1544-7788,"151 Noryangjin-ro Dongjak-gu Seoul Republic of Korea",1
+20,"Jamsil Station",37.51326640414809,127.10016778967595,0,0,0,0,0,1544-7788,"265 Olympic-ro Songpa-gu Seoul Republic of Korea",1
+21,"Yeouido Station",37.52164236134942,126.92417582617257,0,0,0,0,0,1544-7788,"40 Yeouinaru-ro Yeongdeungpo-gu Seoul Republic of Korea",1
+22,"Gangnam Station",37.49792046032018,127.02762933264715,0,0,0,0,0,1544-7788,"396 Gangnam-daero Gangnam-gu Seoul Republic of Korea",1
+23,"Sinchang Station",36.76952332423505,126.95110298458106,0,0,0,0,0,1544-7788,"50 Haengmok-ro Sinchang-myeon Asan-si Chungcheongnam-do Republic of Korea",3
+24,"Dujeong Station",36.83376971161473,127.14893180169769,0,0,0,0,0,1544-7788,"289 Dujeong-ro Seobuk-gu Cheonan-si Chungcheongnam-do Republic of Korea",3
+25,"Banseok Station",36.39214777647616,127.31461358010257,10,22,8,3,0,1544-7788,"303 Bugyuseong-daero Yuseong-gu Daejeon Republic of Korea",3
+26,"Jungang-ro Station",36.32866339382273,127.42587245292819,0,0,0,0,0,1544-7788,"145 Jungang-ro Jung-gu Daejeon Republic of Korea",3
+27,"Galma Station",36.35752311217845,127.37250075967376,0,0,0,0,0,1544-7788,"666 Hanbat-daero Seo-gu Daejeon Republic of Korea",3
+28,"Noeun Station",36.374085185390584,127.31789017615684,0,0,0,0,0,1544-7788,"	161 Noeun-ro Yuseong-gu Daejeon Republic of Korea",3
+29,"Sinheung Station",37.44094871343156,127.14764017677983,0,0,0,0,0,1544-7788,"70 Okcheon-ro Dong-gu Daejeon Republic of Korea",3
+30,"Chuncheon Station",37.884869763868245,127.71688721046628,0,0,0,0,0,1544-7788,"591 Gongji-ro Chuncheon-si Gangwon-do Republic of Korea",3
+31,"Gangneung Station",37.76410280085011,128.898832769718,0,0,0,0,0,1544-7788,"176 Yongji-ro Gangneung-si Gangwon-do Republic of Korea",3
+32,"Wonju Station",37.3570257219713,127.94483328247489,0,0,0,0,0,1544-7788,"1860 Bugwon-ro Wonju-si Gangwon-do Republic of Korea",3
+33,"Gunsan Station",35.999306773160455,126.75980787206225,0,0,0,0,0,1544-7788,"455 Naeheung-dong Gunsan-si Jeollabuk-do Republic of Korea",4
+34,"Namwon Station",35.41126602040303,127.36136932821135,0,0,0,0,0,1544-7788,"71 Gyoryong-ro Namwon-si Jeollabuk-do Republic of Korea",4
+35,"Iksan Station",35.94020461623791,126.946299911353,0,0,0,0,0,1544-7788,"153 Iksan-daero Iksan-si Jeollabuk-do Republic of Korea",4
+36,"Daeya Station",35.943516876608925,126.81097638938782,2,10,1,0,0,1544-7788,"248-27 Sanwol-ri Daeya-myeon Gunsan-si Jeollabuk-do Republic of Korea",4
+37,"Osu Station",35.542905333766996,127.32054753360389,0,0,0,0,0,1544-7788,"1967-19 Chunghyo-ro Osu-myeon Imsil-gun Jeollabuk-do Republic of Korea",4
+38,"Uncheon Station",35.15047913178266,126.85869261776584,0,0,0,0,0,1544-7788,"883 Sangmu-daero Seo-gu Gwangju Republic of Korea",4
+39,"Pyeongdong Station",35.124693882964024,126.76963130788961,0,0,0,0,0,1544-7788,"870 Pyeongdong-ro Gwangsan-gu Gwangju Republic of Korea",4
+40,"Dosan Station",35.13171801813466,126.7879714388004,0,0,0,0,0,1544-7788,"125-99 Sangmu-daero Gwangsan-gu Gwangju Republic of Korea",4
+41,"Sangmu Station",35.14667429468377,126.84858151715568,0,0,0,0,0,1544-7788,"777 Sangmu-daero Seo-gu Gwangju Republic of Korea",4
+42,"Hwajeong Station",37.63460382963505,126.83264654043295,0,0,0,0,0,1544-7788,"1041 Sangmu-daero Seo-gu Gwangju Republic of Korea",4
+43,"Yangsan Station",35.338779015048985,129.02644632507082,0,0,0,0,0,1544-7788,"441 Gangbyeon-ro Yangsan-si Gyeongsangnam-do Republic of Korea",5
+44,"Miryang Station",35.47448225952542,128.77120848247066,0,0,0,0,0,1544-7788,"62 Jungang-ro Miryang-si Gyeongsangnam-do Republic of Korea",5
+45,"Buwon Station",35.22648549247855,128.88398079920069,0,30,11,2,0,1544-7788,"2350 Gimhae-daero Gimhae-si Gyeongsangnam-do Republic of Korea",5
+46,"Daesil Station",35.85737235067895,128.46561343537903,0,0,0,0,0,1544-7788,"888 Dalgubeol-daero Dasa-eup Dalseong-gun Daegu Republic of Korea",5
+47,"Munyang Station",35.86421302713059,128.43702520946366,0,0,0,0,0,1544-7788,"71 Munyangyeok-gil Dasa-eup Dalseong-gun Daegu Republic of Korea",5
+48,"Igok Station",35.850584720467346,128.5158548950402,0,0,0,0,0,1544-7788,"1357 Dalgubeol-daero Dalseo-gu Daegu Republic of Korea",5
+49,"Haeundae Station",35.18174643731307,129.1764055157827,0,0,0,0,0,1544-7788,"626 Haeun-daero Haeundae-gu Busan Republic of Korea",5
+50,"Seomyeon Station",35.15774255642237,129.05912155039206,0,0,0,0,0,1544-7788,"730 Jungang-daero Busanjin-gu Busan Republic of Korea",5
+51,"Gwangan Station",35.157924072622585,129.1131662957321,0,0,0,0,0,1544-7788,"576 Suyeong-ro Suyeong-gu Busan Republic of Korea",5
+52,"Ulsan Station",35.55066849478446,129.13791456398548,0,0,0,0,0,1544-7788,"467 Sinhwari-ro Samnam-eup Ulju-gun Ulsan Republic of Korea",5
