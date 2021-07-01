@@ -133,21 +133,17 @@ class ReceiverCreateSerializer(serializers.Serializer):
                 print('\n"{}"'.format(text.description))
                 val = ("농협카드" in text.description) & ("가상계좌"in text.description)
                 print(val)
-                break
+                
                 vertices = (['({},{})'.format(vertex.x, vertex.y)
                             for vertex in text.bounding_poly.vertices])
 
-                #print('bounds: {}'.format(','.join(vertices)))
+                print('bounds: {}'.format(','.join(vertices)))
 
             if response.error.message:
                 raise Exception(
                     '{}\nFor more info on error messages, check: '
                     'https://cloud.google.com/apis/design/errors'.format(
                         response.error.message))
-
-            print(receiver)
-            print(receiver.email)
-            print(receiver.image)
 
             BASE_IMG_DIR = Path(__file__).resolve().parent.parent
             img_path = os.path.join(BASE_IMG_DIR, 'media/'+str(receiver.image))
